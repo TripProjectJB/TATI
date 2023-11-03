@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="root" value="${pageContext.request.contextPath}" />
-<%@ include file="/common/header.jsp" %>
+<c:set var="root" value="/" />
+<%@ include file="./common/header.jsp" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +24,7 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
 	rel="stylesheet" />
-<link rel="stylesheet" href="${root}/css/main.css" />
+<link rel="stylesheet" href="/assets/css/main.css" />
 <title>EnjoyTrip</title>
 </head>
 
@@ -74,7 +74,7 @@
 		<!-- The slideshow/carousel -->
 		<div class="carousel-inner">
 			<div class="carousel-item active maincard">
-				<img src="${root}/img/top_bg_1.png" alt="Los Angeles"
+				<img src="/img/top_bg_1.png" alt="Los Angeles"
 					class="d-block" style="width: 100%; height: 600px" />
 				<div class="carousel-caption">
 					<h3>가문이오름</h3>
@@ -82,7 +82,7 @@
 				</div>
 			</div>
 			<div class="carousel-item maincard">
-				<img src="${root}/img/top_bg_2.png" alt="Chicago" class="d-block"
+				<img src="/img/top_bg_2.png" alt="Chicago" class="d-block"
 					style="width: 100%; height: 600px" />
 				<div class="carousel-caption">
 					<h3>가마소계곡</h3>

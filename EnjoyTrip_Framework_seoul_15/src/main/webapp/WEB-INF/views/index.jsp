@@ -104,7 +104,7 @@
     </script>
   </c:if>
   <c:if test="${not empty userinfo}">
-    <c:set var="redirectURL" value="${root}/user/home.jsp" />
+    <c:set var="redirectURL" value="/home" />
     <script>
         window.location.href = "<c:out value='${redirectURL}' />";
     </script>

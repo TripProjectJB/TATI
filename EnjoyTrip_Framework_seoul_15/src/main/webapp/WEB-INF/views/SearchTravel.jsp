@@ -26,9 +26,9 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./css/main.css" />
-    <link rel="stylesheet" href="./css/SearchTravel.css" />
-    <script src ="./tripjs/calc.js"></script>
+    <link rel="stylesheet" href="/assets/css/main.css" />
+    <link rel="stylesheet" href="/assets/css/SearchTravel.css" />
+    <script src ="/tripjs/calc.js"></script>
     <title>EnjoyTrip</title>
     
     <script>
@@ -395,12 +395,12 @@
       crossorigin="anonymous"
     ></script>
 
-    <script src="tripjs/key.js"></script>
+    <script src="/tripjs/key.js"></script>
     <script
       type="text/javascript"
       src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a55f2a7d9703cdee565c4c05eca9def0&libraries=services,clusterer,drawing"
     ></script>
-    <script src="tripjs/map.js"></script>
+    <script src="/tripjs/map.js"></script>
     
     <!-- <script>
             window.onload = function () {

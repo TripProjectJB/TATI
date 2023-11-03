@@ -10,7 +10,6 @@
   </c:if> --%>
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -20,7 +19,7 @@
 	rel="stylesheet"
 	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
 	crossorigin="anonymous" />
-<link href="${root}/assets/css/app.css" rel="stylesheet" />
+<link href="/assets/css/app.css" rel="stylesheet" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -31,8 +30,8 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="${root}/css/main.css" />
-    <link rel="stylesheet" href="${root}/css/SearchTravel.css" />
+    <link rel="stylesheet" href="/assets/css/main.css" />
+    <link rel="stylesheet" href="/assets/css/SearchTravel.css" />
 <title>SSAFY</title>
 </head>
 <body>
@@ -41,7 +40,7 @@
 			<nav class="navbar navbar-expand-sm">
 				<div class="container-fluid">
 					<!-- Links -->
-					<a href="${root}/user/home.jsp" class="navbar-brand headertitle">
+					<a href="/home" class="navbar-brand headertitle">
 						EnjoyTrip
 					</a>
 
@@ -49,7 +48,7 @@
 						<li class="nav-item headerli"><a
 							href="${root}/article?action=list&pgno=1&key=&word=">게시판</a></li>
 						<li class="nav-item headerli"><a id="headerSearch"
-							href="${root}/SearchTravel.jsp">관광지 정보 조회</a></li>
+							href="/searchtravel">관광지 정보 조회</a></li>
 						<li class="nav-item headerli"><a
 							href="${root}/user?action=logout">로그아웃</a></li>
 						<li class="nav-item headerli"><a
