@@ -32,18 +32,8 @@ public class SwaggerConfiguration {
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).consumes(getConsumeContentTypes()).produces(getProduceContentTypes())
 					.apiInfo(apiInfo()).groupName(version).select()
-<<<<<<< HEAD
-<<<<<<< HEAD
-					.apis(RequestHandlerSelectors.basePackage("com.ssafy.board.controller"))
-					.paths(regex("/board/.*")).build()
-=======
-					.apis(RequestHandlerSelectors.basePackage("com.ssafy.member.controller"))
+					.apis(RequestHandlerSelectors.basePackage("com.ssafy"))
 					.paths(regex("/.*")).build()
->>>>>>> jh
-=======
-					.apis(RequestHandlerSelectors.basePackage("com.ssafy.member.controller"))
-					.paths(regex("/.*")).build()
->>>>>>> jh
 					.useDefaultResponseMessages(false);
 	}
 	
