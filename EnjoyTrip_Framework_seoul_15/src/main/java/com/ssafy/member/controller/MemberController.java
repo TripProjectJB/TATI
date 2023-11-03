@@ -1,235 +1,107 @@
 package com.ssafy.member.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.mysql.cj.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.member.model.service.MemberService;
-import com.ssafy.member.model.service.MemberServiceImpl;
 
-@WebServlet("/user")
-public class MemberController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+@Controller
+@RequestMapping("/user")
+public class MemberController {
+	
+	private final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 	private MemberService memberService;
-	
-	public void init() {
-		memberService = MemberServiceImpl.getMemberService();
-	}
-       
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String action = request.getParameter("action");
-//		System.out.println(action);
-		String path = "";
-		if("mvjoin".equals(action)) {
-			path = "/user/join.jsp";
-			redirect(request, response, path);
-		} else if("idcheck".equals(action)) {
-			String checkid = request.getParameter("checkid");
-			System.out.println("checkid >>>>> " + checkid);
-			int cnt = 1;
-			try {
-				cnt = memberService.idCheck(checkid);
-			} catch (Exception e) {
-				e.printStackTrace();
-				cnt = 1;
-			}
-//			CSV
-			response.setContentType("text/plain;charset=utf-8");
-			response.getWriter().print(checkid + "," + cnt);
-			
-//			JSON
-//			response.setContentType("application/json;charset=utf-8");
-//			response.getWriter().print("{\"checkid\": \"" + checkid + "\", \"cnt\" : " + cnt + "}");
-			
-//			jackson-data-binding
-//			ObjectMapper mapper = new ObjectMapper();
-//			Map<String, Object> resultMap = new HashMap<String, Object>();
-//			resultMap.put("checkid", checkid);
-//			resultMap.put("cnt", cnt);
-//			System.out.println(">>>" + cnt);
-//			mapper.writeValue(response.getWriter(), resultMap);
-			
-//			IdCheckResultDto resultDto = new IdCheckResultDto();
-//			resultDto.setCheckid(checkid);
-//			resultDto.setCnt(cnt);
-//			mapper.writeValue(response.getWriter(), resultDto);
-			
-		} else if("join".equals(action)) {
-			path = join(request, response);
-			redirect(request, response, path);
-		} else if("mvlogin".equals(action)) {
-			path = "/index.jsp";
-			redirect(request, response, path);
-		} else if("login".equals(action)) {
-			path = login(request, response);
-			forward(request, response, path);
-		} else if("logout".equals(action)) {
-			path = logout(request, response);
-			redirect(request, response, path);
-		} else if("modify".equals(action)) {
-			path = modify(request, response);
-			redirect(request, response, path);
-		} else if("delete".equals(action)) {
-			path = delete(request, response);
-			redirect(request, response, path);
-		}
-		else {
-			redirect(request, response, path);
-		}
+
+	public MemberController(MemberService memberService) {
+		super();
+		this.memberService = memberService;
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		doGet(request, response);
+	@GetMapping("/join")
+	public String join() {
+		return "user/join";
 	}
 	
-	private void forward(HttpServletRequest request, HttpServletResponse response, String path)
-			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher(path);
-		dispatcher.forward(request, response);
-	}
-
-	private void redirect(HttpServletRequest request, HttpServletResponse response, String path) throws IOException {
-		response.sendRedirect(request.getContextPath() + path);
+	@GetMapping("/{userid}")
+	@ResponseBody
+	public String idCheck(@PathVariable("userid") String userId) throws Exception {
+		logger.debug("idCheck userid : {}", userId);
+		int cnt = memberService.idCheck(userId);
+		return cnt + "";
 	}
 	
-	private int idcheck(HttpServletRequest request, HttpServletResponse response) {
-		// TODO : 입력한 아이디의 사용여부 체크 (0 : 사용 X, 1 : 사용 O)
-		String userId = request.getParameter("userid");
-		try {
-			return memberService.idCheck(userId);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 500;
-		}
-	}
-	
-	private String join(HttpServletRequest request, HttpServletResponse response) {
-		// TODO : 이름, 아이디, 비밀번호, 이메일등 회원정보를 받아 MemberDto로 setting.
-		// TODO : 위의 데이터를 이용하여 service의 joinMember() 호출.
-		// TODO : 정상 등록 후 로그인 페이지로 이동.
-		MemberDto memberDto = new MemberDto();
-		memberDto.setUserName(request.getParameter("username"));
-		memberDto.setUserId(request.getParameter("userid"));
-		memberDto.setUserPwd(request.getParameter("userpwd"));
-		memberDto.setEmailId(request.getParameter("emailid"));
-		memberDto.setEmailDomain(request.getParameter("emaildomain"));
+	@PostMapping("/join")
+	public String join(MemberDto memberDto, Model model) {
+		logger.debug("memberDto info : {}", memberDto);
 		try {
 			memberService.joinMember(memberDto);
-			return "/index.jsp";
+			return "redirect:/user/login";
 		} catch (Exception e) {
 			e.printStackTrace();
-			request.setAttribute("msg", "회원가입 중 에러 발생!!!");
-			return "/error/error.jsp";
+			model.addAttribute("msg", "회원 가입 중 문제 발생!!!");
+			return "error/error";
 		}
 	}
 	
-	private String login(HttpServletRequest request, HttpServletResponse response) {
-		String userId = request.getParameter("userid");
-		String userPwd = request.getParameter("userpwd");
-		
-//		System.out.println(userId + " " + userPwd);
+	@GetMapping("/login")
+	public String login() {
+		return "user/login";
+	}
+	
+	@PostMapping("/login")
+	public String login(@RequestParam Map<String, String> map, @RequestParam(name = "saveid", required = false) String saveid, Model model, HttpSession session, HttpServletResponse response) {
+		System.out.println("login gogogogo");
+		logger.debug("login map : {}", map);
 		try {
-			MemberDto memberDto = memberService.loginMember(userId, userPwd);
+			MemberDto memberDto = memberService.loginMember(map);
 			if(memberDto != null) {
-//				session 설정
-				HttpSession session = request.getSession();
 				session.setAttribute("userinfo", memberDto);
 				
-//				cookie 설정
-				String idsave = request.getParameter("saveid");
-				if("ok".equals(idsave)) { //아이디 저장을 체크 했다면.
-					Cookie cookie = new Cookie("ssafy_id", userId);
-					cookie.setPath(request.getContextPath());
-//					크롬의 경우 400일이 최대
-//					https://developer.chrome.com/blog/cookie-max-age-expires/
-					cookie.setMaxAge(60 * 60 * 24 * 365 * 40); //40년간 저장.
-					response.addCookie(cookie);
-				} else { //아이디 저장을 해제 했다면.
-					Cookie cookies[] = request.getCookies();
-					if(cookies != null) {
-						for(Cookie cookie : cookies) {
-							if("ssafy_id".equals(cookie.getName())) {
-								cookie.setMaxAge(0);
-								response.addCookie(cookie);
-								break;
-							}
-						}
-					}
+				Cookie cookie = new Cookie("ssafy_id", map.get("userid"));
+				cookie.setPath("/board");
+				if("ok".equals(saveid)) {
+					cookie.setMaxAge(60*60*24*365*40);
+				} else {
+					cookie.setMaxAge(0);
 				}
-				return "index.jsp";
+				response.addCookie(cookie);
+				return "redirect:/";
 			} else {
-				request.setAttribute("msg", "아이디 또는 비밀번호 확인 후 다시 로그인하세요.");
-				return "index.jsp";
+				model.addAttribute("msg", "아이디 또는 비밀번호 확인 후 다시 로그인하세요!");
+				return "user/login";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			request.setAttribute("msg", "로그인 중 에러 발생!!!");
-			return "/error/error.jsp";
+			model.addAttribute("msg", "로그인 중 문제 발생!!!");
+			return "error/error";
 		}
 	}
 	
-	private String logout(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session = request.getSession();
-//		session.removeAttribute("userinfo");
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
 		session.invalidate();
-		return "";
+		return "redirect:/";
 	}
 	
-	private String modify(HttpServletRequest request, HttpServletResponse response) {
-		// TODO : 이름, 아이디, 비밀번호, 이메일등 회원정보를 받아 MemberDto로 setting.
-		// TODO : 위의 데이터를 이용하여 service의 joinMember() 호출.
-		// TODO : 정상 등록 후 로그인 페이지로 이동.
-		
-		MemberDto member = new MemberDto();
-		HttpSession session = request.getSession();
-		MemberDto temp = (MemberDto)session.getAttribute("userinfo");
-//		System.out.println(temp);
-		String userid = temp.getUserId();
-		member.setUserName(request.getParameter("username"));
-		member.setUserId(userid);
-		member.setUserPwd(request.getParameter("userpwd"));
-		member.setEmailId(request.getParameter("emailid"));
-		member.setEmailDomain(request.getParameter("emaildomain"));
-//		System.out.println(userid);
-		try {
-			memberService.modifyMember(member);
-			return "/index.jsp";
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("msg", "수정 중 에러 발생!!!");
-			return "/error/error.jsp";
-		}
+	@GetMapping("/list")
+	public String list() {
+		return "redirect:/assets/list.html";
 	}
 	
-	private String delete(HttpServletRequest request, HttpServletResponse response) {
-		// TODO : 이름, 아이디, 비밀번호, 이메일등 회원정보를 받아 MemberDto로 setting.
-		// TODO : 위의 데이터를 이용하여 service의 joinMember() 호출.
-		// TODO : 정상 등록 후 로그인 페이지로 이동.
-		HttpSession session = request.getSession();
-		MemberDto member = (MemberDto) session.getAttribute("userinfo");
-		String userid= member.getUserId();
-//		System.out.println(userid);
-		try {
-			memberService.deleteMember(userid);
-			session.invalidate();
-			return "/index.jsp";
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("msg", "회원탈퇴 중 에러 발생!!!");
-			return "/error/error.jsp";
-		}
-	}
-
 }
