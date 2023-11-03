@@ -97,7 +97,7 @@
           return;
         } else {
           let form = document.querySelector("#form-login");
-          form.setAttribute("action", "${root}/user");
+          form.setAttribute("action", "${root}/user/login");
           form.submit();
         }
       });

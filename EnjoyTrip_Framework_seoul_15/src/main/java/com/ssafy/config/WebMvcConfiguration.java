@@ -64,7 +64,11 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
+<<<<<<< HEAD
 		registry.addViewController("/").setViewName("index");
+=======
+		registry.addViewController("/").setViewName("SearchTravel");
+>>>>>>> jh
 	}
 
 	
