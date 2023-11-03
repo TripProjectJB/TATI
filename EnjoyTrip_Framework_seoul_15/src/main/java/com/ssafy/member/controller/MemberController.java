@@ -70,7 +70,7 @@ public class MemberController {
 
 	@ApiOperation(value = "로그인", notes = "회원의 ID, PWD를 받아 로그인.")
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody MemberDto memberDto) throws Exception {
+	public ResponseEntity<?> login(@RequestBody MemberDto memberDto, HttpSession session, HttpServletResponse response) throws Exception {
 			System.out.println("login gogogogo");
 			Map<String, String> map = new HashMap<>();
 			map.put("userid", memberDto.getUserId());
@@ -78,6 +78,8 @@ public class MemberController {
 			log.debug("login map : {}", map);
 			MemberDto login = memberService.loginMember(map);
 			if (login!= null) {
+				session.setAttribute("userinfo", memberDto);
+				
 				return new ResponseEntity<MemberDto>(login, HttpStatus.OK);
 			} else {
 				 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호 확인 후 다시 로그인하세요!");
