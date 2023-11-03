@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,9 @@ import com.ssafy.util.SizeConstant;
 public class BoardServiceImpl implements BoardService {
 	
 	private BoardMapper boardMapper;
+	
+	@Value(value = "file.path")
+	private String path;
 
 	@Autowired
 	public BoardServiceImpl(BoardMapper boardMapper) {
@@ -101,7 +105,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	@Transactional
-	public void deleteArticle(int articleNo, String path) throws Exception {
+	public void deleteArticle(int articleNo) throws Exception {
 		// TODO : BoardDaoImpl의 deleteArticle 호출
 		List<FileInfoDto> fileList = boardMapper.fileInfoList(articleNo);
 		boardMapper.deleteFile(articleNo);
