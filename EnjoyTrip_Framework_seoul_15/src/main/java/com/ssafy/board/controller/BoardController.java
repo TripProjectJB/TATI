@@ -38,7 +38,7 @@ public class BoardController {
 
 	@GetMapping("/list") @ApiOperation(value = "글 목록")
 	public ResponseEntity<?> listG() throws Exception {
-		System.out.println("목록");
+		System.out.println("**********************목록");
 		List<BoardDto> list = boardService.listArticle(new HashMap<String, String>());
 		return ResponseEntity.ok().body(list);
 	}

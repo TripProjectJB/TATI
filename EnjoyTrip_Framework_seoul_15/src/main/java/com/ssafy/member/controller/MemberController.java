@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 //@Controller
 @RequestMapping("/user")
 @CrossOrigin("*")
-@Api(tags = { "MemberController V1" })
+@Api(tags = { "MemberController" })
 @Slf4j
 public class MemberController {
 
@@ -52,7 +52,6 @@ public class MemberController {
 
 	@ApiOperation(value = "idCheck", notes = "아이디확인.")
 	@GetMapping("/{userid}")
-	@ResponseBody
 	public String idCheck(@PathVariable("userid") String userId) throws Exception {
 		log.debug("idCheck userid : {}", userId);
 		int cnt = memberService.idCheck(userId);
