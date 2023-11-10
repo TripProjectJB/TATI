@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from "vue-router";
 import MainView from "../views/MainView.vue";
+import ElementsView from "../views/ElementsView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,6 +9,11 @@ const router = createRouter({
             path: "/",
             name: "main",
             component: MainView,
+        },
+        {
+            path: "/elements",
+            name: "elements",
+            component: ElementsView,
         },
     ],
 });
