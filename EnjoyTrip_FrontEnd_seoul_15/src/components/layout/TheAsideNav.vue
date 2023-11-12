@@ -10,6 +10,26 @@
         </form>
       </section>
 
+      <!-- userinfo -->
+      <section>
+        <header class="major">
+          <h2>My Information</h2>
+        </header>
+        <div class="row 50% uniform">
+          <div class="7u">
+        <span class="image fit"><img src="@/images/pic01.jpg" alt="" /></span>
+      </div>
+      <div class="5u$">
+        <a href="#" class="button">MyPage</a><a href="#" class="button">Logout</a>
+      </div>
+        </div>
+        <ul class="contact">
+          <li></li>
+          <li class="fa-home">김종범 (kbumk123)</li>
+          <li class="fa-home">New News</li>
+        </ul>
+      </section>
+
       <!-- Menu -->
       <nav id="menu">
         <header class="major">
@@ -17,18 +37,17 @@
         </header>
         <ul>
           <li><RouterLink :to="{ name: 'main' }">Homepage</RouterLink></li>
-
-          <li><a href="generic.html">Generic</a></li>
-          <li><RouterLink :to="{ name: 'elements' }">ELEMENTS</RouterLink></li>
+          <li><RouterLink :to="{ name: 'map' }">Tourist Attractions</RouterLink></li>
           <li>
-            <span class="opener">Submenu</span>
+            <span class="opener">Board By Disposition</span>
             <ul>
-              <li><a href="#">Lorem Dolor</a></li>
-              <li><a href="#">Ipsum Adipiscing</a></li>
-              <li><a href="#">Tempus Magna</a></li>
-              <li><a href="#">Feugiat Veroeros</a></li>
+              <li><RouterLink :to="{ name: 'list' }">Type A</RouterLink></li>
+              <li><RouterLink :to="{ name: 'list' }">Type B</RouterLink></li>
+              <li><RouterLink :to="{ name: 'list' }">Type C</RouterLink></li>
+              <li><RouterLink :to="{ name: 'list' }">Type D</RouterLink></li>
             </ul>
           </li>
+          <li><RouterLink :to="{ name: 'elements' }">ELEMENTS</RouterLink></li>
           <li><a href="#">Etiam Dolore</a></li>
           <li><a href="#">Adipiscing</a></li>
           <li>
@@ -40,9 +59,6 @@
               <li><a href="#">Feugiat Veroeros</a></li>
             </ul>
           </li>
-          <li><a href="#">Maximus Erat</a></li>
-          <li><a href="#">Sapien Mauris</a></li>
-          <li><a href="#">Amet Lacinia</a></li>
         </ul>
       </nav>
 
@@ -53,9 +69,7 @@
         </header>
         <div class="mini-posts">
           <article>
-            <a href="#" class="image"
-              ><img src="../../images/pic07.jpg" alt=""
-            /></a>
+            
             <p>
               Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore
               aliquam.
