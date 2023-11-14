@@ -4,11 +4,14 @@ const serviceKey =
 	"Xe8OkHEZbFnVPmfP8Y6d2ykDf%2F4GYH6beQQAQpJxujE%2BP7hY0fVZ5m62YQwfmUvdyEtajTOYZO3w1ckVe8Mruw%3D%3D";
 const kakaoKey = "a55f2a7d9703cdee565c4c05eca9def0";
 var positions = [];
+var showSize = 10; // 한 페이지에 보여줄 데이터 개수
 // index page 로딩 후 전국의 시도 설정.
 let areaUrl =
 	"https://apis.data.go.kr/B551011/KorService1/areaCode1?serviceKey=" +
 	serviceKey +
-	"&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json";
+	"&numOfRows=" +
+	showSize +
+	"&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json";
 
 // fetch(areaUrl, { method: "GET" }).then(function (response) { return response.json() }).then(function (data) { makeOption(data); });
 fetch(areaUrl, { method: "GET" })
@@ -92,9 +95,17 @@ const changeSize = (size) => {
 	container.style.height = `${size}px`;
 	map.relayout();
 };
+
+const deleteMarkers = () => {
+	if (markers.value.length > 0) {
+		markers.value.forEach((marker) => marker.setMap(null));
+	}
+};
+
 function displayMarker() {
 	// 마커 이미지의 이미지 주소입니다
 	var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+	deleteMarkers();
 
 	for (var i = 0; i < positions.length; i++) {
 		// 마커 이미지의 이미지 크기 입니다
@@ -110,6 +121,7 @@ function displayMarker() {
 			title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
 			image: markerImage, // 마커 이미지
 		});
+		markers.value.push(marker);
 	}
 
 	// 첫번째 검색 정보를 이용하여 지도 중심을 이동 시킵니다
@@ -132,7 +144,7 @@ onMounted(() => {
 	}
 });
 const btnNext = () => {
-	if (trips.value.length < 20) return;
+	if (trips.value.length < showSize) return;
 	currentPage += 1;
 	btnSearch(currentPage);
 	displayPage(currentPage);
@@ -149,7 +161,7 @@ const btnSearch = (pageNo) => {
 	let baseUrl = `https://apis.data.go.kr/B551011/KorService1/`;
 	// let searchUrl = `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=${serviceKey}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A`;
 	// let searchUrl = `https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${serviceKey}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A`;
-	let queryString = `serviceKey=${serviceKey}&numOfRows=20&pageNo=${pageNo}&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A`;
+	let queryString = `serviceKey=${serviceKey}&numOfRows=${showSize}&pageNo=${pageNo}&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A`;
 	let areaCode = document.getElementById("search-area").value;
 	let contentTypeId = document.getElementById("search-content-id").value;
 	let keyword = document.getElementById("search-keyword").value;
@@ -206,32 +218,42 @@ button {
 		</div>
 		<!-- 관광지 검색 start -->
 		<form class="search_travel_input d-flex" onsubmit="return false;" role="search">
-			<select id="search-area" class="form-select me-2">
-				<option value="0" selected>검색 할 지역 선택</option>
-			</select>
-			<select id="search-content-id" class="form-select me-2">
-				<option value="0" selected>관광지 유형</option>
-				<option value="12">관광지</option>
-				<option value="14">문화시설</option>
-				<option value="15">축제공연행사</option>
-				<option value="25">여행코스</option>
-				<option value="28">레포츠</option>
-				<option value="32">숙박</option>
-				<option value="38">쇼핑</option>
-				<option value="39">음식점</option>
-			</select>
-			<input
-				id="search-keyword"
-				class="form-control me-2"
-				type="search"
-				placeholder="검색어"
-				aria-label="검색어" />
-			<button id="btn-search" class="col-2 btn btntheme" type="button" @click="btnSearch">
-				검색
-			</button>
+			<ul class="row actions">
+				<li class="2u">
+					<select id="search-area" class="form-select me-2">
+						<option value="0" selected>검색 할 지역 선택</option>
+					</select>
+				</li>
+				<li class="2u">
+					<select id="search-content-id" class="form-select me-2">
+						<option value="0" selected>관광지 유형</option>
+						<option value="12">관광지</option>
+						<option value="14">문화시설</option>
+						<option value="15">축제공연행사</option>
+						<option value="25">여행코스</option>
+						<option value="28">레포츠</option>
+						<option value="32">숙박</option>
+						<option value="38">쇼핑</option>
+						<option value="39">음식점</option>
+					</select>
+				</li>
+				<li class="7u">
+					<input
+						id="search-keyword"
+						class="form-control me-2"
+						type="search"
+						placeholder="검색어"
+						aria-label="검색어" />
+				</li>
+				<li class="1u$">
+					<button id="btn-search" class="col-2 btn btntheme" type="button" @click="btnSearch">
+						검색
+					</button>
+				</li>
+			</ul>
 		</form>
 		<!-- kakao map start -->
-		<div id="map" class="mt-3" style="width: 100%; height: 700px"></div>
+		<div id="map" class="mt-3" style="width: 100%; height: 500px"></div>
 		<!-- kakao map end -->
 
 		<div class="row" style="overflow: scroll; width: auto; height: 1000px">
