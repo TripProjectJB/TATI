@@ -59,4 +59,24 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.deleteMember(userId);		
 	}
 
+	@Override
+	public List<String> getFollower(String userId) {
+		return memberMapper.getFollower(userId);
+	}
+
+	@Override
+	public List<String> getFollowing(String userId) {
+		return memberMapper.getFollowing(userId);
+	}
+
+	@Override
+	public void addFollow(Map<String, String> map) {
+		memberMapper.addFollow(map);
+	}
+
+	@Override
+	public void deleteFollow(Map<String, String> map) {
+		memberMapper.deleteFollow(map);
+	}
+
 }
