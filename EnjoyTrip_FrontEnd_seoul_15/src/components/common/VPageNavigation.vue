@@ -41,8 +41,10 @@ function onPageChange(pg) {
 				<span class="button" @click="onPageChange(startPage == 1 ? 1 : startPage - 1)">Prev</span>
 			</li>
 			<template v-for="pg in range(startPage, endPage)" :key="pg">
-				<li :class="currentPage === pg ? 'active' : ''">
-					<a class="page" @click="onPageChange(pg)">{{ pg }}</a>
+				<li>
+					<a :class="currentPage === pg ? 'page active' : 'page'" @click="onPageChange(pg)">{{
+						pg
+					}}</a>
 				</li>
 			</template>
 			<li>
