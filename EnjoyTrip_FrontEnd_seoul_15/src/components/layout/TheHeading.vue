@@ -1,9 +1,9 @@
 <script setup></script>
 
 <template>
-    <header id="header">
+    <header id="header" style="padding-top: 4%">
         <RouterLink class="logo" :to="{name: 'main'}">
-            <img src="../../images/TATI_logo.jpg" alt="logo" style="width: 30%" />
+            <img src="../../assets/images/TATI_logo.jpg" alt="logo" style="width: 20%" />
             <strong> (Tourist Attraction Type Indicator)</strong>
         </RouterLink>
 
