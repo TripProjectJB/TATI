@@ -19,9 +19,15 @@ function writeArticle() {
         article.value,
         (response) => {
             let msg = "글등록 처리시 문제 발생했습니다.";
-            if (response.status == 201) msg = "글등록이 완료되었습니다.";
+            if (response.status == 201) {
+                msg = "글등록이 완료되었습니다.";
+                const fom = document.querySelector("#ff");
+                const no = document.querySelector("#no");
+                no.value = 259;
+                fom.submit();
+            }
             alert(msg);
-            router.push({name: "list"});
+            // router.push({name: "list"});
         },
         (error) => console.log(error)
     );
@@ -34,7 +40,12 @@ function writeArticle() {
             <h1>Type A Board</h1>
             <h3>Write</h3>
         </header>
-        <form method="post" action="#">
+        <form
+            method="post"
+            action="http://localhost/vue/board/files"
+            enctype="multipart/form-data"
+            id="ff"
+            @submit.prevent="">
             <div class="row uniform">
                 <div class="6u 12u$(xsmall)">
                     <input type="text" name="demo-email" id="demo-email" placeholder="Id" v-model="article.userId" />
@@ -71,6 +82,7 @@ function writeArticle() {
                 </div> -->
                 <!-- Break -->
                 <div class="12u$">
+                    <input type="hidden" name="articleNo" id="no" value="" />
                     <input type="text" name="demo-name" id="demo-name" placeholder="제목" v-model="article.subject" />
                 </div>
                 <!-- Break -->
@@ -81,6 +93,9 @@ function writeArticle() {
                         placeholder="내용"
                         rows="6"
                         v-model="article.content"></textarea>
+                </div>
+                <div class="12u$">
+                    <input type="file" class="" name="upfile" multiple="multiple" />
                 </div>
                 <!-- Break -->
                 <div class="12u$">

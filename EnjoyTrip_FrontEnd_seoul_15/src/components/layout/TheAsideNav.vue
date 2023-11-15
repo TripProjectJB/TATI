@@ -48,7 +48,7 @@
                     <li><RouterLink :to="{name: 'main'}">Homepage</RouterLink></li>
                     <li><RouterLink :to="{name: 'map'}">Tourist Attractions</RouterLink></li>
                     <li>
-                        <span class="opener">Board By Disposition</span>
+                        <span class="opener">Board</span>
                         <ul>
                             <li><RouterLink :to="{name: 'list'}">Type A</RouterLink></li>
                             <li><RouterLink :to="{name: 'list'}">Type B</RouterLink></li>
