@@ -1,9 +1,13 @@
 <script setup>
-import { ref, onMounted } from "vue";
-const serviceKey =
-	"Xe8OkHEZbFnVPmfP8Y6d2ykDf%2F4GYH6beQQAQpJxujE%2BP7hY0fVZ5m62YQwfmUvdyEtajTOYZO3w1ckVe8Mruw%3D%3D";
-const kakaoKey = "a55f2a7d9703cdee565c4c05eca9def0";
-var positions = [];
+import { ref, onMounted, computed } from "vue";
+import VPageNavigation from "@/components/common/VPageNavigation.vue";
+// const serviceKey =
+// "Xe8OkHEZbFnVPmfP8Y6d2ykDf%2F4GYH6beQQAQpJxujE%2BP7hY0fVZ5m62YQwfmUvdyEtajTOYZO3w1ckVe8Mruw%3D%3D";
+const serviceKey = import.meta.env.VITE_OPEN_API_SERVICE_KEY;
+
+const kakaoKey = import.meta.env.VITE_KAKAO_MAP_SERVICE_KEY;
+
+const positions = ref([]);
 var showSize = 10; // 한 페이지에 보여줄 데이터 개수
 // index page 로딩 후 전국의 시도 설정.
 let areaUrl =
@@ -18,34 +22,39 @@ fetch(areaUrl, { method: "GET" })
 	.then((response) => response.json())
 	.then((data) => makeOption(data));
 
-function makeOption(data) {
-	let areas = data.response.body.items.item;
-	// console.log(areas);
-	let sel = document.getElementById("search-area");
-	areas.forEach((area) => {
-		let opt = document.createElement("option");
-		opt.setAttribute("value", area.code);
-		opt.appendChild(document.createTextNode(area.name));
-
-		sel.appendChild(opt);
-	});
-}
+const makeOption = (data) => {
+	try {
+		const areas = data.response.body.items.item;
+		const sel = document.getElementById("search-area");
+		areas.forEach((area) => {
+			const opt = document.createElement("option");
+			opt.setAttribute("value", area.code);
+			opt.appendChild(document.createTextNode(area.name));
+			sel.appendChild(opt);
+		});
+	} catch (error) {
+		console.error("Error making options:", error);
+	}
+};
 
 // var trips; // 전체 여행지 데이터 저장
-var pageNo = 1;
-var currentPage = pageNo; // 현재 페이지 번호
+const pageNo = ref(1);
+const currentPage = ref(1); // 현재 페이지 번호
 let trips = ref([]);
+const totalPage = ref(0);
 function makeList(data) {
 	document.querySelector("table").setAttribute("style", "display: ;");
 	trips.value = data.response.body.items.item;
 	// trips = data.response.body.items.item;
-	// console.log(trips.value);
+	console.log(trips.value);
 	// console.log(trips.value.length);
 	displayPage(currentPage); // 첫 페이지 데이터 표시
+	totalPage.value = Math.floor((data.response.body.totalCount - 1) / showSize + 1);
+	console.log(totalPage.value);
 }
 
 function displayPage(pageNumber) {
-	positions = [];
+	positions.value = [];
 
 	for (let i = 0; i < trips.value.length; i++) {
 		let area = trips.value[i];
@@ -53,7 +62,7 @@ function displayPage(pageNumber) {
 			title: area.title,
 			latlng: new kakao.maps.LatLng(area.mapy, area.mapx),
 		};
-		positions.push(markerInfo);
+		positions.value.push(markerInfo);
 	}
 	// console.log(positions);
 	displayMarker();
@@ -107,7 +116,7 @@ function displayMarker() {
 	var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
 	deleteMarkers();
 
-	for (var i = 0; i < positions.length; i++) {
+	for (var i = 0; i < positions.value.length; i++) {
 		// 마커 이미지의 이미지 크기 입니다
 		var imageSize = new kakao.maps.Size(24, 35);
 
@@ -117,15 +126,22 @@ function displayMarker() {
 		// 마커를 생성합니다
 		var marker = new kakao.maps.Marker({
 			map: map, // 마커를 표시할 지도
-			position: positions[i].latlng, // 마커를 표시할 위치
-			title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+			position: positions.value[i].latlng, // 마커를 표시할 위치
+			title: positions.value[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
 			image: markerImage, // 마커 이미지
+			clickable: true,
 		});
 		markers.value.push(marker);
 	}
 
 	// 첫번째 검색 정보를 이용하여 지도 중심을 이동 시킵니다
-	map.setCenter(positions[0].latlng);
+	map.setCenter(positions.value[0].latlng);
+	const bounds = positions.value.reduce(
+		(bounds, position) => bounds.extend(position.latlng),
+		new kakao.maps.LatLngBounds()
+	);
+
+	map.setBounds(bounds);
 }
 
 function moveCenter(lat, lng) {
@@ -144,20 +160,21 @@ onMounted(() => {
 	}
 });
 const btnNext = () => {
+	console.log("btnNext", currentPage);
 	if (trips.value.length < showSize) return;
 	currentPage += 1;
-	btnSearch(currentPage);
+	fetchArea(currentPage);
 	displayPage(currentPage);
 };
 const btnPrev = () => {
+	console.log("btnPrev", currentPage);
 	if (currentPage <= 1) return;
 	currentPage -= 1;
-	btnSearch(currentPage);
+	fetchArea(currentPage);
 	displayPage(currentPage);
 };
-const btnSearch = (pageNo) => {
-	// console.log("btnSearch", pageNo);
-	// alert("btnSearch");
+
+const fetchArea = (pageNo) => {
 	let baseUrl = `https://apis.data.go.kr/B551011/KorService1/`;
 	// let searchUrl = `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=${serviceKey}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A`;
 	// let searchUrl = `https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${serviceKey}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A`;
@@ -185,6 +202,51 @@ const btnSearch = (pageNo) => {
 		.then((response) => response.json())
 		.then((data) => makeList(data));
 };
+
+const onPageChange = (val) => {
+	console.log(val + "번 페이지로 이동 준비 끝!!!");
+	currentPage.value = val;
+	fetchArea(val);
+	displayPage(val);
+};
+
+const btnSearch = () => {
+	pageNo.value = 1;
+	currentPage.value = 1;
+	console.log(pageNo);
+	fetchArea(pageNo);
+	// console.log("btnSearch", pageNo);
+	// alert("btnSearch");
+	// let baseUrl = `https://apis.data.go.kr/B551011/KorService1/`;
+	// // let searchUrl = `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=${serviceKey}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A`;
+	// // let searchUrl = `https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${serviceKey}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A`;
+	// let queryString = `serviceKey=${serviceKey}&numOfRows=${showSize}&pageNo=${pageNo}&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A`;
+	// let areaCode = document.getElementById("search-area").value;
+	// let contentTypeId = document.getElementById("search-content-id").value;
+	// let keyword = document.getElementById("search-keyword").value;
+
+	// if (parseInt(areaCode)) queryString += `&areaCode=${areaCode}`;
+	// if (parseInt(contentTypeId)) queryString += `&contentTypeId=${contentTypeId}`;
+	// // if (!keyword) {
+	// //   alert("검색어 입력 필수!!!");
+	// //   return;
+	// // } else searchUrl += `&keyword=${keyword}`;
+	// let service = ``;
+	// if (keyword) {
+	// 	service = `searchKeyword1`;
+	// 	queryString += `&keyword=${keyword}`;
+	// } else {
+	// 	service = `areaBasedList1`;
+	// }
+	// let searchUrl = baseUrl + service + "?" + queryString;
+
+	// fetch(searchUrl)
+	// 	.then((response) => response.json())
+	// 	.then((data) => makeList(data));
+};
+
+var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+	iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 </script>
 
 <style scoped>
@@ -283,23 +345,12 @@ button {
 				</tbody>
 			</table>
 		</div>
-		<div style="display: flex; justify-content: center; margin: 30px 0">
-			<button
-				id="btn-prev"
-				class="btn btntheme"
-				type="button"
-				style="margin: 0 10px; width: 100px"
-				@click="btnPrev">
-				이전
-			</button>
-			<button
-				id="btn-next"
-				class="btn btntheme"
-				type="button"
-				style="margin: 0 10px; width: 100px"
-				@click="btnNext">
-				다음
-			</button>
+
+		<div v-if="totalPage > 0" style="display: flex; justify-content: center; margin: 30px 0">
+			<VPageNavigation
+				:current-page="currentPage"
+				:total-page="totalPage"
+				@pageChange="onPageChange" />
 		</div>
 	</div>
 

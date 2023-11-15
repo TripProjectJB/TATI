@@ -15,15 +15,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.board.model.BoardDto;
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.member.model.service.MemberService;
 
@@ -102,5 +105,44 @@ public class MemberController {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 	}
+	
+	@ApiOperation(value = "팔로워목록", notes = "회원의 <big>팔로워 목록</big>을 반환해 줍니다.")
+	@GetMapping("/followerlist/{userid}")
+	public ResponseEntity<?> followerlist(@PathVariable("userid") String userId) throws Exception {
+		log.debug("followerlist call");
+		List<String> list = memberService.getFollower(userId);
+		if(list != null && !list.isEmpty()) {
+			return new ResponseEntity<List<String>>(list, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}
+	}
+	
+	@ApiOperation(value = "팔로잉목록", notes = "회원의 <big>팔로잉 목록</big>을 반환해 줍니다.")
+	@GetMapping("/followinglist/{userid}")
+	public ResponseEntity<?> followinglist(@PathVariable("userid") String userId) throws Exception {
+		log.debug("followinglist call");
+		List<String> list = memberService.getFollowing(userId);
+		if(list != null && !list.isEmpty()) {
+			return new ResponseEntity<List<String>>(list, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}
+	}
+	
+	@ApiOperation(value = "팔로우 추가", notes = "회원의 <big>팔로워, 팔로잉 추가</big>해 줍니다.")
+	@PutMapping("/addfollow")
+	public ResponseEntity<?> follow(@RequestBody Map<String, String> map) throws Exception {
+		log.debug("follow추가");
+		memberService.addFollow(map);
+		return ResponseEntity.ok().build();
+	}
 
+	@ApiOperation(value = "팔로우 삭제", notes = "회원의 <big>팔로워, 팔로잉 삭제</big>해 줍니다.")
+	@DeleteMapping("/deletefollow")
+	public ResponseEntity<?> articleD(@RequestBody Map<String, String> map) throws Exception {
+		log.debug("follow삭제");
+		memberService.deleteFollow(map);
+		return ResponseEntity.ok().build();
+	}
 }

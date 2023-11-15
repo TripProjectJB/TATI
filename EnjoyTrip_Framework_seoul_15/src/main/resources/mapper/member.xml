@@ -9,6 +9,7 @@
 		<result column="user_name" property="userName"/>
 	</resultMap>
 	
+	
 	<!-- ADMIN -->
 	<resultMap type="memberDto" id="memberAll" extends="member">
 		<result column="user_password" property="userPwd"/>
@@ -61,5 +62,29 @@
 		delete from members
 		where user_id = #{userId}
 	</delete>
+	
+	<!-- follower, following -->
+	<select id="getFollower" parameterType="string" resultType='string'>
+	SELECT follower_id
+	FROM follow
+	WHERE following_id = #{following_id}
+	</select>
+	
+	<select id="getFollowing" parameterType="string" resultType='string'>
+	SELECT following_id
+	FROM follow
+	WHERE follower_id = #{follower_id}
+	</select>
+	
+	<insert id="addFollow" parameterType="map">
+	insert into follow values(#{follower_id}, #{following_id})
+	</insert>
+	
+	
+	<delete id="deleteFollow" parameterType="map">
+	delete from follow
+	where follower_id=#{follower_id} and following_id= #{following_id}
+	</delete>
+	
 	
 </mapper>

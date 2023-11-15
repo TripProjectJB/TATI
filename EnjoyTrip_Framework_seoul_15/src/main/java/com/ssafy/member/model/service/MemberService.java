@@ -17,4 +17,11 @@ public interface MemberService {
 	void updateMember(MemberDto memberDto) throws Exception;
 	void deleteMember(String userid) throws Exception;
 	
+	/* Follower Following*/
+	List<String> getFollower(String userId);
+	List<String> getFollowing(String userId);
+	void addFollow(Map<String, String> map);
+	void deleteFollow(Map<String, String> map);
+	
+	
 }
