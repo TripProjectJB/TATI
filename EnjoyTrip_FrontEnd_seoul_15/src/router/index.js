@@ -56,7 +56,7 @@ const router = createRouter({
         {
             path: "/user",
             name: "user",
-            component: () => import("@/components/views/UserView.vue"),
+            component: () => import("../views/UserView.vue"),
             redirect: {name: "login"},
             children: [
                 {
