@@ -11,13 +11,16 @@
 
 <script setup>
 import { ref } from "vue";
+import { useMemberStore } from "@/stores/member";
 import SlotComp from "../slot/SlotComp.vue";
 
 import axios from "axios";
+const store = useMemberStore();
 
 const followers = ref([]);
+
 const url = import.meta.env.VITE_VUE_API_URL;
-axios.get(url + "/user/followerlist/ssafy").then((res) => {
+axios.get(url + "/user/followerlist/" + store.userInfo.userId).then((res) => {
 	console.log(res.data);
 	followers.value = res.data;
 });
