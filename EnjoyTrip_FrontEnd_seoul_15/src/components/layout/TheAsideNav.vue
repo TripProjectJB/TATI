@@ -64,9 +64,9 @@ const logout = async () => {
 						</ul>
 					</div>
 				</div>
-				<ul class="contact">
+				<ul class="contact" v-if="userInfo">
 					<li></li>
-					<li class="fa-home">김종범 (kbumk123)</li>
+					<li class="fa-home">{{ store.userInfo.userName }} ({{ store.userInfo.userId }})</li>
 					<li class="fa-home">
 						<button
 							@click="

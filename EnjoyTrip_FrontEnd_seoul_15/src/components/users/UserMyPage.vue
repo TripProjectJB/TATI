@@ -1,4 +1,8 @@
-<script setup></script>
+<script setup>
+import { useMemberStore } from "@/stores/member";
+const store = useMemberStore();
+const { userInfo } = store;
+</script>
 
 <template>
 	<div>
@@ -16,27 +20,17 @@
 							<tbody>
 								<tr>
 									<td>아이디</td>
-									<!-- <td>{{ userInfo.id }}</td> -->
-									<td>userInfo.id</td>
+									<td>{{ userInfo.userId }}</td>
 								</tr>
 								<tr>
 									<td>이름</td>
-									<!-- <td>{{ userInfo.name }}</td> -->
-									<td>userInfo.name</td>
+									<td>{{ userInfo.userName }}</td>
 								</tr>
 								<tr>
 									<td>비밀번호</td>
 									<td>
 										<div class="row justify-content-center">
 											<div class="col col-lg-5">
-												<!-- <MaterialButton
-                          class=""
-                          variant="gradient"
-                          color="dark"
-                          fullWidth
-                          v-on:click="changePassword()"
-                          >비밀번호 변경</MaterialButton
-                        > -->
 												<router-link to="/mypage/change/password">
 													<MaterialButton class="" variant="gradient" color="dark" fullWidth
 														>비밀번호 변경</MaterialButton
@@ -48,13 +42,11 @@
 								</tr>
 								<tr>
 									<td>이메일</td>
-									<!-- <td>{{ userInfo.email }}</td> -->
-									<td>userInfo.email</td>
+									<td>{{ userInfo.emailId }}@{{ userInfo.emailDomain }}</td>
 								</tr>
 								<tr>
 									<td>가입일</td>
-									<!-- <td>{{ userInfo.joinDate }}</td> -->
-									<td>userInfo.joinDate</td>
+									<td>{{ userInfo.joinDate }}</td>
 								</tr>
 							</tbody>
 						</table>
