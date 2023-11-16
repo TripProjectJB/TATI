@@ -146,17 +146,17 @@ function displayMarker() {
 			clickable: true,
 		});
 
-		// const infowindow = new window.kakao.maps.InfoWindow({
-		// 	content: iwContent,
-		// 	// removable: true,
-		// });
+		const infowindow = new window.kakao.maps.InfoWindow({
+			content: iwContent,
+			// removable: true,
+		});
 
-		// window.kakao.maps.event.addListener(marker, "mouseover", () => {
-		// 	infowindow.open(map, marker);
-		// });
-		// window.kakao.maps.event.addListener(marker, "mouseout", () => {
-		// 	infowindow.close(map, marker);
-		// });
+		window.kakao.maps.event.addListener(marker, "mouseover", () => {
+			infowindow.open(map, marker);
+		});
+		window.kakao.maps.event.addListener(marker, "mouseout", () => {
+			infowindow.close(map, marker);
+		});
 		markers.value.push(marker);
 	}
 

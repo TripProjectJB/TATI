@@ -75,17 +75,17 @@ const router = createRouter({
 					component: () => import("@/components/users/UserMypage.vue"),
 				},
 				{
-					path: "follower",
+					path: "follower/:userid",
 					name: "follower",
 					component: () => import("@/components/users/UserFollower.vue"),
 				},
 				{
-					path: "following",
+					path: "following/:userid",
 					name: "following",
 					component: () => import("@/components/users/UserFollowing.vue"),
 				},
 				{
-					path: "userinfo",
+					path: "userinfo/:userid",
 					name: "userinfo",
 					component: () => import("@/components/users/UserInfo.vue"),
 				},

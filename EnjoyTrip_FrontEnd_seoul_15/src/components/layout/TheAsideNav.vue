@@ -68,10 +68,18 @@ const logout = async () => {
 					<li></li>
 					<li class="fa-home">김종범 (kbumk123)</li>
 					<li class="fa-home">
-						<button @click="$router.push({ name: 'follower' })">Follower : userId.Follower</button>
+						<button
+							@click="
+								$router.push({ name: 'follower', params: { userid: store.userInfo.userId } })
+							">
+							Follower : userId.Follower
+						</button>
 					</li>
 					<li>
-						<button @click="$router.push({ name: 'following' })">
+						<button
+							@click="
+								$router.push({ name: 'following', params: { userid: store.userInfo.userId } })
+							">
 							Following : userId.Following
 						</button>
 					</li>
@@ -90,7 +98,7 @@ const logout = async () => {
 						<span class="opener">Board</span>
 						<ul>
 							<li><RouterLink :to="{ name: 'list' }">Type A</RouterLink></li>
-							<li><RouterLink :to="{ name: 'userinfo' }">Type B</RouterLink></li>
+							<li><RouterLink :to="{ name: 'list' }">Type B</RouterLink></li>
 							<li><RouterLink :to="{ name: 'list' }">Type C</RouterLink></li>
 							<li><RouterLink :to="{ name: 'list' }">Type D</RouterLink></li>
 						</ul>
