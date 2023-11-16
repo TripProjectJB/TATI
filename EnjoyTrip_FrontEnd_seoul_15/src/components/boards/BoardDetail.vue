@@ -2,6 +2,8 @@
 import {ref, onMounted} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {detailArticle, deleteArticle} from "@/api/board.js";
+const {VITE_VUE_API_URL} = import.meta.env;
+
 const route = useRoute();
 const router = useRouter();
 const article = ref({});
@@ -63,6 +65,18 @@ function onDeleteArticle() {
                         <li>조회수 : {{ article.hit }}</li>
                         <li>댓글 : '17'</li>
                     </ul>
+                </div>
+                <hr />
+                <div class="row">
+                    <template v-for="file in article.fileInfos" :key="file.saveFolder">
+                        <div class="6u" style="max-height: 300px">
+                            <span class="image fit">
+                                <img
+                                    :src="VITE_VUE_API_URL + '/file/' + file.saveFolder + '/' + file.originalFile"
+                                    alt="게시물" />
+                            </span>
+                        </div>
+                    </template>
                 </div>
                 <div class="box">{{ article.content }}</div>
                 <ul class="actions">
