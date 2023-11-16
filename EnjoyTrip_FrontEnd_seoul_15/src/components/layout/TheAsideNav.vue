@@ -14,7 +14,7 @@ const logout = async () => {
         await userLogout(userInfo.value.userId);
         sessionStorage.removeItem("accessToken");
         sessionStorage.removeItem("refreshToken");
-        sessionStorage.removeItem("memberStore");
+        userInfo.value = null;
         alert("로그아웃 되었습니다");
         router.push({name: "main"});
     }

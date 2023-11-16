@@ -31,40 +31,52 @@ const login = async () => {
 </script>
 
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <h2 class="my-3 py-3 shadow-sm bg-light text-center">
-                    <mark class="orange">로그인</mark>
-                </h2>
+    <section class="content">
+        <header>
+            <h1>Login Page</h1>
+            <h2></h2>
+        </header>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+        <form method="post" action="#">
+            <div class="row uniform">
+                <div class="2u"></div>
+                <div class="4u 12u$(xsmall)">
+                    <h3>ID</h3>
+                </div>
+                <div class="4u 12u$(xsmall)">
+                    <h3>Password</h3>
+                </div>
+                <div class="2u$"></div>
+                <div class="2u"></div>
+                <div class="4u 12u$(xsmall)">
+                    <input type="text" class="" v-model="loginUser.userId" placeholder=" ID" />
+                </div>
+                <div class="4u 12u$(xsmall)">
+                    <input
+                        type="password"
+                        class="form-control"
+                        v-model="loginUser.userPwd"
+                        @keyup.enter="login"
+                        placeholder=" Password" />
+                </div>
+                <div class="2u$"></div>
+                <!-- Break -->
+                <div class="2u"></div>
+                <div class="10u$">
+                    <ul class="actions">
+                        <li>
+                            <button type="button" @click="login">Login</button>
+                        </li>
+                        <li>
+                            <button type="reset" class="special" @click="$router.push({name: 'regist'})">Regist</button>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="col-lg-10">
-                <form>
-                    <div class="form-check mb-3 float-end">
-                        <input class="form-check-input" type="checkbox" />
-                        <label class="form-check-label" for="saveid"> 아이디저장 </label>
-                    </div>
-                    <div class="mb-3 text-start">
-                        <label for="userid" class="form-label">아이디 : </label>
-                        <input type="text" class="form-control" v-model="loginUser.userId" placeholder="아이디..." />
-                    </div>
-                    <div class="mb-3 text-start">
-                        <label for="userpwd" class="form-label">비밀번호 : </label>
-                        <input
-                            type="password"
-                            class="form-control"
-                            v-model="loginUser.userPwd"
-                            @keyup.enter="login"
-                            placeholder="비밀번호..." />
-                    </div>
-                    <div class="col-auto text-center">
-                        <button type="button" class="btn btn-outline-primary mb-3" @click="login">로그인</button>
-                        <button type="button" class="btn btn-outline-success ms-1 mb-3">회원가입</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+        </form>
+    </section>
 </template>
 
 <style scoped></style>

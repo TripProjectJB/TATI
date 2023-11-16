@@ -24,5 +24,7 @@ public class MemberDto {
 	private String emailDomain;
 	@ApiModelProperty(value = "가입일")
 	private String joinDate; 
+	@ApiModelProperty(value = "refreshToken")
+	private String refreshToken;
 
 }

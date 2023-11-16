@@ -1,28 +1,23 @@
 package com.ssafy.board.model.service;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.board.model.BoardDto;
+import com.ssafy.board.model.BoardListDto;
 import com.ssafy.board.model.FileInfoDto;
 import com.ssafy.board.model.mapper.BoardMapper;
-import com.ssafy.util.PageNavigation;
-import com.ssafy.util.SizeConstant;
+
 
 @Service
 public class BoardServiceImpl implements BoardService {
-	
+
 	private BoardMapper boardMapper;
-	
-	@Value(value = "file.path")
-	private String path;
 
 	@Autowired
 	public BoardServiceImpl(BoardMapper boardMapper) {
@@ -33,9 +28,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	@Transactional
 	public void writeArticle(BoardDto boardDto) throws Exception {
-		System.out.println("글입력 전 dto : " + boardDto);
 		boardMapper.writeArticle(boardDto);
-		System.out.println("글입력 후 dto : " + boardDto);
 		List<FileInfoDto> fileInfos = boardDto.getFileInfos();
 		if (fileInfos != null && !fileInfos.isEmpty()) {
 			boardMapper.registerFile(boardDto);
@@ -43,49 +36,62 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardDto> listArticle(Map<String, String> map) throws Exception {
+	public BoardListDto listArticle(Map<String, String> map) throws Exception {
 		Map<String, Object> param = new HashMap<String, Object>();
-		String key = map.get("key");
-		if("userid".equals(key))
-			key = "b.user_id";
-		param.put("key", key == null ? "" : key);
 		param.put("word", map.get("word") == null ? "" : map.get("word"));
-		int pgNo = Integer.parseInt(map.get("pgno") == null ? "1" : map.get("pgno"));
-		int start = pgNo * SizeConstant.LIST_SIZE - SizeConstant.LIST_SIZE;
+		int currentPage = Integer.parseInt(map.get("pgno") == null ? "1" : map.get("pgno"));
+		int sizePerPage = Integer.parseInt(map.get("spp") == null ? "20" : map.get("spp"));
+		int start = currentPage * sizePerPage - sizePerPage;
 		param.put("start", start);
-		param.put("listsize", SizeConstant.LIST_SIZE);
+		param.put("listsize", sizePerPage);
 
-		return boardMapper.listArticle(param);
-	}
-	
-	@Override
-	public PageNavigation makePageNavigation(Map<String, String> map) throws Exception {
-		PageNavigation pageNavigation = new PageNavigation();
-
-		int naviSize = SizeConstant.NAVIGATION_SIZE;
-		int sizePerPage = SizeConstant.LIST_SIZE;
-		int currentPage = Integer.parseInt(map.get("pgno"));
-
-		pageNavigation.setCurrentPage(currentPage);
-		pageNavigation.setNaviSize(naviSize);
-		Map<String, Object> param = new HashMap<String, Object>();
 		String key = map.get("key");
-		if ("userid".equals(key))
-			key = "user_id";
 		param.put("key", key == null ? "" : key);
-		param.put("word", map.get("word") == null ? "" : map.get("word"));
-		int totalCount = boardMapper.getTotalArticleCount(param);
-		pageNavigation.setTotalCount(totalCount);
-		int totalPageCount = (totalCount - 1) / sizePerPage + 1;
-		pageNavigation.setTotalPageCount(totalPageCount);
-		boolean startRange = currentPage <= naviSize;
-		pageNavigation.setStartRange(startRange);
-		boolean endRange = (totalPageCount - 1) / naviSize * naviSize < currentPage;
-		pageNavigation.setEndRange(endRange);
-		pageNavigation.makeNavigator();
+		if ("user_id".equals(key))
+			param.put("key", key == null ? "" : "b.user_id");
+		List<BoardDto> list = boardMapper.listArticle(param);
 
-		return pageNavigation;
+		if ("user_id".equals(key))
+			param.put("key", key == null ? "" : "user_id");
+		int totalArticleCount = boardMapper.getTotalArticleCount(param);
+		int totalPageCount = (totalArticleCount - 1) / sizePerPage + 1;
+
+		BoardListDto boardListDto = new BoardListDto();
+		boardListDto.setArticles(list);
+		boardListDto.setCurrentPage(currentPage);
+		boardListDto.setTotalPageCount(totalPageCount);
+
+		return boardListDto;
 	}
+
+//	@Override
+//	public PageNavigation makePageNavigation(Map<String, String> map) throws Exception {
+//		PageNavigation pageNavigation = new PageNavigation();
+//
+//		int naviSize = SizeConstant.NAVIGATION_SIZE;
+//		int sizePerPage = SizeConstant.LIST_SIZE;
+//		int currentPage = Integer.parseInt(map.get("pgno"));
+//
+//		pageNavigation.setCurrentPage(currentPage);
+//		pageNavigation.setNaviSize(naviSize);
+//		Map<String, Object> param = new HashMap<String, Object>();
+//		String key = map.get("key");
+//		if ("userid".equals(key))
+//			key = "user_id";
+//		param.put("key", key == null ? "" : key);
+//		param.put("word", map.get("word") == null ? "" : map.get("word"));
+//		int totalCount = boardMapper.getTotalArticleCount(param);
+//		pageNavigation.setTotalCount(totalCount);
+//		int totalPageCount = (totalCount - 1) / sizePerPage + 1;
+//		pageNavigation.setTotalPageCount(totalPageCount);
+//		boolean startRange = currentPage <= naviSize;
+//		pageNavigation.setStartRange(startRange);
+//		boolean endRange = (totalPageCount - 1) / naviSize * naviSize < currentPage;
+//		pageNavigation.setEndRange(endRange);
+//		pageNavigation.makeNavigator();
+//
+//		return pageNavigation;
+//	}
 
 	@Override
 	public BoardDto getArticle(int articleNo) throws Exception {
@@ -103,17 +109,23 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.modifyArticle(boardDto);
 	}
 
+//	@Override
+//	@Transactional
+//	public void deleteArticle(int articleNo, String path) throws Exception {
+//		// TODO : BoardDaoImpl의 deleteArticle 호출
+//		List<FileInfoDto> fileList = boardMapper.fileInfoList(articleNo);
+//		boardMapper.deleteFile(articleNo);
+//		boardMapper.deleteArticle(articleNo);
+//		for(FileInfoDto fileInfoDto : fileList) {
+//			File file = new File(path + File.separator + fileInfoDto.getSaveFolder() + File.separator + fileInfoDto.getSaveFile());
+//			file.delete();
+//		}
+//	}
+
 	@Override
-	@Transactional
 	public void deleteArticle(int articleNo) throws Exception {
 		// TODO : BoardDaoImpl의 deleteArticle 호출
-		List<FileInfoDto> fileList = boardMapper.fileInfoList(articleNo);
-		boardMapper.deleteFile(articleNo);
 		boardMapper.deleteArticle(articleNo);
-		for(FileInfoDto fileInfoDto : fileList) {
-			File file = new File(path + File.separator + fileInfoDto.getSaveFolder() + File.separator + fileInfoDto.getSaveFile());
-			file.delete();
-		}
 	}
 
 }
