@@ -24,11 +24,7 @@ const router = createRouter({
         {
             path: "/board",
             name: "board",
-            // component: TheBoardView,
-            // route level code-splitting
-            // this generates a separate chunk (About.[hash].js) for this route
-            // which is lazy-loaded when the route is visited.
-            component: () => import("../views/BoardView.vue"),
+            component: () => import("@/views/BoardView.vue"),
             redirect: {name: "list"},
             children: [
                 {
@@ -56,7 +52,7 @@ const router = createRouter({
         {
             path: "/user",
             name: "user",
-            component: () => import("../views/UserView.vue"),
+            component: () => import("@/views/UserView.vue"),
             redirect: {name: "login"},
             children: [
                 {
@@ -72,7 +68,7 @@ const router = createRouter({
                 {
                     path: "mypage",
                     name: "mypage",
-                    component: () => import(""),
+                    component: () => import("@/components/users/MyPage.vue"),
                 },
             ],
         },
