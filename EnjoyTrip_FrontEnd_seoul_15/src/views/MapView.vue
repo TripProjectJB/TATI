@@ -185,20 +185,6 @@ onMounted(() => {
 		document.head.appendChild(script);
 	}
 });
-const btnNext = () => {
-	console.log("btnNext", currentPage);
-	if (trips.value.length < showSize) return;
-	currentPage += 1;
-	fetchArea(currentPage);
-	displayPage(currentPage);
-};
-const btnPrev = () => {
-	console.log("btnPrev", currentPage);
-	if (currentPage <= 1) return;
-	currentPage -= 1;
-	fetchArea(currentPage);
-	displayPage(currentPage);
-};
 
 const fetchArea = (pageNo) => {
 	let baseUrl = `https://apis.data.go.kr/B551011/KorService1/`;
