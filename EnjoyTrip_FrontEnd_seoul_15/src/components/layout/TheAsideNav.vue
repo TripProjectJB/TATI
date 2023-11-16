@@ -1,4 +1,25 @@
-<script setup></script>
+<script setup>
+import { useMemberStore } from "@/stores/member.js";
+import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const store = useMemberStore();
+const { userInfo } = storeToRefs(store);
+const { userLogout } = store;
+console.log("store.userInfo : ", store.userInfo);
+
+const logout = async () => {
+	if (window.confirm("로그아웃 하시겠습니까?")) {
+		await userLogout(userInfo.value.userId);
+		sessionStorage.removeItem("accessToken");
+		sessionStorage.removeItem("refreshToken");
+		userInfo.value = null;
+		alert("로그아웃 되었습니다");
+		router.push({ name: "main" });
+	}
+};
+</script>
 
 <template>
 	<aside id="sidebar">
@@ -9,7 +30,6 @@
 					<input type="text" name="query" id="query" placeholder="Search" />
 				</form>
 			</section>
-
 			<!-- userinfo -->
 			<section>
 				<header class="major">
@@ -19,7 +39,7 @@
 					<div class="8u">
 						<span class="image fit"><img src="@/images/pic01.jpg" alt="" /></span>
 					</div>
-					<div class="4u$">
+					<div class="4u$" v-if="userInfo">
 						<ul class="actions" style="padding-top: 5px">
 							<li>
 								<button @click="$router.push({ name: 'mypage' })">MyPage</button>
@@ -27,7 +47,19 @@
 						</ul>
 						<ul class="actions">
 							<li>
-								<a href="#" class="button">Logout&nbsp;</a>
+								<button @click="logout">Logout&nbsp;</button>
+							</li>
+						</ul>
+					</div>
+					<div class="4u$" v-else>
+						<ul class="actions" style="padding-top: 5px">
+							<li>
+								<button @click="$router.push({ name: 'login' })">Login&nbsp;</button>
+							</li>
+						</ul>
+						<ul class="actions">
+							<li>
+								<button @click="$router.push({ name: 'regist' })">Regist</button>
 							</li>
 						</ul>
 					</div>
@@ -35,10 +67,15 @@
 				<ul class="contact">
 					<li></li>
 					<li class="fa-home">김종범 (kbumk123)</li>
-					<li class="fa-home"></li>
+					<li class="fa-home">
+						<button @click="$router.push({ name: 'follower' })">Follower : userId.Follower</button>
+					</li>
+					<li>
+						<button @click="$router.push({ name: 'following' })">
+							Following : userId.Following
+						</button>
+					</li>
 				</ul>
-				<button @click="$router.push({ name: 'follower' })">Follower : userId.Follower</button>
-				<button @click="$router.push({ name: 'following' })">Following : userId.Following</button>
 			</section>
 
 			<!-- Menu -->

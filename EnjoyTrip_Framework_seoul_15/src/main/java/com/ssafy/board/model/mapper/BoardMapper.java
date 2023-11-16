@@ -9,6 +9,8 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ssafy.board.model.BoardDto;
 import com.ssafy.board.model.FileInfoDto;
 
+
+
 @Mapper
 public interface BoardMapper {
 
@@ -31,5 +33,5 @@ public interface BoardMapper {
 	void deleteArticle(int articleNo) throws SQLException;
 
 	List<FileInfoDto> fileInfoList(int articleNo) throws Exception;
-
+	
 }
