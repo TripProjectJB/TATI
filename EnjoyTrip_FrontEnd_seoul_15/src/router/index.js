@@ -53,6 +53,29 @@ const router = createRouter({
                 },
             ],
         },
+        {
+            path: "/user",
+            name: "user",
+            component: () => import("@/components/views/UserView.vue"),
+            redirect: {name: "login"},
+            children: [
+                {
+                    path: "login",
+                    name: "login",
+                    component: () => import(""),
+                },
+                {
+                    path: "regist",
+                    name: "regist",
+                    component: () => import(""),
+                },
+                {
+                    path: "mypage",
+                    name: "mypage",
+                    component: () => import(""),
+                },
+            ],
+        },
     ],
 });
 

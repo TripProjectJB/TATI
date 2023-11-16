@@ -1,8 +1,7 @@
 <script setup>
 import {ref} from "vue";
 import {useRouter, useRoute} from "vue-router";
-import {registArticle} from "@/api/board";
-
+const {VITE_VUE_API_URL} = import.meta.env;
 const router = useRouter();
 
 const article = ref({
@@ -15,22 +14,33 @@ const article = ref({
 });
 
 function writeArticle() {
-    registArticle(
-        article.value,
-        (response) => {
-            let msg = "글등록 처리시 문제 발생했습니다.";
-            if (response.status == 201) {
-                msg = "글등록이 완료되었습니다.";
-                const fom = document.querySelector("#ff");
-                const no = document.querySelector("#no");
-                no.value = 259;
-                fom.submit();
-            }
+    var inp = document.getElementById("upfile");
+    var data = new FormData();
+    data.append("userId", article.value.userId);
+    data.append("userName", article.value.userName);
+    data.append("subject", article.value.subject);
+    data.append("content", article.value.content);
+    data.append("hit", article.value.hit);
+    data.append("registerTime", article.value.registerTime);
+    for (const file of inp.files) {
+        data.append("files", file, file.name);
+    }
+    console.log(data.get("userId"));
+    console.log(data.get("files"));
+
+    fetch(VITE_VUE_API_URL + "/board", {
+        method: "POST",
+        body: data,
+    })
+        .then((response) => {
+            let msg = "작성에 실패했습니다.";
+            console.log(response);
+            console.log(response.status);
+            if (response.status == 201) msg = "게시물이 작성되었습니다.";
             alert(msg);
-            // router.push({name: "list"});
-        },
-        (error) => console.log(error)
-    );
+            router.push({name: "list"});
+        })
+        .catch((error) => console.log(error));
 }
 </script>
 
@@ -40,12 +50,7 @@ function writeArticle() {
             <h1>Type A Board</h1>
             <h3>Write</h3>
         </header>
-        <form
-            method="post"
-            action="http://localhost/vue/board/files"
-            enctype="multipart/form-data"
-            id="ff"
-            @submit.prevent="">
+        <form method="post" enctype="multipart/form-data">
             <div class="row uniform">
                 <div class="6u 12u$(xsmall)">
                     <input type="text" name="demo-email" id="demo-email" placeholder="Id" v-model="article.userId" />
@@ -95,7 +100,7 @@ function writeArticle() {
                         v-model="article.content"></textarea>
                 </div>
                 <div class="12u$">
-                    <input type="file" class="" name="upfile" multiple="multiple" />
+                    <input type="file" id="upfile" multiple="multiple" />
                 </div>
                 <!-- Break -->
                 <div class="12u$">
