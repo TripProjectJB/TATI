@@ -120,6 +120,20 @@ function displayMarker() {
 		// 마커 이미지의 이미지 크기 입니다
 		var imageSize = new kakao.maps.Size(24, 35);
 
+		const iwContent = `
+            <div style="height:180px">
+             <div class="title">
+                  ${positions.value[i].title}
+              </div>
+              <div>
+                  <img src="${positions.value[i].firstimage}" width="63" height="60" />
+                  <div class="desc">
+                      <div>${positions.value[i].addr1}</div>
+                      <div>클릭시 계획에 추가</div>
+                  </div>
+                </div>
+            </div>`;
+
 		// 마커 이미지를 생성합니다
 		var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
@@ -131,6 +145,18 @@ function displayMarker() {
 			image: markerImage, // 마커 이미지
 			clickable: true,
 		});
+
+		// const infowindow = new window.kakao.maps.InfoWindow({
+		// 	content: iwContent,
+		// 	// removable: true,
+		// });
+
+		// window.kakao.maps.event.addListener(marker, "mouseover", () => {
+		// 	infowindow.open(map, marker);
+		// });
+		// window.kakao.maps.event.addListener(marker, "mouseout", () => {
+		// 	infowindow.close(map, marker);
+		// });
 		markers.value.push(marker);
 	}
 
@@ -213,40 +239,9 @@ const onPageChange = (val) => {
 const btnSearch = () => {
 	pageNo.value = 1;
 	currentPage.value = 1;
-	console.log(pageNo);
-	fetchArea(pageNo);
-	// console.log("btnSearch", pageNo);
-	// alert("btnSearch");
-	// let baseUrl = `https://apis.data.go.kr/B551011/KorService1/`;
-	// // let searchUrl = `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=${serviceKey}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A`;
-	// // let searchUrl = `https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${serviceKey}&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A`;
-	// let queryString = `serviceKey=${serviceKey}&numOfRows=${showSize}&pageNo=${pageNo}&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A`;
-	// let areaCode = document.getElementById("search-area").value;
-	// let contentTypeId = document.getElementById("search-content-id").value;
-	// let keyword = document.getElementById("search-keyword").value;
-
-	// if (parseInt(areaCode)) queryString += `&areaCode=${areaCode}`;
-	// if (parseInt(contentTypeId)) queryString += `&contentTypeId=${contentTypeId}`;
-	// // if (!keyword) {
-	// //   alert("검색어 입력 필수!!!");
-	// //   return;
-	// // } else searchUrl += `&keyword=${keyword}`;
-	// let service = ``;
-	// if (keyword) {
-	// 	service = `searchKeyword1`;
-	// 	queryString += `&keyword=${keyword}`;
-	// } else {
-	// 	service = `areaBasedList1`;
-	// }
-	// let searchUrl = baseUrl + service + "?" + queryString;
-
-	// fetch(searchUrl)
-	// 	.then((response) => response.json())
-	// 	.then((data) => makeList(data));
+	console.log(pageNo.value);
+	fetchArea(pageNo.value);
 };
-
-var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-	iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 </script>
 
 <style scoped>
