@@ -143,7 +143,7 @@ public class BoardController {
 	@DeleteMapping("/{articleno}")
 	public ResponseEntity<String> deleteArticle(@PathVariable("articleno") @ApiParam(value = "살제할 글의 글번호.", required = true) int articleno) throws Exception {
 		log.info("deleteArticle - 호출");
-		boardService.deleteArticle(articleno);
+		boardService.deleteArticle(articleno, uploadPath);
 		return ResponseEntity.ok().build();
 
 	}

@@ -1,5 +1,6 @@
 package com.ssafy.board.model.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class BoardServiceImpl implements BoardService {
 		super();
 		this.boardMapper = boardMapper;
 	}
-
+	
 	@Override
 	@Transactional
 	public void writeArticle(BoardDto boardDto) throws Exception {
@@ -39,6 +40,7 @@ public class BoardServiceImpl implements BoardService {
 	public BoardListDto listArticle(Map<String, String> map) throws Exception {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("word", map.get("word") == null ? "" : map.get("word"));
+		param.put("type", map.get("type") == null ? "" : map.get("type"));
 		int currentPage = Integer.parseInt(map.get("pgno") == null ? "1" : map.get("pgno"));
 		int sizePerPage = Integer.parseInt(map.get("spp") == null ? "20" : map.get("spp"));
 		int start = currentPage * sizePerPage - sizePerPage;
@@ -47,12 +49,12 @@ public class BoardServiceImpl implements BoardService {
 
 		String key = map.get("key");
 		param.put("key", key == null ? "" : key);
-		if ("user_id".equals(key))
-			param.put("key", key == null ? "" : "b.user_id");
+		if ("user_name".equals(key))
+			param.put("key", key == null ? "" : "m.user_name");
 		List<BoardDto> list = boardMapper.listArticle(param);
 
-		if ("user_id".equals(key))
-			param.put("key", key == null ? "" : "user_id");
+		if ("user_name".equals(key))
+			param.put("key", key == null ? "" : "m.user_name");
 		int totalArticleCount = boardMapper.getTotalArticleCount(param);
 		int totalPageCount = (totalArticleCount - 1) / sizePerPage + 1;
 
@@ -109,23 +111,17 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.modifyArticle(boardDto);
 	}
 
-//	@Override
-//	@Transactional
-//	public void deleteArticle(int articleNo, String path) throws Exception {
-//		// TODO : BoardDaoImpl의 deleteArticle 호출
-//		List<FileInfoDto> fileList = boardMapper.fileInfoList(articleNo);
-//		boardMapper.deleteFile(articleNo);
-//		boardMapper.deleteArticle(articleNo);
-//		for(FileInfoDto fileInfoDto : fileList) {
-//			File file = new File(path + File.separator + fileInfoDto.getSaveFolder() + File.separator + fileInfoDto.getSaveFile());
-//			file.delete();
-//		}
-//	}
-
 	@Override
-	public void deleteArticle(int articleNo) throws Exception {
+	@Transactional
+	public void deleteArticle(int articleNo, String path) throws Exception {
 		// TODO : BoardDaoImpl의 deleteArticle 호출
+		List<FileInfoDto> fileList = boardMapper.fileInfoList(articleNo);
+		boardMapper.deleteFile(articleNo);
 		boardMapper.deleteArticle(articleNo);
+		for(FileInfoDto fileInfoDto : fileList) {
+			File file = new File(path + File.separator + fileInfoDto.getSaveFolder() + File.separator + fileInfoDto.getSaveFile());
+			file.delete();
+		}
 	}
 
 }

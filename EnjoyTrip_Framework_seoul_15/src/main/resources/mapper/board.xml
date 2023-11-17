@@ -46,8 +46,11 @@
 				and subject like concat('%', #{word}, '%')
 			</if>
 			<if test="key != 'subject'">
-				and ${key} = #{word}
+				and ${key} like concat('%', #{word}, '%')
 			</if>
+		</if>
+		<if test="type != null">
+			and type = #{type} 
 		</if>
 	</sql>
 
@@ -62,7 +65,7 @@
 	
 	<select id="getTotalArticleCount" parameterType="map" resultType="int">
 		select count(article_no)
-		from board
+		from board b, members m
 		<where>
 			<include refid="search"></include>
 		</where>

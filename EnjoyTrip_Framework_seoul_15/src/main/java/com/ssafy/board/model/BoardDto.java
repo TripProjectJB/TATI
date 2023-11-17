@@ -17,6 +17,9 @@ public class BoardDto {
 	@ApiModelProperty(value = "번호")
 	@NonNull private int articleNo;
 	
+	@ApiModelProperty(value = "게시판종류")
+	@NonNull private int type;
+	
 	@ApiModelProperty(value = "작성자 아이디")
 	private String userId;
 	

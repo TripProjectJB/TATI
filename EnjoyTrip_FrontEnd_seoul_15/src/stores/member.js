@@ -12,8 +12,12 @@ export const useMemberStore = defineStore(
         const router = useRouter();
 
         const isLogin = ref(false);
+        const boardNo = ref(0);
         const isLoginError = ref(false);
-        const userInfo = ref(null);
+        const userInfo = ref({
+            userId: "",
+            userName: "",
+        });
         const isValidToken = ref(false);
 
         const userLogin = async (loginUser) => {
@@ -88,7 +92,7 @@ export const useMemberStore = defineStore(
                         console.log("갱신 실패");
                         // 다시 로그인 전 DB에 저장된 RefreshToken 제거.
                         await logout(
-                            userInfo.value.userid,
+                            userInfo.value.userId,
                             (response) => {
                                 if (response.status === httpStatusCode.OK) {
                                     console.log("리프레시 토큰 제거 성공");
@@ -118,7 +122,10 @@ export const useMemberStore = defineStore(
                 (response) => {
                     if (response.status === httpStatusCode.OK) {
                         isLogin.value = false;
-                        userInfo.value = null;
+                        userInfo.value = {
+                            userId: "",
+                            userName: "",
+                        };
                         isValidToken.value = false;
                     } else {
                         console.error("유저 정보 없음!!!!");
@@ -157,6 +164,7 @@ export const useMemberStore = defineStore(
             tokenRegenerate,
             userLogout,
             userRegist,
+            boardNo,
         };
     },
     {

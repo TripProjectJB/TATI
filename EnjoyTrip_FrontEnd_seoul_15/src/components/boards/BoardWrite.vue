@@ -1,14 +1,20 @@
 <script setup>
 import {ref} from "vue";
 import {useRouter, useRoute} from "vue-router";
+import {useMemberStore} from "@/stores/member";
+import {storeToRefs} from "pinia";
+
 const {VITE_VUE_API_URL} = import.meta.env;
 const router = useRouter();
+const store = useMemberStore();
+const {boardNo, userInfo} = storeToRefs(store);
 
 const article = ref({
     subject: "",
     content: "",
-    userId: "",
-    userName: "",
+    userId: userInfo.userId,
+    userName: userInfo.userName,
+    type: boardNo,
     hit: 0,
     registerTime: "",
 });
@@ -53,43 +59,44 @@ function writeArticle() {
         <form method="post" enctype="multipart/form-data">
             <div class="row uniform">
                 <div class="6u 12u$(xsmall)">
-                    <input type="text" name="demo-email" id="demo-email" placeholder="Id" v-model="article.userId" />
+                    <input
+                        type="text"
+                        name="demo-email"
+                        id="demo-email"
+                        placeholder="Id"
+                        v-model="article.userId"
+                        readonly />
                 </div>
                 <div class="6u$ 12u$(xsmall)">
-                    <input type="text" name="demo-name" id="demo-name" placeholder="Name" v-model="article.userName" />
+                    <input
+                        type="text"
+                        name="demo-name"
+                        id="demo-name"
+                        placeholder="Name"
+                        v-model="article.userName"
+                        readonly />
                 </div>
 
                 <!-- Break -->
-                <div class="3u 6u(small)">
-                    <input type="radio" id="demo-A" name="demo-priority" checked />
-                    <label for="demo-A">A</label>
-                </div>
-                <div class="3u 6u$(small)">
-                    <input type="radio" id="demo-B" name="demo-priority" />
-                    <label for="demo-B">B</label>
-                </div>
-                <div class="3u 6u(small)">
-                    <input type="radio" id="demo-C" name="demo-priority" />
-                    <label for="demo-C">C</label>
-                </div>
-                <div class="3u$ 6u$(small)">
-                    <input type="radio" id="demo-D" name="demo-priority" />
-                    <label for="demo-D">D</label>
-                </div>
-                <!-- Break -->
-                <!-- <div class="6u 12u$(small)">
-                    <input type="checkbox" id="demo-copy" name="demo-copy" />
-                    <label for="demo-copy">Email me a copy</label>
-                </div>
-                <div class="6u$ 12u$(small)">
-                    <input type="checkbox" id="demo-human" name="demo-human" checked />
-                    <label for="demo-human">I am a human</label>
-                </div> -->
+                <template v-for="(value, index) in ['A', 'B', 'C', 'D']" :key="value">
+                    <div class="3u 6u(small)">
+                        <input
+                            type="radio"
+                            :id="value"
+                            name="demo-priority"
+                            :value="index"
+                            v-model="article.type"
+                            v-bind="{checked: index + 1 == boardNo}" />
+                        <label :for="value">{{ value }}</label>
+                    </div>
+                </template>
+
                 <!-- Break -->
                 <div class="12u$">
                     <input type="hidden" name="articleNo" id="no" value="" />
                     <input type="text" name="demo-name" id="demo-name" placeholder="제목" v-model="article.subject" />
                 </div>
+
                 <!-- Break -->
                 <div class="12u$">
                     <textarea
@@ -102,6 +109,7 @@ function writeArticle() {
                 <div class="12u$">
                     <input type="file" id="upfile" multiple="multiple" />
                 </div>
+
                 <!-- Break -->
                 <div class="12u$">
                     <ul class="actions">

@@ -3,13 +3,12 @@ import VPageNavigation from "../common/VPageNavigation.vue";
 import {ref, onMounted} from "vue";
 import {RouterLink} from "vue-router";
 import {listArticle} from "@/api/board.js";
+import {useMemberStore} from "@/stores/member";
+import {watch} from "@vue/runtime-core";
+import {storeToRefs} from "pinia";
 
-const selectOption = ref([
-    {text: "검색조건", value: ""},
-    {text: "글번호", value: "article_no"},
-    {text: "제목", value: "subject"},
-    {text: "작성자아이디", value: "user_id"},
-]);
+const store = useMemberStore();
+const {boardNo} = storeToRefs(store);
 
 const articles = ref([]);
 const currentPage = ref(1);
@@ -20,9 +19,15 @@ const param = ref({
     spp: VITE_ARTICLE_LIST_SIZE,
     key: "",
     word: "",
+    type: boardNo,
 });
 
 onMounted(() => {
+    getArticleList();
+});
+
+watch(boardNo, () => {
+    console.log("boardNo 변경 감지");
     getArticleList();
 });
 
@@ -60,18 +65,23 @@ const onPageChange = (val) => {
                 <div class="6u">
                     <router-link :to="{name: 'write'}" class="button">write</router-link>
                 </div>
-                <form class="6u">
+                <form class="6u" @submit.prevent>
                     <ul class="actions row">
                         <li class="3u">
                             <select class="" id="demo-category" @change="onSelect" v-model="param.key">
                                 <option value="">검색조건</option>
-                                <option value="user_id">아이디</option>
-                                <option value="subject">제목</option>
                                 <option value="article_no">글번호</option>
+                                <option value="user_name">이름</option>
+                                <option value="subject">제목</option>
                             </select>
                         </li>
                         <li class="6u">
-                            <input class="" type="text" placeholder="검색어..." v-model="param.word" />
+                            <input
+                                class=""
+                                type="text"
+                                placeholder="검색어..."
+                                v-model="param.word"
+                                @keydown.enter="getArticleList" />
                         </li>
                         <li class="3u">
                             <a class="button" @click="getArticleList">Search</a>

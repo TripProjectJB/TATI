@@ -2,6 +2,7 @@
 import {ref, onMounted} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {detailArticle, deleteArticle} from "@/api/board.js";
+
 const {VITE_VUE_API_URL} = import.meta.env;
 
 const route = useRoute();
@@ -68,8 +69,8 @@ function onDeleteArticle() {
                 </div>
                 <hr />
                 <div class="row">
-                    <template v-for="file in article.fileInfos" :key="file.saveFolder">
-                        <div class="6u" style="max-height: 300px">
+                    <template v-for="(file, index) in article.fileInfos" :key="file.saveFolder">
+                        <div :class="index % 2 == 0 ? '6u' : '6u$'">
                             <span class="image fit">
                                 <img
                                     :src="VITE_VUE_API_URL + '/file/' + file.saveFolder + '/' + file.originalFile"

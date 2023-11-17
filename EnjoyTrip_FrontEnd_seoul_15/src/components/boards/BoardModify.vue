@@ -14,6 +14,7 @@ const article = ref({
     userName: "",
     hit: 0,
     registerTime: "",
+    type: "",
 });
 
 getModifyArticle(
@@ -49,38 +50,39 @@ const updateArticle = () => {
         <form method="post" action="#">
             <div class="row uniform">
                 <div class="6u 12u$(xsmall)">
-                    <input type="text" name="demo-email" id="demo-email" placeholder="Id" v-model="article.userId" />
+                    <input
+                        type="text"
+                        name="demo-email"
+                        id="demo-email"
+                        placeholder="Id"
+                        v-model="article.userId"
+                        readonly />
                 </div>
                 <div class="6u$ 12u$(xsmall)">
-                    <input type="text" name="demo-name" id="demo-name" placeholder="Name" v-model="article.userName" />
+                    <input
+                        type="text"
+                        name="demo-name"
+                        id="demo-name"
+                        placeholder="Name"
+                        v-model="article.userName"
+                        readonly />
                 </div>
 
                 <!-- Break -->
-                <div class="3u 6u(small)">
-                    <input type="radio" id="demo-A" name="demo-priority" checked />
-                    <label for="demo-A">A</label>
-                </div>
-                <div class="3u 6u$(small)">
-                    <input type="radio" id="demo-B" name="demo-priority" />
-                    <label for="demo-B">B</label>
-                </div>
-                <div class="3u 6u(small)">
-                    <input type="radio" id="demo-C" name="demo-priority" />
-                    <label for="demo-C">C</label>
-                </div>
-                <div class="3u$ 6u$(small)">
-                    <input type="radio" id="demo-D" name="demo-priority" />
-                    <label for="demo-D">D</label>
-                </div>
                 <!-- Break -->
-                <!-- <div class="6u 12u$(small)">
-                    <input type="checkbox" id="demo-copy" name="demo-copy" />
-                    <label for="demo-copy">Email me a copy</label>
-                </div>
-                <div class="6u$ 12u$(small)">
-                    <input type="checkbox" id="demo-human" name="demo-human" checked />
-                    <label for="demo-human">I am a human</label>
-                </div> -->
+                <template v-for="(value, index) in ['A', 'B', 'C', 'D']" :key="value">
+                    <div class="3u 6u(small)">
+                        <input
+                            type="radio"
+                            :id="value"
+                            name="demo-priority"
+                            :value="index"
+                            v-model="article.type"
+                            v-bind="{checked: index + 1 == store.boardNo}" />
+                        <label :for="value">{{ value }}</label>
+                    </div>
+                </template>
+
                 <!-- Break -->
                 <div class="12u$">
                     <input type="text" name="demo-name" id="demo-name" placeholder="제목" v-model="article.subject" />
