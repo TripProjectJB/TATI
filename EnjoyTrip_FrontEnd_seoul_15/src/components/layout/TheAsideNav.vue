@@ -36,14 +36,14 @@ const logout = async () => {
                     <h2>My Information</h2>
                 </header>
                 <div class="row 50% uniform">
-                    <div class="5u" v-if="userInfo.file">
-                        <span class="image fit"><img :src="userInfo.file" /></span>
+                    <div class="5u" v-if="userInfo.filePath">
+                        <span class="image fit"><img :src="userInfo.filePath" /></span>
                     </div>
                     <div class="5u" v-else>
                         <span class="image fit"><img src="@/assets/images/profile.png" /></span>
                     </div>
                     <div class="2u"></div>
-                    <div class="4u$" v-if="userInfo.file">
+                    <div class="4u$" v-if="userInfo.userId">
                         <ul class="actions" style="padding-top: 5px">
                             <li>
                                 <button @click="$router.push({name: 'mypage'})">MyPage</button>

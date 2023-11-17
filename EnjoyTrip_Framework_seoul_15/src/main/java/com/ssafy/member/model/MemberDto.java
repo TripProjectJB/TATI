@@ -25,7 +25,9 @@ public class MemberDto {
 	@ApiModelProperty(value = "가입일")
 	private String joinDate; 
 	@ApiModelProperty(value = "프로필 이미지")
-	private String file; 
+	private String fileIdx;
+	@ApiModelProperty(value = "프로필 이미지 경로")
+	private String filePath;
 	@ApiModelProperty(value = "refreshToken")
 	private String refreshToken;
 
