@@ -14,7 +14,9 @@ import com.ssafy.board.model.BoardListDto;
 import com.ssafy.board.model.FileInfoDto;
 import com.ssafy.board.model.mapper.BoardMapper;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class BoardServiceImpl implements BoardService {
 
@@ -51,12 +53,11 @@ public class BoardServiceImpl implements BoardService {
 		param.put("key", key == null ? "" : key);
 		if ("user_name".equals(key))
 			param.put("key", key == null ? "" : "m.user_name");
+		
 		List<BoardDto> list = boardMapper.listArticle(param);
-
-		if ("user_name".equals(key))
-			param.put("key", key == null ? "" : "m.user_name");
 		int totalArticleCount = boardMapper.getTotalArticleCount(param);
 		int totalPageCount = (totalArticleCount - 1) / sizePerPage + 1;
+		log.info("totalArticleCount - {}", totalArticleCount);
 
 		BoardListDto boardListDto = new BoardListDto();
 		boardListDto.setArticles(list);

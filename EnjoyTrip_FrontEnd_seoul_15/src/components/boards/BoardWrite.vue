@@ -12,15 +12,19 @@ const {boardNo, userInfo} = storeToRefs(store);
 const article = ref({
     subject: "",
     content: "",
-    userId: userInfo.userId,
-    userName: userInfo.userName,
-    type: boardNo,
+    userId: userInfo.value.userId,
+    userName: userInfo.value.userName,
+    type: boardNo.value,
     hit: 0,
     registerTime: "",
 });
 
 function writeArticle() {
     var inp = document.getElementById("upfile");
+    if (inp.files.length > 4) {
+        alert("4장 이하만 첨부 가능합니다");
+        return;
+    }
     var data = new FormData();
     data.append("userId", article.value.userId);
     data.append("userName", article.value.userName);
@@ -28,6 +32,7 @@ function writeArticle() {
     data.append("content", article.value.content);
     data.append("hit", article.value.hit);
     data.append("registerTime", article.value.registerTime);
+    data.append("type", article.value.type);
     for (const file of inp.files) {
         data.append("files", file, file.name);
     }
@@ -51,79 +56,67 @@ function writeArticle() {
 </script>
 
 <template>
-    <section class="content">
-        <header>
-            <h1>Type A Board</h1>
-            <h3>Write</h3>
-        </header>
-        <form method="post" enctype="multipart/form-data">
-            <div class="row uniform">
-                <div class="6u 12u$(xsmall)">
-                    <input
-                        type="text"
-                        name="demo-email"
-                        id="demo-email"
-                        placeholder="Id"
-                        v-model="article.userId"
-                        readonly />
-                </div>
-                <div class="6u$ 12u$(xsmall)">
-                    <input
-                        type="text"
-                        name="demo-name"
-                        id="demo-name"
-                        placeholder="Name"
-                        v-model="article.userName"
-                        readonly />
-                </div>
-
-                <!-- Break -->
-                <template v-for="(value, index) in ['A', 'B', 'C', 'D']" :key="value">
-                    <div class="3u 6u(small)">
-                        <input
-                            type="radio"
-                            :id="value"
-                            name="demo-priority"
-                            :value="index"
-                            v-model="article.type"
-                            v-bind="{checked: index + 1 == boardNo}" />
-                        <label :for="value">{{ value }}</label>
-                    </div>
-                </template>
-
-                <!-- Break -->
-                <div class="12u$">
-                    <input type="hidden" name="articleNo" id="no" value="" />
-                    <input type="text" name="demo-name" id="demo-name" placeholder="제목" v-model="article.subject" />
-                </div>
-
-                <!-- Break -->
-                <div class="12u$">
-                    <textarea
-                        name="demo-message"
-                        id="demo-message"
-                        placeholder="내용"
-                        rows="6"
-                        v-model="article.content"></textarea>
-                </div>
-                <div class="12u$">
-                    <input type="file" id="upfile" multiple="multiple" />
-                </div>
-
-                <!-- Break -->
-                <div class="12u$">
-                    <ul class="actions">
-                        <li>
-                            <span class="button" @click="writeArticle">Write</span>
-                        </li>
-                        <li>
-                            <span class="button special" @click="$router.push({name: 'list'})">List</span>
-                        </li>
-                    </ul>
-                </div>
+    <form method="post" enctype="multipart/form-data">
+        <div class="row uniform">
+            <div class="6u 12u$(xsmall)">
+                <input
+                    type="text"
+                    name="demo-email"
+                    id="demo-email"
+                    placeholder="Id"
+                    v-model="article.userId"
+                    readonly />
             </div>
-        </form>
-    </section>
+            <div class="6u$ 12u$(xsmall)">
+                <input
+                    type="text"
+                    name="demo-name"
+                    id="demo-name"
+                    placeholder="Name"
+                    v-model="article.userName"
+                    readonly />
+            </div>
+
+            <!-- Break -->
+            <template v-for="(value, index) in ['자유게시판', 'B', 'C', 'D']" :key="value">
+                <div class="3u 6u(small)">
+                    <input type="radio" :id="value" name="demo-priority" :value="index + 1" v-model="article.type" />
+                    <label :for="value">{{ value }}</label>
+                </div>
+            </template>
+
+            <!-- Break -->
+            <div class="12u$">
+                <input type="hidden" name="articleNo" id="no" value="" />
+                <input type="text" name="demo-name" id="demo-name" placeholder="제목" v-model="article.subject" />
+            </div>
+
+            <!-- Break -->
+            <div class="12u$">
+                <textarea
+                    name="demo-message"
+                    id="demo-message"
+                    placeholder="내용"
+                    rows="6"
+                    v-model="article.content"></textarea>
+            </div>
+            <div class="12u$">
+                <input type="file" id="upfile" multiple="multiple" accept="image/*, .gif" />
+            </div>
+
+            <!-- Break -->
+            <div class="12u$">
+                <ul class="actions">
+                    <li>
+                        <span class="button" @click="writeArticle">Write</span>
+                    </li>
+                    <li>
+                        <span class="button special" @click="$router.push({name: 'list'})">List</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </form>
 </template>
 
 <style scoped></style>

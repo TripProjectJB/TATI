@@ -7,9 +7,9 @@ import VSectionCard from "../components/common/VSectionCard.vue";
 <template>
     <VBanner />
 
-    <VSectionList />
-
     <VSectionCard />
+
+    <VSectionList />
 </template>
 
 <style scoped></style>

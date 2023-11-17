@@ -1,8 +1,13 @@
 <script setup>
-import {ref} from "vue";
+import {ref, onMounted} from "vue";
 import {useRouter, useRoute, RouterLink} from "vue-router";
 import {getModifyArticle, modifyArticle} from "@/api/board";
+import {useMemberStore} from "@/stores/member.js";
+import {storeToRefs} from "pinia";
 
+const {VITE_VUE_API_URL} = import.meta.env;
+const store = useMemberStore();
+const {boardNo, userInfo} = storeToRefs(store);
 const route = useRoute();
 const router = useRouter();
 const articleno = route.params.articleno;
@@ -17,15 +22,17 @@ const article = ref({
     type: "",
 });
 
-getModifyArticle(
-    articleno,
-    ({data}) => {
-        article.value = data;
-    },
-    (error) => {
-        console.log(error);
-    }
-);
+onMounted(() => {
+    getModifyArticle(
+        articleno,
+        ({data}) => {
+            article.value = data;
+        },
+        (error) => {
+            console.log(error);
+        }
+    );
+});
 
 const updateArticle = () => {
     modifyArticle(
@@ -42,74 +49,73 @@ const updateArticle = () => {
 </script>
 
 <template>
-    <section class="content">
-        <header>
-            <h1>Type A Board</h1>
-            <h3>Write</h3>
-        </header>
-        <form method="post" action="#">
-            <div class="row uniform">
-                <div class="6u 12u$(xsmall)">
-                    <input
-                        type="text"
-                        name="demo-email"
-                        id="demo-email"
-                        placeholder="Id"
-                        v-model="article.userId"
-                        readonly />
-                </div>
-                <div class="6u$ 12u$(xsmall)">
-                    <input
-                        type="text"
-                        name="demo-name"
-                        id="demo-name"
-                        placeholder="Name"
-                        v-model="article.userName"
-                        readonly />
-                </div>
-
-                <!-- Break -->
-                <!-- Break -->
-                <template v-for="(value, index) in ['A', 'B', 'C', 'D']" :key="value">
-                    <div class="3u 6u(small)">
-                        <input
-                            type="radio"
-                            :id="value"
-                            name="demo-priority"
-                            :value="index"
-                            v-model="article.type"
-                            v-bind="{checked: index + 1 == store.boardNo}" />
-                        <label :for="value">{{ value }}</label>
-                    </div>
-                </template>
-
-                <!-- Break -->
-                <div class="12u$">
-                    <input type="text" name="demo-name" id="demo-name" placeholder="제목" v-model="article.subject" />
-                </div>
-                <!-- Break -->
-                <div class="12u$">
-                    <textarea
-                        name="demo-message"
-                        id="demo-message"
-                        placeholder="내용"
-                        rows="6"
-                        v-model="article.content"></textarea>
-                </div>
-                <!-- Break -->
-                <div class="12u$">
-                    <ul class="actions">
-                        <li>
-                            <span class="button" @click="updateArticle">Modify</span>
-                        </li>
-                        <li>
-                            <span class="button special" @click="$router.push({name: 'list'})">List</span>
-                        </li>
-                    </ul>
-                </div>
+    <form method="post" action="#">
+        <div class="row uniform">
+            <div class="6u 12u$(xsmall)">
+                <input
+                    type="text"
+                    name="demo-email"
+                    id="demo-email"
+                    placeholder="Id"
+                    v-model="article.userId"
+                    readonly />
             </div>
-        </form>
-    </section>
+            <div class="6u$ 12u$(xsmall)">
+                <input
+                    type="text"
+                    name="demo-name"
+                    id="demo-name"
+                    placeholder="Name"
+                    v-model="article.userName"
+                    readonly />
+            </div>
+
+            <!-- Break -->
+            <template v-for="(value, index) in ['자유게시판', 'B', 'C', 'D']" :key="value">
+                <div class="3u 6u(small)">
+                    <input type="radio" :id="value" name="demo-priority" :value="index + 1" v-model="article.type" />
+                    <label :for="value">{{ value }}</label>
+                </div>
+            </template>
+
+            <!-- Break -->
+            <div class="12u$">
+                <input type="text" name="demo-name" id="demo-name" placeholder="제목" v-model="article.subject" />
+            </div>
+            <!-- Break -->
+            <div class="12u$">
+                <textarea
+                    name="demo-message"
+                    id="demo-message"
+                    placeholder="내용"
+                    rows="6"
+                    v-model="article.content"></textarea>
+            </div>
+
+            <!-- Break -->
+            <template v-for="file in article.fileInfos" :key="file.saveFolder">
+                <div class="3u">
+                    <span class="image fit">
+                        <img
+                            :src="VITE_VUE_API_URL + '/file/' + file.saveFolder + '/' + file.originalFile"
+                            alt="게시물" />
+                    </span>
+                </div>
+            </template>
+
+            <!-- Break -->
+            <div class="12u$">
+                <ul class="actions">
+                    <li>
+                        <span class="button" @click="updateArticle">Modify</span>
+                    </li>
+                    <li>
+                        <span class="button special" @click="$router.push({name: 'list'})">List</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </form>
 </template>
 
 <style scoped></style>

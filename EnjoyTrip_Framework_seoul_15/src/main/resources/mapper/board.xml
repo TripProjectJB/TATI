@@ -12,6 +12,7 @@
 		<result column="content" property="content"/>
 		<result column="hit" property="hit"/>
 		<result column="register_time" property="registerTime"/>
+		<result column="type" property="type"/>
 	</resultMap>
 	
 	<resultMap type="boardDto" id="viewArticle" extends="article">
@@ -25,11 +26,11 @@
 	</resultMap>
 
 	<insert id="writeArticle" parameterType="boardDto">
-		insert into board (user_id, subject, content, hit, register_time)
-		values (#{userId}, #{subject}, #{content}, 0, now())
+		insert into board (user_id, type, subject, content, hit, register_time)
+		values (#{userId}, #{type}, #{subject}, #{content}, 0, now())
 		<selectKey resultType="int" keyProperty="articleNo" order="AFTER">
 			select last_insert_id()
-		</selectKey>
+		</selectKey> 
 	</insert>
 	
 	<insert id="registerFile" parameterType="boardDto">
@@ -66,13 +67,12 @@
 	<select id="getTotalArticleCount" parameterType="map" resultType="int">
 		select count(article_no)
 		from board b, members m
-		<where>
-			<include refid="search"></include>
-		</where>
+		where b.user_id = m.user_id
+		<include refid="search"></include>
 	</select>
 	
 	<select id="getArticle" parameterType="int" resultMap="viewArticle">
-		select b.article_no, b.user_id, b.subject, b.content, b.hit, b.register_time, m.user_name 
+		select b.article_no, b.user_id, b.subject, b.content, b.hit, b.register_time, m.user_name, type
 		from board b, members m
 		where b.user_id = m.user_id
 		and b.article_no = #{articleNo}

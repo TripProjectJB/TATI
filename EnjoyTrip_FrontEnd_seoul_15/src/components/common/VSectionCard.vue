@@ -1,12 +1,41 @@
-<script setup></script>
+<script setup>
+import {useAttractionStore} from "@/stores/attractions";
+import {storeToRefs} from "pinia";
+import {onMounted, ref} from "vue";
+
+const store = useAttractionStore();
+const {getAttractions} = store;
+
+const {articles} = storeToRefs(store);
+onMounted(async () => {
+    await getAttractions();
+    console.log(articles);
+    console.log(articles.value[0]);
+});
+</script>
 
 <template>
     <section>
         <header class="major">
-            <h2>Ipsum sed dolor</h2>
+            <h2>추천 관광지</h2>
         </header>
         <div class="posts">
-            <article>
+            <template v-for="(article, index) in articles" :key="article.content_id">
+                <template v-if="index < 6">
+                    <article>
+                        <a href="#" class="image"><img :src="article.first_image" alt="" /></a>
+                        <h3>{{ article.title }}</h3>
+                        <p>
+                            {{ article.overview }}
+                        </p>
+                        <ul class="actions">
+                            <li><a href="#" class="button">More</a></li>
+                        </ul>
+                    </article>
+                </template>
+            </template>
+
+            <!-- <article>
                 <a href="#" class="image"><img src="../../images/pic01.jpg" alt="" /></a>
                 <h3>Interdum aenean</h3>
                 <p>
@@ -71,7 +100,7 @@
                 <ul class="actions">
                     <li><a href="#" class="button">More</a></li>
                 </ul>
-            </article>
+            </article> -->
         </div>
     </section>
 </template>

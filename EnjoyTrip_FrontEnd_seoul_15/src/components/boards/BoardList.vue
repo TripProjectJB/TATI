@@ -55,67 +55,68 @@ const onPageChange = (val) => {
 </script>
 
 <template>
-    <section class="content">
-        <header>
-            <h1>Type A Board</h1>
-            <h3>List</h3>
-        </header>
-        <div>
-            <div class="row">
-                <div class="6u">
-                    <router-link :to="{name: 'write'}" class="button">write</router-link>
-                </div>
-                <form class="6u" @submit.prevent>
-                    <ul class="actions row">
-                        <li class="3u">
-                            <select class="" id="demo-category" @change="onSelect" v-model="param.key">
-                                <option value="">검색조건</option>
-                                <option value="article_no">글번호</option>
-                                <option value="user_name">이름</option>
-                                <option value="subject">제목</option>
-                            </select>
-                        </li>
-                        <li class="6u">
-                            <input
-                                class=""
-                                type="text"
-                                placeholder="검색어..."
-                                v-model="param.word"
-                                @keydown.enter="getArticleList" />
-                        </li>
-                        <li class="3u">
-                            <a class="button" @click="getArticleList">Search</a>
-                        </li>
-                    </ul>
-                </form>
+    <div>
+        <div class="row">
+            <div class="6u">
+                <router-link :to="{name: 'write'}" class="button">write</router-link>
             </div>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Num</th>
-                            <th>Subject</th>
-                            <th>Name</th>
-                            <th>Hit</th>
-                            <th>RegisterTime</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <template v-for="article in articles" :key="article.articleNo">
-                            <tr @click="$router.push({name: 'detail', params: {articleno: article.articleNo}})">
-                                <td>{{ article.articleNo }}</td>
-                                <td>{{ article.subject }}</td>
-                                <td>{{ article.userName }}</td>
-                                <td>{{ article.hit }}</td>
-                                <td>{{ article.registerTime }}</td>
-                            </tr>
-                        </template>
-                    </tbody>
-                </table>
-            </div>
+            <form class="6u" @submit.prevent>
+                <ul class="actions row">
+                    <li class="3u">
+                        <select class="" id="demo-category" @change="onSelect" v-model="param.key">
+                            <option value="">검색조건</option>
+                            <option value="article_no">글번호</option>
+                            <option value="user_name">이름</option>
+                            <option value="subject">제목</option>
+                        </select>
+                    </li>
+                    <li class="6u">
+                        <input
+                            class=""
+                            type="text"
+                            placeholder="검색어..."
+                            v-model="param.word"
+                            @keydown.enter="getArticleList" />
+                    </li>
+                    <li class="3u">
+                        <a class="button" @click="getArticleList">Search</a>
+                    </li>
+                </ul>
+            </form>
         </div>
-        <VPageNavigation :current-page="currentPage" :total-page="totalPage" @pageChange="onPageChange" />
-    </section>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Num</th>
+                        <th>Subject</th>
+                        <th>Name</th>
+                        <th>Hit</th>
+                        <th>RegisterTime</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template v-for="article in articles" :key="article.articleNo">
+                        <tr
+                            class="view"
+                            @click="$router.push({name: 'detail', params: {articleno: article.articleNo}})">
+                            <td>{{ article.articleNo }}</td>
+                            <td>{{ article.subject }}</td>
+                            <td>{{ article.userName }}</td>
+                            <td>{{ article.hit }}</td>
+                            <td>{{ article.registerTime }}</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <VPageNavigation :current-page="currentPage" :total-page="totalPage" @pageChange="onPageChange" />
 </template>
 
-<style scoped></style>
+<style scoped>
+.view:hover {
+    background-color: rgb(221, 217, 231);
+    cursor: pointer;
+}
+</style>

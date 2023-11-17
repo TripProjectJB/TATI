@@ -2,7 +2,11 @@
 import {useMemberStore} from "@/stores/member.js";
 import {storeToRefs} from "pinia";
 import {useRouter} from "vue-router";
+import {useAttractionStore} from "@/stores/attractions";
 const {VITE_VUE_API_URL} = import.meta.env;
+
+const attstore = useAttractionStore();
+const {articles} = storeToRefs(attstore);
 
 const router = useRouter();
 const store = useMemberStore();
@@ -15,7 +19,6 @@ const logout = async () => {
         await userLogout(userInfo.value.userId);
         sessionStorage.removeItem("accessToken");
         sessionStorage.removeItem("refreshToken");
-        userInfo.value = null;
         alert("로그아웃 되었습니다");
         router.push({name: "main"});
     }
@@ -47,12 +50,12 @@ const logout = async () => {
                     <div class="4u$" v-if="userInfo.userId">
                         <ul class="actions" style="padding-top: 5px">
                             <li>
-                                <button @click="$router.push({name: 'mypage'})">MyPage</button>
+                                <button @click="logout" class="special">Logout&nbsp;</button>
                             </li>
                         </ul>
                         <ul class="actions">
                             <li>
-                                <button @click="logout">Logout&nbsp;</button>
+                                <button @click="$router.push({name: 'mypage'})">MyPage</button>
                             </li>
                         </ul>
                     </div>
@@ -64,7 +67,7 @@ const logout = async () => {
                         </ul>
                         <ul class="actions">
                             <li>
-                                <button @click="$router.push({name: 'regist'})">Regist</button>
+                                <button @click="$router.push({name: 'regist'})" class="special">Regist</button>
                             </li>
                         </ul>
                     </div>
@@ -72,15 +75,19 @@ const logout = async () => {
                 <ul class="contact" v-if="userInfo.userId">
                     <li></li>
                     <li class="fa-home">{{ store.userInfo.userName }} ({{ store.userInfo.userId }})</li>
-                    <li class="fa-home">
-                        <button @click="$router.push({name: 'follower', params: {userid: store.userInfo.userId}})">
-                            Follower : userId.Follower
-                        </button>
-                    </li>
-                    <li>
-                        <button @click="$router.push({name: 'following', params: {userid: store.userInfo.userId}})">
-                            Following : userId.Following
-                        </button>
+                    <li class="row" style="padding-left: 0px">
+                        <div class="6u">
+                            <button @click="$router.push({name: 'follower', params: {userid: store.userInfo.userId}})">
+                                Following
+                            </button>
+                        </div>
+                        <div class="6u$">
+                            <button
+                                @click="$router.push({name: 'following', params: {userid: store.userInfo.userId}})"
+                                class="special">
+                                Follower
+                            </button>
+                        </div>
                     </li>
                 </ul>
             </section>
@@ -104,7 +111,7 @@ const logout = async () => {
                                             store.boardNo = 1;
                                         }
                                     "
-                                    >Type A</RouterLink
+                                    >자유게시판</RouterLink
                                 >
                             </li>
                             <li>
@@ -160,20 +167,18 @@ const logout = async () => {
             <!-- Section -->
             <section>
                 <header class="major">
-                    <h2>Ante interdum</h2>
+                    <h2>관광지 추천</h2>
                 </header>
                 <div class="mini-posts">
-                    <article>
-                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                    </article>
-                    <article>
-                        <a href="#" class="image"><img src="../../images/pic08.jpg" alt="" /></a>
-                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                    </article>
-                    <article>
-                        <a href="#" class="image"><img src="../../images/pic09.jpg" alt="" /></a>
-                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                    </article>
+                    <template v-for="(article, index) in articles" :key="article.content_id">
+                        <template v-if="index > 5">
+                            <article>
+                                <a href="#" class="image"><img :src="article.first_image" alt="" /></a>
+                                <h2>{{ article.title }}</h2>
+                                <p>{{ article.addr1 }}</p>
+                            </article>
+                        </template>
+                    </template>
                 </div>
                 <ul class="actions">
                     <li><a href="#" class="button">More</a></li>
