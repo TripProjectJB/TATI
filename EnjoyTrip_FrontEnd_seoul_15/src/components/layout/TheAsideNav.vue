@@ -2,6 +2,7 @@
 import {useMemberStore} from "@/stores/member.js";
 import {storeToRefs} from "pinia";
 import {useRouter} from "vue-router";
+const {VITE_VUE_API_URL} = import.meta.env;
 
 const router = useRouter();
 const store = useMemberStore();
@@ -37,7 +38,7 @@ const logout = async () => {
                 </header>
                 <div class="row 50% uniform">
                     <div class="5u" v-if="userInfo.filePath">
-                        <span class="image fit"><img :src="userInfo.filePath" /></span>
+                        <span class="image fit"><img :src="VITE_VUE_API_URL + userInfo.filePath" /></span>
                     </div>
                     <div class="5u" v-else>
                         <span class="image fit"><img src="@/assets/images/profile.png" /></span>

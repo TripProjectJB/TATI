@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ssafy.board.model.FileInfoDto;
 import com.ssafy.member.model.MemberDto;
 
 @Mapper
@@ -18,6 +19,7 @@ public interface MemberMapper {
 	Object getRefreshToken(String userid) throws SQLException;
 	void deleteRefreshToken(Map<String, String> map) throws SQLException;
 	void joinMember(MemberDto memberDto) throws SQLException;
+	FileInfoDto getFilePath(String file_idx) throws SQLException;
 	
 	/* Admin */
 	List<MemberDto> listMember(Map<String, Object> map) throws SQLException;

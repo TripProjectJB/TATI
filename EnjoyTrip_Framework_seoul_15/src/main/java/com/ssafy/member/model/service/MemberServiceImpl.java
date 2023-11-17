@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.board.model.FileInfoDto;
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.member.model.mapper.MemberMapper;
 
@@ -34,7 +36,12 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public MemberDto userInfo(String userId) throws Exception {
-		return memberMapper.userInfo(userId);
+		MemberDto memberDto = memberMapper.userInfo(userId);
+		if(memberDto.getFileIdx()!=null) {
+			FileInfoDto file = memberMapper.getFilePath(memberDto.getFileIdx());
+			memberDto.setFilePath("/file/"+file.getSaveFolder()+"/"+file.getOriginalFile());
+		}
+		return memberDto;
 	}
 
 	@Override
