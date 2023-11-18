@@ -67,6 +67,30 @@
 		values (#{userName}, #{userId}, #{userPwd}, #{emailId}, #{emailDomain}, now())
 	</insert>
 	
+	<insert id="registProfile" parameterType="memberDto">
+		insert into profile_info (user_id)
+		values (#{userId})
+	</insert>
+	
+	<update id="updateProfile" parameterType="profileInfoDto">
+		update profile_info 
+		set save_folder=#{saveFolder}, original_file=#{originalFile}, save_file=#{saveFile}
+		where user_id=#{userId}
+	</update>
+	
+	<select id="getProfileIdx" parameterType="string">
+		select profile_idx
+		from profile_info
+		where user_id=#{userId}
+	</select>
+	
+	<update id="modifyMember" parameterType="memberDto">
+		update members
+		set user_name = #{userName}, user_password = #{userPwd}, email_id = #{emailId}, email_domain = #{emailDomain}, file_idx=#{fileIdx}
+		where user_id = #{userId}
+	</update>
+
+	
 	<!-- ADMIN -->
 	<select id="listMember" resultMap="member">
 		select user_name, user_id, user_password, email_id, email_domain, join_date

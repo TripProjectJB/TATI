@@ -37,6 +37,8 @@ public class BoardServiceImpl implements BoardService {
 			boardMapper.registerFile(boardDto);
 		}
 	}
+	
+	
 
 	@Override
 	public BoardListDto listArticle(Map<String, String> map) throws Exception {
