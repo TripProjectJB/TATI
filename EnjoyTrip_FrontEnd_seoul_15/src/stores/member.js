@@ -197,7 +197,7 @@ export const useMemberStore = defineStore(
             let token = sessionStorage.getItem("accessToken");
             getUserInfo(token);
           } else {
-            console.log("회원정보수정 실패", response.status);
+            console.log("회원정보수정 실패", response.status); 
             alert("회원정보수정에 실패했습니다.");
           }
         },

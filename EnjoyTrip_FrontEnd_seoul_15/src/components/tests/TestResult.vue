@@ -2,8 +2,13 @@
 import { ref, watch, onMounted } from "vue";
 import { useRoute } from 'vue-router';
 import { useTripTestStore } from '@/stores/tripTest';
+import { useMemberStore } from '@/stores/member'
+import { storeToRefs } from "pinia";
+const { VITE_VUE_API_URL } = import.meta.env;
 
 const route = useRoute();
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
 
 const store = useTripTestStore();
 const { resultSet } = store;
@@ -12,14 +17,30 @@ const data = ref('');
 resultSet.forEach(ele => {
     if (ele.no == route.params.type) {
         data.value = ele;
-        return;
     }
 });
 
-function getImg() {
-    return require(data.src);
+const save = async () => {
+    if (userInfo.value.userId == '') {
+        alert('로그인 후 이용해 주세요')
+    } else {
+        var fom = new FormData();
+        fom.append('userId', userInfo.value.userId);
+        fom.append('tati', route.params.type);
+        fetch(VITE_VUE_API_URL + "/user/modify", {
+            method: "PUT",
+            body: fom,
+        })
+            .then((response) => {
+                let msg = "수정에 실패했습니다.";
+                console.log(response);
+                console.log(response.status);
+                if (response.status == 201) msg = "수정 되었습니다.";
+                alert(msg);
+            })
+            .catch((error) => console.log(error));
+    }
 }
-
 
 console.log(route.params.type);
 </script>
@@ -46,8 +67,9 @@ console.log(route.params.type);
                             {{ data.bad }}
                     </div>
                 </p>
-                <ul class="actions">
-                    <li><a href="#" class="button big">추천 여행지 보러가기</a></li>
+                <ul class="actions row">
+                    <li class="6u"><a class="button big">추천 여행지 보러가기</a></li>
+                    <li class="6u$"><a class="button big special" @click="save">TATI 저장</a></li>
                 </ul>
             </div>
             <span class="image object">
