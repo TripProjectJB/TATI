@@ -19,6 +19,7 @@ public interface MemberMapper {
 	Object getRefreshToken(String userid) throws SQLException;
 	void deleteRefreshToken(Map<String, String> map) throws SQLException;
 	void joinMember(MemberDto memberDto) throws SQLException;
+	void modifyMember(MemberDto memberDto) throws SQLException;
 	FileInfoDto getFilePath(String file_idx) throws SQLException;
 	
 	/* Admin */

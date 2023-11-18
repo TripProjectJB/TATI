@@ -70,6 +70,13 @@ public class MemberServiceImpl implements MemberService {
 //		sqlSession.getMapper(MemberMapper.class).joinMember(memberDto);
 		memberMapper.joinMember(memberDto);
 	}
+	
+	@Override
+	public void modifyMember(MemberDto memberDto) throws Exception {
+		// TODO Auto-generated method stub
+		memberMapper.modifyMember(memberDto);
+		
+	}
 
 	
 	/* ADMIN */
@@ -112,5 +119,7 @@ public class MemberServiceImpl implements MemberService {
 	public void deleteFollow(Map<String, String> map) {
 		memberMapper.deleteFollow(map);
 	}
+
+	
 
 }

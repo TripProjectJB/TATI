@@ -67,6 +67,13 @@
 		values (#{userName}, #{userId}, #{userPwd}, #{emailId}, #{emailDomain}, now())
 	</insert>
 	
+	<update id="modifyMember" parameterType="memberDto">
+		update members
+		set user_name = #{userName}, user_password = #{userPwd}, email_id = #{emailId}, email_domain = #{emailDomain}, file_idx=#{fileIdx}
+		where user_id = #{userId}
+	</update>
+
+	
 	<!-- ADMIN -->
 	<select id="listMember" resultMap="member">
 		select user_name, user_id, user_password, email_id, email_domain, join_date

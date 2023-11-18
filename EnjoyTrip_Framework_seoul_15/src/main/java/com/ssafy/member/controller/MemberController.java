@@ -183,6 +183,20 @@ public class MemberController {
 		}
 	}
 	
+	@ApiOperation(value = "회원정보수정", notes = "회원의 정보를 수정.")
+	@PutMapping("/modify")
+	public ResponseEntity<?> modify(@RequestBody MemberDto memberDto) {
+		log.debug("memberDto : {}", memberDto);
+		try {
+			memberService.modifyMember(memberDto);
+			log.debug("회원정보수정 성공");
+			return ResponseEntity.status(HttpStatus.CREATED).build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+		}
+	}
+	
 	
 	
 
