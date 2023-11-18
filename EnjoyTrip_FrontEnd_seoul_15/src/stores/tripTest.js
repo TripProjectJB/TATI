@@ -1,5 +1,6 @@
 import {ref, computed, watch} from "vue";
-import {defineStore} from "pinia";
+import { defineStore } from "pinia";
+import { modify } from "@/api/user";
 
 export const useTripTestStore = defineStore("tripTest", () => {
 
@@ -112,7 +113,7 @@ export const useTripTestStore = defineStore("tripTest", () => {
         resultType.value = '';
     }
 
-    const endTest = () => {
+    const endTest = async () => {
         if (typeA.value.count < 2) resultType.value += '1';
         else resultType.value += '2';
         if (typeB.value.count < 2) resultType.value += '1';

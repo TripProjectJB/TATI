@@ -97,7 +97,14 @@
 	
 	<update id="modifyMember" parameterType="memberDto">
 		update members
-		set user_name = #{userName}, user_password = #{userPwd}, email_id = #{emailId}, email_domain = #{emailDomain}, file_idx=#{fileIdx}
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userName != null">user_name = #{userName},</if>
+			<if test="userPwd != null">user_password = #{userPwd},</if>
+			<if test="emailId != null">email_id = #{emailId},</if>
+			<if test="emailDomain != null">email_domain = #{emailDomain},</if>
+			<if test="fileIdx != null">file_idx = #{fileIdx},</if>
+			<if test="tati != null">tati=#{tati},</if>
+		</trim>
 		where user_id = #{userId}
 	</update>
 
