@@ -17,4 +17,5 @@ public interface BoardService {
 //	
 	void deleteArticle(int articleNo, String path) throws Exception;
 	
+	
 }

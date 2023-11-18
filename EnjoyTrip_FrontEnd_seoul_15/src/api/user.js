@@ -36,4 +36,18 @@ async function modify(param, success, fail) {
   await local.put(`/user/modify`, param).then(success).catch(fail);
 }
 
-export { userConfirm, findById, tokenRegeneration, logout, regist, modify };
+async function profileIdx(param, success, fail) {
+  local.defaults.headers["Authorization"] =
+    sessionStorage.getItem("accessToken");
+  await local.get(`/user/profile/${param}`).then(success).catch(fail);
+}
+
+export {
+  userConfirm,
+  findById,
+  tokenRegeneration,
+  logout,
+  regist,
+  modify,
+  profileIdx,
+};

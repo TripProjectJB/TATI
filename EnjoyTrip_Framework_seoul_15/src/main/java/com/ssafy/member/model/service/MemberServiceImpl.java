@@ -1,5 +1,6 @@
 package com.ssafy.member.model.service;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,9 +11,13 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.board.model.FileInfoDto;
 import com.ssafy.member.model.MemberDto;
+import com.ssafy.member.model.ProfileInfoDto;
 import com.ssafy.member.model.mapper.MemberMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class MemberServiceImpl implements MemberService {
 	
 	private MemberMapper memberMapper;
@@ -69,7 +74,25 @@ public class MemberServiceImpl implements MemberService {
 	public void joinMember(MemberDto memberDto) throws Exception {
 //		sqlSession.getMapper(MemberMapper.class).joinMember(memberDto);
 		memberMapper.joinMember(memberDto);
+		registProfile(memberDto);
 	}
+	
+	@Override
+	public String getProfileIdx(String userId) throws Exception{
+		return memberMapper.getProfileIdx(userId);
+	}
+
+	
+	@Override
+	public void registProfile(MemberDto memberDto) throws Exception {
+		// TODO Auto-generated method stub
+		memberMapper.registProfile(memberDto);
+	}
+	public void updateProfile(ProfileInfoDto profileInfoDto) throws Exception{
+		memberMapper.updateProfile(profileInfoDto);
+		
+	}
+
 	
 	@Override
 	public void modifyMember(MemberDto memberDto) throws Exception {
@@ -119,6 +142,8 @@ public class MemberServiceImpl implements MemberService {
 	public void deleteFollow(Map<String, String> map) {
 		memberMapper.deleteFollow(map);
 	}
+
+	
 
 	
 

@@ -6,7 +6,7 @@ import { storeToRefs } from "pinia";
 
 const store = useMemberStore();
 const router = useRouter();
-const { userModify } = store;
+const { userModify, getProfileIdx } = store;
 const { userInfo } = storeToRefs(store);
 
 const { VITE_VUE_API_URL } = import.meta.env;
@@ -20,6 +20,29 @@ const user = ref({
   fileIdx: userInfo.value.fileIdx,
 });
 const modify = async () => {
+  var inp = document.getElementById("upfile");
+  if (inp.files.length > 1) {
+    alert("1장만 첨부 가능합니다");
+    return;
+  }
+  var data = new FormData();
+  data.append("userId", user.value.userId);
+  data.append("userName", user.value.userName);
+  data.append("userPwd", user.value.userPwd);
+  data.append("emailId", user.value.emailId);
+  data.append("emailDomain", user.value.emailDomain);
+  for (const file of inp.files) {
+    console.log(user.value);
+    await getProfileIdx(user.value.userId);
+    user.value.fileIdx = userInfo.value.fileIdx;
+    data.append("fileIdx", user.value.fileIdx);
+    console.log(user.value);
+
+    data.append("files", file, file.name);
+  }
+  console.log(data.get("userId"));
+  console.log(data.get("files"));
+
   if (
     user.userId ||
     user.userName ||
@@ -31,8 +54,20 @@ const modify = async () => {
   } else if (user.value.userPwd != passwordCheck.value) {
     alert("비밀번호를 체크해 주세요");
   } else {
-    await userModify(user.value);
-    router.push({ name: "main" });
+    // await userModify(user.value);
+    fetch(VITE_VUE_API_URL + "/user/modify", {
+      method: "PUT",
+      body: data,
+    })
+      .then((response) => {
+        let msg = "정보수정에 실패했습니다.";
+        console.log(response);
+        console.log(response.status);
+        if (response.status == 201) msg = "정보수정이 완료되었습니다.";
+        alert(msg);
+        router.push({ name: "mypage" });
+      })
+      .catch((error) => console.log(error));
   }
 };
 </script>
@@ -57,15 +92,29 @@ const modify = async () => {
                 class="image fit"
                 style="display: flex justify-content: center; align-self: center; margin: 0 auto; width: 200px;"
               >
-                <img :src="VITE_VUE_API_URL + userInfo.filePath"
-              /></span>
+                <img :src="VITE_VUE_API_URL + userInfo.filePath" />
+                <div class="12u$">
+                  <input
+                    type="file"
+                    id="upfile"
+                    multiple="multiple"
+                    accept="image/*, .gif"
+                  /></div
+              ></span>
             </div>
             <div class="12u" v-else>
               <span
                 class="image fit"
                 style="display: flex justify-content: center; align-self: center; margin: 0 auto; width: 200px;"
                 ><img src="@/assets/images/profile.png" />
-              </span>
+                <div class="12u$">
+                  <input
+                    type="file"
+                    id="upfile"
+                    multiple="multiple"
+                    accept="image/*, .gif"
+                  /></div
+              ></span>
             </div>
 
             <table class="table">
@@ -124,15 +173,13 @@ const modify = async () => {
               >
             </div>
             <div class="col col-lg-3 text-center">
-              <router-link to="/mypage/delete">
-                <Button
-                  class="my-4 mb-2"
-                  variant="gradient"
-                  color="danger"
-                  fullWidth
-                  >회원 탈퇴</Button
-                >
-              </router-link>
+              <Button
+                class="my-4 mb-2"
+                variant="gradient"
+                color="danger"
+                fullWidth
+                >회원 탈퇴</Button
+              >
             </div>
           </div>
         </div>

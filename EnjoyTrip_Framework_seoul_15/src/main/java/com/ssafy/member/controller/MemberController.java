@@ -1,8 +1,14 @@
 package com.ssafy.member.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,11 +33,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.board.model.BoardDto;
+import com.ssafy.board.model.FileInfoDto;
+import com.ssafy.board.model.service.BoardService;
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.member.model.service.MemberService;
 import com.ssafy.util.JWTUtil;
+import com.ssafy.member.model.ProfileInfoDto;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -48,13 +59,18 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 
 //	private final Logger logger = LoggerFactory.getLogger(MemberController.class);
-
+	@Value("${file.path}")
+	private String uploadPath;
+	
 	private MemberService memberService;
+	
 	private JWTUtil jwtUtil;
+	
 
 	public MemberController(MemberService memberService, JWTUtil jwtUtil) {
 		super();
 		this.memberService = memberService;
+		
 		this.jwtUtil = jwtUtil;
 	}
 	
@@ -183,11 +199,58 @@ public class MemberController {
 		}
 	}
 	
+	@ApiOperation(value = "프로필인덱스 조회", notes = "프로필인덱스 조회.")
+	@GetMapping("/profile/{userId}")
+	public String getProfileIdx(@PathVariable String userId) throws Exception {
+		log.debug("profile idx : {}", userId);
+		log.debug("*************************{}" ,memberService.getProfileIdx(userId));
+		return memberService.getProfileIdx(userId);
+		
+	}
+	
+	
 	@ApiOperation(value = "회원정보수정", notes = "회원의 정보를 수정.")
 	@PutMapping("/modify")
-	public ResponseEntity<?> modify(@RequestBody MemberDto memberDto) {
+	public ResponseEntity<?> modify(MemberDto memberDto, @RequestParam(value = "files", required = false) MultipartFile[] files) {
 		log.debug("memberDto : {}", memberDto);
+		ProfileInfoDto profileInfoDto = new ProfileInfoDto();
+
+//		FileUpload 관련 설정.
+//		log.debug("MultipartFile.isEmpty : {}", files[0].isEmpty());
+		if (files!=null && !files[0].isEmpty()) {
+			String today = new SimpleDateFormat("yyMMddhhmmss").format(new Date());
+			String saveFolder = uploadPath + File.separator + today;
+			log.debug("저장 폴더 : {}", saveFolder);
+			File folder = new File(saveFolder);
+			if (!folder.exists()) {
+				log.debug("no exists");
+				folder.mkdirs();
+			}
+			
+			List<FileInfoDto> fileInfos = new ArrayList<FileInfoDto>();
+			for (MultipartFile mfile : files) {
+				FileInfoDto fileInfoDto = new FileInfoDto();
+				String originalFileName = mfile.getOriginalFilename();
+				if (!originalFileName.isEmpty()) {
+//					fileInfoDto.setSaveFolder(today);
+					profileInfoDto.setSaveFolder(today);
+//					fileInfoDto.setOriginalFile(originalFileName);
+					profileInfoDto.setOriginalFile(originalFileName);
+//					fileInfoDto.setSaveFile(originalFileName);
+					profileInfoDto.setSaveFile(originalFileName);
+					log.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), originalFileName);
+					try {
+						mfile.transferTo(new File(folder, originalFileName));
+					} catch (IOException e) {
+						return exceptionHandling(e);
+					}
+				}
+			}
+			profileInfoDto.setUserId(memberDto.getUserId());
+		}
+		
 		try {
+			memberService.updateProfile(profileInfoDto);
 			memberService.modifyMember(memberDto);
 			log.debug("회원정보수정 성공");
 			return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -274,5 +337,9 @@ public class MemberController {
 		log.debug("follow삭제");
 		memberService.deleteFollow(map);
 		return ResponseEntity.ok().build();
+	}
+	private ResponseEntity<String> exceptionHandling(Exception e) {
+		e.printStackTrace();
+		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

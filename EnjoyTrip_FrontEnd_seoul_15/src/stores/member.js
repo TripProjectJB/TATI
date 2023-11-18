@@ -10,6 +10,7 @@ import {
   logout,
   regist,
   modify,
+  profileIdx,
 } from "@/api/user";
 import { httpStatusCode } from "@/util/http-status";
 
@@ -168,6 +169,25 @@ export const useMemberStore = defineStore(
       );
     };
 
+    const getProfileIdx = async (userId) => {
+      await profileIdx(
+        userId,
+        (response) => {
+          if (response.status === httpStatusCode.OK) {
+            alert("파일인덱스찾기에 성공했습니다.");
+            userInfo.value.fileIdx = response.data;
+            console.log("res= ", response);
+          } else {
+            console.log("파일인덱스찾기 실패", response.status);
+            alert("파일인덱스찾기 실패했습니다.");
+          }
+        },
+        async (error) => {
+          console.log(error);
+        }
+      );
+    };
+
     const userModify = async (userDto) => {
       await modify(
         JSON.stringify(userDto),
@@ -198,6 +218,7 @@ export const useMemberStore = defineStore(
       userLogout,
       userRegist,
       userModify,
+      getProfileIdx,
       boardNo,
     };
   },

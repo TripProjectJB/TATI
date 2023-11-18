@@ -17,6 +17,8 @@ public interface BoardMapper {
 	void writeArticle(BoardDto boardDto) throws SQLException;
 
 	void registerFile(BoardDto boardDto) throws Exception;
+	
+	void profileRegisterFile(BoardDto boardDto) throws Exception;
 
 	List<BoardDto> listArticle(Map<String, Object> param) throws SQLException;
 
