@@ -22,6 +22,29 @@ const router = createRouter({
             component: MapView,
         },
         {
+            path: "/test",
+            name: "test",
+            redirect: {name: "test-main"},
+            component: () => import("@/views/TestView.vue"),
+            children: [
+                {
+                    path: "main",
+                    name: "test-main",
+                    component: () => import("@/components/tests/TestMain.vue"),
+                },
+                {
+                    path: "test",
+                    name: "test-test",
+                    component: () => import("@/components/tests/TestTest.vue"),
+                },
+                {
+                    path: "result/:type",
+                    name: "test-result",
+                    component: () => import("@/components/tests/TestResult.vue"),
+                },
+            ],
+        },
+        {
             path: "/board",
             name: "board",
             // component: TheBoardView,

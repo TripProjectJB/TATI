@@ -9,8 +9,6 @@ const {getAttractions} = store;
 const {articles} = storeToRefs(store);
 onMounted(async () => {
     await getAttractions();
-    console.log(articles);
-    console.log(articles.value[0]);
 });
 </script>
 
@@ -24,9 +22,9 @@ onMounted(async () => {
                 <template v-if="index < 6">
                     <article>
                         <a href="#" class="image"><img :src="article.first_image" alt="" /></a>
-                        <h3>{{ article.title }}</h3>
+                        <h3> {{ article.title }}</h3>
                         <p>
-                            {{ article.overview }}
+                            {{ article.addr1+' '+article.addr2 }}
                         </p>
                         <ul class="actions">
                             <li><a href="#" class="button">More</a></li>
