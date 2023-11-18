@@ -25,6 +25,7 @@ export const useMemberStore = defineStore(
     const userInfo = ref({
       userId: "",
       userName: "",
+      filePath: "",
     });
     const isValidToken = ref(false);
 
@@ -174,12 +175,12 @@ export const useMemberStore = defineStore(
         userId,
         (response) => {
           if (response.status === httpStatusCode.OK) {
-            alert("파일인덱스찾기에 성공했습니다.");
+            console.log("파일인덱스찾기에 성공했습니다.");
             userInfo.value.fileIdx = response.data;
             console.log("res= ", response);
           } else {
             console.log("파일인덱스찾기 실패", response.status);
-            alert("파일인덱스찾기 실패했습니다.");
+            // alert("파일인덱스찾기 실패했습니다.");
           }
         },
         async (error) => {

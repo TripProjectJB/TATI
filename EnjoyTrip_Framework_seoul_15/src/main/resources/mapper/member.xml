@@ -19,6 +19,11 @@
 		<result column="save_folder" property="saveFolder"/>
 		<result column="original_file" property="originalFile"/>
 	</resultMap>
+	
+	<resultMap type="profileInfoDto" id="profile">
+		<result column="save_folder" property="saveFolder"/>
+		<result column="original_file" property="originalFile"/>
+	</resultMap>
 
 	<select id="idCheck" parameterType="String" resultType="int">
 		select count(user_id)
@@ -42,6 +47,12 @@
 		select save_folder, original_file
 		from file_info
 		where idx = #{idx}
+	</select>
+	
+	<select id="getProfileFilePath" parameterType="string" resultMap="profile">
+		select save_folder, original_file
+		from profile_info
+		where profile_idx = #{profileIdx}
 	</select>
 	
 	<update id="saveRefreshToken" parameterType="map">

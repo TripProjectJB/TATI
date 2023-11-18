@@ -22,6 +22,7 @@ public interface MemberMapper {
 	void joinMember(MemberDto memberDto) throws SQLException;
 	void modifyMember(MemberDto memberDto) throws SQLException;
 	FileInfoDto getFilePath(String file_idx) throws SQLException;
+	ProfileInfoDto getProfileFilePath(String file_idx) throws SQLException;
 	String getProfileIdx(String userId) throws SQLException;
 	void registProfile(MemberDto memberDto) throws SQLException;
 	void updateProfile(ProfileInfoDto profileInfoDto) throws SQLException;

@@ -43,7 +43,7 @@ public class MemberServiceImpl implements MemberService {
 	public MemberDto userInfo(String userId) throws Exception {
 		MemberDto memberDto = memberMapper.userInfo(userId);
 		if(memberDto.getFileIdx()!=null) {
-			FileInfoDto file = memberMapper.getFilePath(memberDto.getFileIdx());
+			ProfileInfoDto file = memberMapper.getProfileFilePath(memberDto.getFileIdx());
 			memberDto.setFilePath("/file/"+file.getSaveFolder()+"/"+file.getOriginalFile());
 		}
 		return memberDto;
