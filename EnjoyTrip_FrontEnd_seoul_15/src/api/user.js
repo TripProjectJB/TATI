@@ -30,10 +30,16 @@ async function regist(param, success, fail) {
   await local.post(`/user/regist`, param).then(success).catch(fail);
 }
 
-async function modify(param, success, fail) { 
+async function modify(param, success, fail) {
   local.defaults.headers["Authorization"] =
     sessionStorage.getItem("accessToken");
   await local.put(`/user/modify`, param).then(success).catch(fail);
+}
+
+async function withdrawal(param, success, fail) {
+  local.defaults.headers["Authorization"] =
+    sessionStorage.getItem("accessToken");
+  await local.put(`/user/delete/${param}`, param).then(success).catch(fail);
 }
 
 async function profileIdx(param, success, fail) {
@@ -50,4 +56,5 @@ export {
   regist,
   modify,
   profileIdx,
+  withdrawal,
 };

@@ -11,6 +11,7 @@ import {
   regist,
   //   modify,
   profileIdx,
+  withdrawal,
 } from "@/api/user";
 import { httpStatusCode } from "@/util/http-status";
 
@@ -209,6 +210,24 @@ export const useMemberStore = defineStore(
     //   );
     // };
 
+    const userWithdrawal = async (userId) => {
+      await withdrawal(
+        userId,
+        (response) => {
+          if (response.status === httpStatusCode.OK) {
+            alert("회원탈퇴에 성공했습니다.");
+            alert("delete 완료: ", userId);
+          } else {
+            console.log("회원탈퇴 실패", response.status);
+            alert("회원탈퇴에 실패했습니다.");
+          }
+        },
+        async (error) => {
+          console.log(error);
+        }
+      );
+    };
+
     return {
       isLogin,
       isLoginError,
@@ -221,6 +240,7 @@ export const useMemberStore = defineStore(
       userRegist,
       //   userModify,
       getProfileIdx,
+      userWithdrawal,
       boardNo,
     };
   },

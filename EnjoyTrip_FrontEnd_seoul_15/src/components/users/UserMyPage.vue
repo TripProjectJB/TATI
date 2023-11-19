@@ -94,6 +94,30 @@ const modify = async () => {
       .catch((error) => console.log(error));
   }
 };
+
+const withdrawal = async () => {
+  if (window.confirm("정말 탈퇴하시겠습니까?")) {
+    await userDelete(user.value);
+    fetch(VITE_VUE_API_URL + "/user/withdrawal", {
+      method: "DELETE",
+      body: JSON.stringify(user.value),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        let msg = "탈퇴에 실패했습니다.";
+        console.log(response);
+        console.log(response.status);
+        if (response.status == 201) msg = "탈퇴가 완료되었습니다.";
+        alert(msg);
+        sessionStorage.removeItem("accessToken");
+        sessionStorage.removeItem("refreshToken");
+        router.push({ name: "main" });
+      })
+      .catch((error) => console.log(error));
+  }
+};
 </script>
 
 <template>
@@ -201,25 +225,19 @@ const modify = async () => {
               </tbody>
             </table>
           </div>
-          <div class="row justify-content-center">
+          <div
+            class="row justify-content-center"
+            style="display: flex; justify-content: center; margin: 30px 0"
+          >
             <div class="col col-lg-3 text-center">
-              <Button
-                class="my-4 mb-2"
-                variant="gradient"
-                color="dark"
-                fullWidth
-                @click="modify"
-                >회원 정보 수정</Button
-              >
+              <div class="6u">
+                <button @click="modify">회원정보수정</button>
+              </div>
             </div>
             <div class="col col-lg-3 text-center">
-              <Button
-                class="my-4 mb-2"
-                variant="gradient"
-                color="danger"
-                fullWidth
-                >회원 탈퇴</Button
-              >
+              <div class="6u">
+                <button @click="withdrawal">회원탈퇴</button>
+              </div>
             </div>
           </div>
         </div>
