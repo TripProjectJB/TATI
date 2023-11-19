@@ -8,57 +8,53 @@ const { getAttractions } = store;
 
 const { articles } = storeToRefs(store);
 onMounted(async () => {
-<<<<<<< HEAD
     await getAttractions();
-=======
-  await getAttractions();
->>>>>>> develop
-});
+}
 </script>
 
 <template>
-  <section>
-    <header class="major">
-      <h2>추천 관광지</h2>
-    </header>
-    <div class="posts">
-      <template v-for="(article, index) in articles" :key="article.content_id">
-        <template v-if="index < 6">
-          <article>
-            <a
-              href="#"
-              class="image"
-              @click="
-                $router.push({
-                  name: 'map-detail',
-                  params: { id: article.content_id },
-                })
-              "
-              ><img :src="article.first_image" alt=""
-            /></a>
-            <h3>{{ article.title }}</h3>
-            <p>
-              {{ article.addr1 + " " + article.addr2 }}
-            </p>
-            <ul class="actions">
-              <li>
-                <a
-                  @click="
-                    $router.push({
-                      name: 'map-detail',
-                      params: { id: article.content_id },
-                    })
-                  "
-                  class="button"
-                  >상세보기</a
-                >
-              </li>
-            </ul>
-          </article>
-        </template>
-      </template>
+    <section>
+        <header class="major">
+            <h2>추천 관광지</h2>
+        </header>
+        <div class="posts">
+            <template v-for="(article, index) in articles" :key="article.content_id">
+                <template v-if="index < 6">
+                    <article>
+                        <a
+                            href="#"
+                            class="image"
+                            @click="
+                                $router.push({
+                                    name: 'map-detail',
+                                    params: {id: article.content_id},
+                                })
+                            "
+                            ><img :src="article.first_image" alt=""
+                        /></a>
+                        <h3>{{ article.title }}</h3>
+                        <p>
+                            {{ article.addr1 + " " + article.addr2 }}
+                        </p>
+                        <ul class="actions">
+                            <li>
+                                <a
+                                    @click="
+                                        $router.push({
+                                            name: 'map-detail',
+                                            params: {id: article.content_id},
+                                        })
+                                    "
+                                    class="button"
+                                    >상세보기</a
+                                >
+                            </li>
+                        </ul>
+                    </article>
+                </template>
+            </template>
 
-      <!-- <article>
+            <!-- <article>
                 <a href="#" class="image"><img src="../../images/pic01.jpg" alt="" /></a>
                 <h3>Interdum aenean</h3>
                 <p>
@@ -124,8 +120,8 @@ onMounted(async () => {
                     <li><a href="#" class="button">More</a></li>
                 </ul>
             </article> -->
-    </div>
-  </section>
+        </div>
+    </section>
 </template>
 
 <style scoped></style>
