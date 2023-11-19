@@ -63,6 +63,7 @@ function displayPage(pageNumber) {
     let markerInfo = {
       title: area.title,
       latlng: new kakao.maps.LatLng(area.mapy, area.mapx),
+      firstimage: area.firstimage,
     };
     positions.value.push(markerInfo);
   }
@@ -119,10 +120,10 @@ function displayMarker() {
     "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
   deleteMarkers();
 
+  console.log(positions.value);
   for (var i = 0; i < positions.value.length; i++) {
     // 마커 이미지의 이미지 크기 입니다
     var imageSize = new kakao.maps.Size(24, 35);
-
     const iwContent = `
             <div style="height:180px">
              <div class="title">
@@ -148,6 +149,7 @@ function displayMarker() {
       image: markerImage, // 마커 이미지
       clickable: true,
     });
+    markers.value.push(marker);
 
     const infowindow = new window.kakao.maps.InfoWindow({
       content: iwContent,
@@ -160,16 +162,14 @@ function displayMarker() {
     window.kakao.maps.event.addListener(marker, "mouseout", () => {
       infowindow.close(map, marker);
     });
-    markers.value.push(marker);
   }
 
   // 첫번째 검색 정보를 이용하여 지도 중심을 이동 시킵니다
-  map.setCenter(positions.value[0].latlng);
+  // map.setCenter(positions.value[0].latlng);
   const bounds = positions.value.reduce(
     (bounds, position) => bounds.extend(position.latlng),
     new kakao.maps.LatLngBounds()
   );
-
   map.setBounds(bounds);
 }
 
