@@ -2,15 +2,18 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useMemberStore } from "@/stores/member";
+import { useTripTestStore } from "@/stores/tripTest";
 import { storeToRefs } from "pinia";
 
 const store = useMemberStore();
+const tripStore = useTripTestStore();
 const router = useRouter();
 const { userModify, getProfileIdx, getUserInfo, userWithdrawal } = store;
 const { userInfo } = storeToRefs(store);
 const previewImages = ref([]);
 const { VITE_VUE_API_URL } = import.meta.env;
 const passwordCheck = ref("");
+const myTati = ref("");
 const user = ref({
   userId: userInfo.value.userId,
   userName: userInfo.value.userName,
@@ -20,6 +23,16 @@ const user = ref({
   fileIdx: userInfo.value.fileIdx,
 });
 
+const getTati = async () => {
+  if (userInfo.value.tati == null) return;
+  console.log(tripStore.resultSet);
+  tripStore.resultSet.forEach((element) => {
+    if ((element.no = userInfo.value.tati)) {
+      myTati.value = element.type;
+    }
+  });
+};
+getTati();
 const upload = (event) => {
   if (event.target.files.length > 1) {
     alert("사진은 최대 1개 까지 첨부가능합니다.");
@@ -203,6 +216,19 @@ const withdrawal = async () => {
                 <tr>
                   <td>가입일</td>
                   <td>{{ userInfo.joinDate }}</td>
+                </tr>
+                <tr>
+                  <td>tati</td>
+                  <div class="12u" v-if="userInfo.tati">
+                    <td>{{ myTati }}</td>
+                  </div>
+                  <div class="12u" v-else>
+                    <td>
+                      <button @click="$router.push({ name: 'test' })">
+                        검사하기
+                      </button>
+                    </td>
+                  </div>
                 </tr>
               </tbody>
             </table>
