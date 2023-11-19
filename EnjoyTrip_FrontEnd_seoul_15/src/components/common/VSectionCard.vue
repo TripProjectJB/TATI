@@ -9,8 +9,6 @@ const {getAttractions} = store;
 const {articles} = storeToRefs(store);
 onMounted(async () => {
     await getAttractions();
-    console.log(articles);
-    console.log(articles.value[0]);
 });
 </script>
 
