@@ -10,5 +10,6 @@ import com.ssafy.attraction.model.AttractionDto;
 public interface AttractionMapper {
 	
 	List<AttractionDto> getAttractions(int k) throws Exception;
+	AttractionDto getDetail(int id) throws Exception;
 	
 }

@@ -47,5 +47,17 @@ public class AttractionController {
 		}
 	}
 	
+	@GetMapping("/detail/{id}")
+	public ResponseEntity<?> getAttraction(@PathVariable("id") String id) {
+		log.info("getAttractionDetail - 호출 ");
+		try {
+			AttractionDto attractionDto =  attractionService.getDetail(Integer.parseInt(id));
+			return ResponseEntity.status(HttpStatus.OK).body(attractionDto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+		}
+	}
+	
 	
 }

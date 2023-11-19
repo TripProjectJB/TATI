@@ -20,6 +20,19 @@ const router = createRouter({
       path: "/map",
       name: "map",
       component: MapView,
+      redirect: { name: "map-main" },
+      children: [
+        {
+          path: "main",
+          name: "map-main",
+          component: () => import("@/components/maps/MapMain.vue"),
+        },
+        {
+          path: "detail/:id",
+          name: "map-detail",
+          component: () => import("@/components/maps/MapDetail.vue"),
+        },
+      ],
     },
     {
       path: "/test",

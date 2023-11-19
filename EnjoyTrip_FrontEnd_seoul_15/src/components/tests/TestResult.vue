@@ -9,6 +9,8 @@ const { VITE_VUE_API_URL } = import.meta.env;
 const route = useRoute();
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
+const url = location.href;
+const state = ref(false);
 
 const store = useTripTestStore();
 const { resultSet } = store;
@@ -30,6 +32,7 @@ const save = async () => {
         fetch(VITE_VUE_API_URL + "/user/modify", {
             method: "PUT",
             body: fom,
+              
         })
             .then((response) => {
                 let msg = "수정에 실패했습니다.";
@@ -68,9 +71,18 @@ console.log(route.params.type);
                     </div>
                 </p>
                 <ul class="actions row">
-                    <li class="6u"><a class="button big">추천 여행지 보러가기</a></li>
-                    <li class="6u$"><a class="button big special" @click="save">TATI 저장</a></li>
+                    <li class="12u$">&nbsp;</li>
+                    <template v-if="userInfo.userId != ''">
+                        <li class="6u"><a class="button big special" @click="save">TATI 저장</a></li>
+                        <li class="6u$"><a class="button big">추천 여행지</a></li>
+                    </template>
+                    <li class="12u$">&nbsp;</li>
+                    <li class="6u"><a class="button big" @click="()=>{state = !state}">공유하기</a></li>
+                    <li class="6u$"><a class="button big special" @click="$router.push({name:'test-main'})">다시 검사하기</a></li>
+                    <li class="12u$">&nbsp;</li>
+                    <div class="12u$ box" v-if="state">{{ url }}</div>
                 </ul>
+
             </div>
             <span class="image object">
                 <img src="../../assets/images/111.png" alt="" v-if="data.no =='111'">
