@@ -26,6 +26,7 @@ public interface MemberMapper {
 	String getProfileIdx(String userId) throws SQLException;
 	void registProfile(MemberDto memberDto) throws SQLException;
 	void updateProfile(ProfileInfoDto profileInfoDto) throws SQLException;
+	void deleteProfile(String userId) throws SQLException;
 	
 	/* Admin */
 	List<MemberDto> listMember(Map<String, Object> map) throws SQLException;

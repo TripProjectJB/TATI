@@ -20,6 +20,7 @@ public interface MemberService {
 	void registProfile(MemberDto memberDto) throws Exception;
 	void updateProfile(ProfileInfoDto profileInfoDto) throws Exception;
 	String getProfileIdx(String userId) throws Exception;
+	void deleteProfile(String userId) throws Exception;
 
 
 	

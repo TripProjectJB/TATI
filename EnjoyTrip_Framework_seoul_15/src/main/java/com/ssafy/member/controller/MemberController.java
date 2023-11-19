@@ -261,13 +261,14 @@ public class MemberController {
 	}
 	
 	
-//	@ApiOperation(value = "회원 삭제", notes = "회원 삭제.")
-//	@DeleteMapping("/delete/{userid}")
-//	public ResponseEntity<?> deleteUser(@PathVariable String userId) throws Exception {
-//		log.debug("회원 탈퇴");
-//		memberService.delete(userId);
-//		return ResponseEntity.ok().build();
-//	}
+	@ApiOperation(value = "회원 삭제", notes = "회원 삭제.")
+	@DeleteMapping("/delete/{userId}")
+	public ResponseEntity<?> deleteUser(@PathVariable String userId) throws Exception {
+
+		log.debug("회원 탈퇴 {} {}", userId);
+		memberService.deleteMember(userId);
+		return ResponseEntity.ok().build();
+	}
 	
 
 //	@ApiOperation(value = "로그인", notes = "회원의 ID, PWD를 받아 로그인.")

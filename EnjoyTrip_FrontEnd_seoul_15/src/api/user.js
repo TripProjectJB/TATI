@@ -39,7 +39,7 @@ async function modify(param, success, fail) {
 async function withdrawal(param, success, fail) {
   local.defaults.headers["Authorization"] =
     sessionStorage.getItem("accessToken");
-  await local.put(`/user/delete/${param}`, param).then(success).catch(fail);
+  await local.delete(`/user/delete/${param}`).then(success).catch(fail);
 }
 
 async function profileIdx(param, success, fail) {

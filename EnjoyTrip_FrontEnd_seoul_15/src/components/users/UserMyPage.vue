@@ -6,7 +6,7 @@ import { storeToRefs } from "pinia";
 
 const store = useMemberStore();
 const router = useRouter();
-const { userModify, getProfileIdx, getUserInfo } = store;
+const { userModify, getProfileIdx, getUserInfo, userWithdrawal } = store;
 const { userInfo } = storeToRefs(store);
 const previewImages = ref([]);
 const { VITE_VUE_API_URL } = import.meta.env;
@@ -97,25 +97,7 @@ const modify = async () => {
 
 const withdrawal = async () => {
   if (window.confirm("정말 탈퇴하시겠습니까?")) {
-    await userDelete(user.value);
-    fetch(VITE_VUE_API_URL + "/user/withdrawal", {
-      method: "DELETE",
-      body: JSON.stringify(user.value),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        let msg = "탈퇴에 실패했습니다.";
-        console.log(response);
-        console.log(response.status);
-        if (response.status == 201) msg = "탈퇴가 완료되었습니다.";
-        alert(msg);
-        sessionStorage.removeItem("accessToken");
-        sessionStorage.removeItem("refreshToken");
-        router.push({ name: "main" });
-      })
-      .catch((error) => console.log(error));
+    await userWithdrawal(user.value.userId);
   }
 };
 </script>
