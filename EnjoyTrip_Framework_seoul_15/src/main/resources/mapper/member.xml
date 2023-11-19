@@ -16,7 +16,7 @@
 	</resultMap>
 	
 	<resultMap type="fileInfoDto" id="file">
-		<result column="save_folder" property="saveFolder"/>
+		<result column="save_folder" property="saveFolder"/>	
 		<result column="original_file" property="originalFile"/>
 	</resultMap>
 	
@@ -28,7 +28,7 @@
 	<select id="idCheck" parameterType="String" resultType="int">
 		select count(user_id)
 		from members
-		where user_id = #{userid}
+		where user_id = #{userId}
 	</select>
 
 	<select id="login" parameterType="map" resultMap="member">
