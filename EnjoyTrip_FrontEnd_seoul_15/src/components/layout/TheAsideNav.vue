@@ -199,7 +199,15 @@ const logout = async () => {
           >
             <template v-if="index > 5">
               <article>
-                <a href="#" class="image"
+                <a
+                  href="#"
+                  class="image"
+                  @click="
+                    $router.push({
+                      name: 'map-detail',
+                      params: { id: article.content_id },
+                    })
+                  "
                   ><img :src="article.first_image" alt=""
                 /></a>
                 <h2>{{ article.title }}</h2>
@@ -208,9 +216,6 @@ const logout = async () => {
             </template>
           </template>
         </div>
-        <ul class="actions">
-          <li><a href="#" class="button">More</a></li>
-        </ul>
       </section>
 
       <!-- Section -->

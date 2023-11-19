@@ -5,8 +5,6 @@ import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
-
-console.log("디테일 페이지에 넘어온 id", route.params.id);
 const attStore = useAttractionStore();
 const { attraction } = storeToRefs(attStore);
 

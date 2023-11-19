@@ -21,7 +21,15 @@ onMounted(async () => {
       <template v-for="(article, index) in articles" :key="article.content_id">
         <template v-if="index < 6">
           <article>
-            <a href="#" class="image"
+            <a
+              href="#"
+              class="image"
+              @click="
+                $router.push({
+                  name: 'map-detail',
+                  params: { id: article.content_id },
+                })
+              "
               ><img :src="article.first_image" alt=""
             /></a>
             <h3>{{ article.title }}</h3>
@@ -38,7 +46,7 @@ onMounted(async () => {
                     })
                   "
                   class="button"
-                  >More</a
+                  >상세보기</a
                 >
               </li>
             </ul>
