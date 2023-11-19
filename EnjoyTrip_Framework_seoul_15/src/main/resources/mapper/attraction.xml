@@ -11,5 +11,9 @@
 		limit #{k}, 10;
 	</select>
 	
-
+	<select id="getDetail" parameterType="int" resultType="attractionDto">
+		select *
+		from attraction_info i, attraction_description d
+		where i.content_id = d.content_id and i.content_id = #{id}
+	</select>
 </mapper>

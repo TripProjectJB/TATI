@@ -30,4 +30,11 @@ public class AttractionServiceImpl implements AttractionService {
 		return attractionMapper.getAttractions(k);
 	}
 
+
+
+	@Override
+	public AttractionDto getDetail(int id) throws Exception {
+		return attractionMapper.getDetail(id);
+	}
+
 }

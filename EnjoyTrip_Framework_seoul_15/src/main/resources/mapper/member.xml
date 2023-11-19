@@ -16,6 +16,12 @@
 	</resultMap>
 	
 	<resultMap type="fileInfoDto" id="file">
+		<result column="save_folder" property="saveFolder"/>	
+		<result column="original_file" property="originalFile"/>
+	</resultMap>
+	
+	<resultMap type="profileInfoDto" id="profile">
+		<result column="profile_idx" property="profileIdx"/>
 		<result column="save_folder" property="saveFolder"/>
 		<result column="original_file" property="originalFile"/>
 	</resultMap>
@@ -23,7 +29,7 @@
 	<select id="idCheck" parameterType="String" resultType="int">
 		select count(user_id)
 		from members
-		where user_id = #{userid}
+		where user_id = #{userId}
 	</select>
 
 	<select id="login" parameterType="map" resultMap="member">
@@ -33,7 +39,7 @@
 	</select>
 	
 	<select id="userInfo" parameterType="string" resultMap="member">
-		select user_name, user_id, email_id, email_domain, join_date, file_idx
+		select user_name, user_id, email_id, email_domain, join_date, file_idx, tati
 		from members
 		where user_id = #{userId}
 	</select>
@@ -42,6 +48,12 @@
 		select save_folder, original_file
 		from file_info
 		where idx = #{idx}
+	</select>
+	
+	<select id="getProfileFilePath" parameterType="string" resultMap="profile">
+		select save_folder, original_file
+		from profile_info
+		where profile_idx = #{profileIdx}
 	</select>
 	
 	<update id="saveRefreshToken" parameterType="map">
@@ -65,7 +77,44 @@
 	<insert id="joinMember" parameterType="memberDto">
 		insert into members (user_name, user_id, user_password, email_id, email_domain, join_date)
 		values (#{userName}, #{userId}, #{userPwd}, #{emailId}, #{emailDomain}, now())
+		
 	</insert>
+	
+	<insert id="registProfile" parameterType="memberDto">
+		insert into profile_info (user_id)
+		values (#{userId})
+	</insert>
+	
+	<update id="updateProfile" parameterType="profileInfoDto">
+		update profile_info 
+		set save_folder=#{saveFolder}, original_file=#{originalFile}, save_file=#{saveFile}
+		where user_id=#{userId}
+	</update>
+	
+	<select id="getProfileIdx" parameterType="string">
+		select profile_idx
+		from profile_info
+		where user_id=#{userId}
+	</select>
+	
+	<delete id="deleteProfile" parameterType="string">
+		delete from profile_info
+		where user_id=#{userId}
+	</delete>
+	
+	<update id="modifyMember" parameterType="memberDto">
+		update members
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userName != null">user_name = #{userName},</if>
+			<if test="userPwd != null">user_password = #{userPwd},</if>
+			<if test="emailId != null">email_id = #{emailId},</if>
+			<if test="emailDomain != null">email_domain = #{emailDomain},</if>
+			<if test="fileIdx != null">file_idx = #{fileIdx},</if>
+			<if test="tati != null">tati=#{tati},</if>
+		</trim>
+		where user_id = #{userId}
+	</update>
+
 	
 	<!-- ADMIN -->
 	<select id="listMember" resultMap="member">

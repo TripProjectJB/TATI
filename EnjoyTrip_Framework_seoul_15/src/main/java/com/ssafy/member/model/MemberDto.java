@@ -16,6 +16,8 @@ public class MemberDto {
 	private String userId;
 	@ApiModelProperty(value = "회원이름")
 	private String userName;
+	@ApiModelProperty(value = "유형")
+	private String tati;
 	@ApiModelProperty(value = "회원비밀번호")
 	private String userPwd;
 	@ApiModelProperty(value = "이메일아이디")

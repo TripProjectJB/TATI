@@ -5,11 +5,9 @@ import VSectionCard from "../components/common/VSectionCard.vue";
 </script>
 
 <template>
-    <VBanner />
+  <VBanner />
 
-    <VSectionCard />
-
-    <VSectionList />
+  <VSectionCard />
 </template>
 
 <style scoped></style>
