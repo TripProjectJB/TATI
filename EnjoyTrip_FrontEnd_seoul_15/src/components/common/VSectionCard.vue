@@ -1,15 +1,15 @@
 <script setup>
-import { useAttractionStore } from "@/stores/attractions";
-import { storeToRefs } from "pinia";
-import { onMounted, ref } from "vue";
+import {useAttractionStore} from "@/stores/attractions";
+import {storeToRefs} from "pinia";
+import {onMounted, ref} from "vue";
 
 const store = useAttractionStore();
-const { getAttractions } = store;
+const {getAttractions} = store;
 
-const { articles } = storeToRefs(store);
+const {articles} = storeToRefs(store);
 onMounted(async () => {
     await getAttractions();
-}
+});
 </script>
 
 <template>
