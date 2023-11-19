@@ -217,6 +217,13 @@ export const useMemberStore = defineStore(
           if (response.status === httpStatusCode.OK) {
             alert("회원탈퇴에 성공했습니다.");
             alert("delete 완료: ", userId);
+            isLogin.value = false;
+            userInfo.value = {
+              userId: "",
+              userName: "",
+            };
+            isValidToken.value = false;
+            router.push({ name: "main" });
           } else {
             console.log("회원탈퇴 실패", response.status);
             alert("회원탈퇴에 실패했습니다.");

@@ -73,8 +73,8 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void joinMember(MemberDto memberDto) throws Exception {
 //		sqlSession.getMapper(MemberMapper.class).joinMember(memberDto);
-		memberMapper.joinMember(memberDto);
 		registProfile(memberDto);
+		memberMapper.joinMember(memberDto);
 	}
 	
 	@Override
@@ -82,6 +82,12 @@ public class MemberServiceImpl implements MemberService {
 		return memberMapper.getProfileIdx(userId);
 	}
 
+	@Override
+	public void deleteProfile(String profileIdx) throws Exception {
+		memberMapper.deleteProfile(profileIdx);
+		
+	}
+	
 	
 	@Override
 	public void registProfile(MemberDto memberDto) throws Exception {
@@ -120,7 +126,8 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void deleteMember(String userId) throws Exception {
-		memberMapper.deleteMember(userId);		
+		memberMapper.deleteMember(userId);
+		memberMapper.deleteProfile(userId);
 	}
 
 	@Override
@@ -142,6 +149,8 @@ public class MemberServiceImpl implements MemberService {
 	public void deleteFollow(Map<String, String> map) {
 		memberMapper.deleteFollow(map);
 	}
+
+	
 
 	
 
