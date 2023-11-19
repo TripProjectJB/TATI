@@ -6,9 +6,9 @@ import { storeToRefs } from "pinia";
 
 const store = useMemberStore();
 const router = useRouter();
-const { userModify, getProfileIdx } = store;
+const { userModify, getProfileIdx, getUserInfo } = store;
 const { userInfo } = storeToRefs(store);
-
+const previewImages = ref([]);
 const { VITE_VUE_API_URL } = import.meta.env;
 const passwordCheck = ref("");
 const user = ref({
@@ -19,6 +19,27 @@ const user = ref({
   emailDomain: userInfo.value.emailDomain,
   fileIdx: userInfo.value.fileIdx,
 });
+
+const upload = (event) => {
+  if (event.target.files.length > 1) {
+    alert("사진은 최대 1개 까지 첨부가능합니다.");
+  } else {
+    //file째로(DTO-X 뷰에 찍히는 정보대로) 저장
+    // files.value.fileInfos = event.target.files;
+    for (const file of event.target.files) {
+      //프리뷰
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        previewImages.value.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  // 사용자가 올린 이미지
+  console.log(event.target.files);
+  // URL.createObjectURL로 사용자가 올린 이미지를 URL로 만들어서 화면에 표시할 수 있게 한다. img 태그의 src값에 바인딩해준다
+  //   this.imageUploaded = URL.createObjectURL(this.image)
+};
 const modify = async () => {
   var inp = document.getElementById("upfile");
   if (inp.files.length > 1) {
@@ -65,7 +86,10 @@ const modify = async () => {
         console.log(response.status);
         if (response.status == 201) msg = "정보수정이 완료되었습니다.";
         alert(msg);
-        router.push({ name: "mypage" });
+        let token = sessionStorage.getItem("accessToken");
+        getUserInfo(token);
+        console.log("modify 완료: ", userInfo.value);
+        router.push({ name: "main" });
       })
       .catch((error) => console.log(error));
   }
@@ -99,8 +123,16 @@ const modify = async () => {
                     id="upfile"
                     multiple="multiple"
                     accept="image/*, .gif"
-                  /></div
-              ></span>
+                    @change="upload"
+                  />
+                </div>
+                <img
+                  class="m-3 col-auto"
+                  v-for="(previewImage, index) in previewImages"
+                  :key="index"
+                  :src="previewImage"
+                  style="height: 200px; width: 300px; object-fit: cover"
+              /></span>
             </div>
             <div class="12u" v-else>
               <span
@@ -113,8 +145,16 @@ const modify = async () => {
                     id="upfile"
                     multiple="multiple"
                     accept="image/*, .gif"
-                  /></div
-              ></span>
+                    @change="upload"
+                  />
+                </div>
+                <img
+                  class="m-3 col-auto"
+                  v-for="(previewImage, index) in previewImages"
+                  :key="index"
+                  :src="previewImage"
+                  style="height: 200px; width: 300px; object-fit: cover"
+              /></span>
             </div>
 
             <table class="table">

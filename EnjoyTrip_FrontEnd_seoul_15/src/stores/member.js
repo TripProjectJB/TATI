@@ -9,7 +9,7 @@ import {
   tokenRegeneration,
   logout,
   regist,
-  modify,
+  //   modify,
   profileIdx,
 } from "@/api/user";
 import { httpStatusCode } from "@/util/http-status";
@@ -189,24 +189,25 @@ export const useMemberStore = defineStore(
       );
     };
 
-    const userModify = async (userDto) => {
-      await modify(
-        JSON.stringify(userDto),
-        (response) => {
-          if (response.status === httpStatusCode.CREATE) {
-            alert("회원정보수정에 성공했습니다.");
-            let token = sessionStorage.getItem("accessToken");
-            getUserInfo(token);
-          } else {
-            console.log("회원정보수정 실패", response.status); 
-            alert("회원정보수정에 실패했습니다.");
-          }
-        },
-        async (error) => {
-          console.log(error);
-        }
-      );
-    };
+    // const userModify = async (userDto) => {
+    //   await modify(
+    //     JSON.stringify(userDto),
+    //     (response) => {
+    //       if (response.status === httpStatusCode.CREATE) {
+    //         alert("회원정보수정에 성공했습니다.");
+    //         let token = sessionStorage.getItem("accessToken");
+    //         getUserInfo(token);
+    //         alert("modify 완료: ", userInfo.value);
+    //       } else {
+    //         console.log("회원정보수정 실패", response.status);
+    //         alert("회원정보수정에 실패했습니다.");
+    //       }
+    //     },
+    //     async (error) => {
+    //       console.log(error);
+    //     }
+    //   );
+    // };
 
     return {
       isLogin,
@@ -218,7 +219,7 @@ export const useMemberStore = defineStore(
       tokenRegenerate,
       userLogout,
       userRegist,
-      userModify,
+      //   userModify,
       getProfileIdx,
       boardNo,
     };
