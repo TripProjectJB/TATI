@@ -40,17 +40,18 @@ watch(cnt, () => {
 </script>
 
 <template>
-  <section>
-    <h2>나의 TATI는??</h2>
+  <section style="text-align: center">
+    <h2>자신의 생각과 더 비슷한 반응을 골라주세요!</h2>
     <div class="features row">
       <div class="12u$">
         <div class="box">
           <h2>{{ cnt }} / 9</h2>
-          <h3>
+          <h2>
             {{ data[0] }}
-          </h3>
+          </h2>
         </div>
       </div>
+      <hr class="12u$" />
       <div class="12u$">
         <ul class="actions">
           <li>

@@ -152,7 +152,7 @@ const logout = async () => {
                       store.boardNo = 2;
                     }
                   "
-                  >Type B</RouterLink
+                  >여행지 추천 게시판</RouterLink
                 >
               </li>
               <li>
@@ -163,7 +163,7 @@ const logout = async () => {
                       store.boardNo = 3;
                     }
                   "
-                  >Type C</RouterLink
+                  >TATI 게시판</RouterLink
                 >
               </li>
               <li>
