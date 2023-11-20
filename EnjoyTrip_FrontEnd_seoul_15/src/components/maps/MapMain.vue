@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
 import VPageNavigation from "@/components/common/VPageNavigation.vue";
 import altImage from "@/assets/images/TATI_logo.jpg";
 // const serviceKey =
@@ -7,7 +8,7 @@ import altImage from "@/assets/images/TATI_logo.jpg";
 const serviceKey = import.meta.env.VITE_OPEN_API_SERVICE_KEY;
 
 const kakaoKey = import.meta.env.VITE_KAKAO_MAP_SERVICE_KEY;
-
+const router = useRouter();
 const positions = ref([]);
 var showSize = 10; // 한 페이지에 보여줄 데이터 개수
 // index page 로딩 후 전국의 시도 설정.
@@ -127,8 +128,9 @@ function displayMarker() {
 	var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
 	deleteMarkers();
 	const points = [];
-	console.log(positions.value);
+	// console.log(positions.value);
 	for (var i = 0; i < positions.value.length; i++) {
+		console.log(positions.value[i]);
 		// 마커 이미지의 이미지 크기 입니다
 		var imageSize = new kakao.maps.Size(24, 35);
 		const iwContent = `
@@ -156,6 +158,7 @@ function displayMarker() {
 			position: positions.value[i].latlng, // 마커를 표시할 위치
 			title: positions.value[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
 			image: markerImage, // 마커 이미지
+			contentId: positions.value[i].contentId,
 		});
 
 		markers.value.push(marker);
@@ -171,6 +174,15 @@ function displayMarker() {
 		window.kakao.maps.event.addListener(marker, "mouseout", () => {
 			infowindow.close(map, marker);
 		});
+		window.kakao.maps.event.addListener(
+			marker,
+			"click",
+			(function (index) {
+				return function () {
+					navigateMarkerToDetailPage(positions.value[index].contentId);
+				};
+			})(i)
+		);
 		points.push(positions.value[i].latlng);
 	}
 
@@ -191,7 +203,7 @@ function moveCenter(lat, lng, index) {
 
 	const content = `
             <div style="width:330px; text-align: center">
-             <div class="title" style="font-size: x-large; font-weight: bold;">
+             <div id="detailLink" class="title" style="font-size: x-large; font-weight: bold;">
                   ${positions.value[index].title}
               </div>
               <div>
@@ -212,7 +224,22 @@ function moveCenter(lat, lng, index) {
 	});
 	infoWindow.open(map, marker);
 	marker.setMap(null);
-	window.scrollTo(0, 200);
+	window.scrollTo(0, 250);
+
+	const detailLink = document.getElementById("detailLink");
+	detailLink.addEventListener("click", () => {
+		navigateMarkerToDetailPage(positions.value[index].contentId);
+	});
+}
+
+function navigateMarkerToDetailPage(contentId) {
+	console.log(contentId);
+	router.push({
+		name: "map-detail",
+		params: {
+			id: contentId,
+		},
+	});
 }
 
 onMounted(() => {
