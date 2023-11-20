@@ -14,5 +14,6 @@ public interface AttractionMapper {
 	AttractionDto getDetail(int id) throws Exception;
 	List<AttractionDto> getRank() throws Exception;
 	void likeAttraction(AttractionLikeDto attractionlikeDto) throws Exception;
+	void likeCancelAttraction(String userId, String contentId) throws Exception;
 	List<String> getLikeList(String userId) throws Exception;
 }

@@ -31,6 +31,11 @@
 		values(#{userId}, #{contentId})
 	</insert>
 	
+	<delete id="likeCancelAttraction" parameterType="String">
+		delete from attraction_like
+		where user_id=#{userId} and content_id=#{contentId}
+	</delete>
+	
 	<select id="getLikeList" parameterType="string" resultType="string">
 		select content_id
 		from attraction_like

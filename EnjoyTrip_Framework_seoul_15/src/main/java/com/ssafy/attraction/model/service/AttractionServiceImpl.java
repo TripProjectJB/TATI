@@ -52,6 +52,11 @@ public class AttractionServiceImpl implements AttractionService {
 		attractionMapper.likeAttraction(attractionLikeDto);
 		
 	}
+	@Override
+	public void likeCancelAttraction(String userId, String contentId) throws Exception {
+		attractionMapper.likeCancelAttraction(userId, contentId);
+		
+	}
 
 
 

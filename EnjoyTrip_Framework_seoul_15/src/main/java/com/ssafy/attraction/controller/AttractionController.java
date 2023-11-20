@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,11 +67,24 @@ public class AttractionController {
 	@ApiOperation(value = "관광지 좋아요", notes = "관광지 좋아요 기능.")
 	@PostMapping("/like")
 	public ResponseEntity<?> likeAttraction(@RequestBody AttractionLikeDto attractionLikeDto) {
-		log.debug("attractionDto : {}", attractionLikeDto);
+		log.debug("likeAttraction : {}", attractionLikeDto);
 		try {
 			attractionService.likeAttraction(attractionLikeDto);
 			log.debug("좋아용 성공");
 			return ResponseEntity.status(HttpStatus.CREATED).build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+		}
+	}
+	@ApiOperation(value = "관광지 좋아요 취소 ", notes = "관광지 좋아요 취소 기능.")
+	@DeleteMapping("/likeCancel/{userId}/{contentId}")
+	public ResponseEntity<?> likeCancelAttraction(@PathVariable String userId, @PathVariable String contentId) {
+		log.debug("likeCancelAttraction : {} {}", userId, contentId);
+		try {
+			attractionService.likeCancelAttraction(userId, contentId);
+			log.debug("좋아용취소 성공");
+			return ResponseEntity.status(HttpStatus.OK).build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
