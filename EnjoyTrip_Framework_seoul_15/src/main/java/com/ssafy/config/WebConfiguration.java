@@ -41,12 +41,12 @@ public class WebConfiguration implements WebMvcConfigurer {
 			.maxAge(1800); // Pre-flight Caching
 	}
 
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(jwtInterceptor)
-//                .addPathPatterns("/*")
-//                .excludePathPatterns("/atrraction"); // 해당 경로는 인터셉터가 가로채지 않는다.
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(jwtInterceptor)
+                .addPathPatterns("/*")
+                .excludePathPatterns("/atrraction"); // 해당 경로는 인터셉터가 가로채지 않는다.
+    }
 
 //	Swagger UI 실행시 404처리
 //	Swagger2 일경우
