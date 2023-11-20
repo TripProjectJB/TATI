@@ -1,24 +1,41 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import { useAttractionStore } from "@/stores/attractions";
+import { useMemberStore } from "@/stores/member";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 import altImage from "@/assets/images/TATI_logo.jpg";
 
 const route = useRoute();
 const attStore = useAttractionStore();
-const { attraction } = storeToRefs(attStore);
+const store = useMemberStore();
+const { attraction, attractionLike, attractionLikeList } = storeToRefs(attStore);
 
 onMounted(async () => {
 	await attStore.getAttractionDetail(route.params.id);
+	await attStore.getLikeList(store.userInfo.userId);
+	console.log(attractionLikeList.value);
 });
 
 watch(
 	() => route.params.id,
 	() => {
 		attStore.getAttractionDetail(route.params.id);
+		attStore.getLikeList(store.userInfo.userId);
 	}
 );
+
+const like = () => {
+	//store에 함수넣어서 그걸로 바꾸기
+	console.log("like");
+	attractionLike.value.userId = store.userInfo.userId;
+	attractionLike.value.contentId = route.params.id;
+	console.log(attractionLike.value);
+	attStore.likeAttraction(attractionLike.value);
+};
+const likeCancel = () => {
+	console.log("likeCancel");
+};
 </script>
 
 <template>
@@ -43,7 +60,12 @@ watch(
 				{{ attraction.overview }}
 			</p>
 			<ul class="actions">
-				<li><a href="#" class="button big">추천 관광지 보기</a></li>
+				<li v-for="contentId in attractionLikeList" :key="item">
+					{{ route.params.id }}, {{ contentId }}
+				</li>
+				<div v-if="route.params.id in attractionLikeList">좋아요 취소</div>
+				<div v-else>좋아요</div>
+				<li><a href="#" class="button big" @click="like">좋아요</a></li>
 			</ul>
 		</div>
 		<span class="image object">

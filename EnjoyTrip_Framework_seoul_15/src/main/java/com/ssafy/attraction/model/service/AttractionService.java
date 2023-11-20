@@ -3,10 +3,14 @@ package com.ssafy.attraction.model.service;
 import java.util.List;
 
 import com.ssafy.attraction.model.AttractionDto;
+import com.ssafy.attraction.model.AttractionLikeDto;
 
 public interface AttractionService {
 
 	List<AttractionDto> getAttractions() throws Exception;
 	AttractionDto getDetail(int id) throws Exception;
 	List<AttractionDto> getRank() throws Exception;
+	void likeAttraction(AttractionLikeDto attractionlikeDto)  throws Exception;
+	List<String> getLikeList(String userId) throws Exception;
+
 }

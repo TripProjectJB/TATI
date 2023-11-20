@@ -1,6 +1,6 @@
 import { ref, computed, watch } from "vue";
 import { defineStore } from "pinia";
-import { getAttraction, getDetail, getRank } from "@/api/attraction";
+import { getAttraction, getDetail, getRank, like, likeList } from "@/api/attraction";
 import { httpStatusCode } from "@/util/http-status";
 
 export const useAttractionStore = defineStore(
@@ -8,6 +8,11 @@ export const useAttractionStore = defineStore(
 	() => {
 		const articles = ref([]);
 		const attraction = ref({});
+		const attractionLike = ref({
+			userId: "",
+			contentId: "",
+		});
+		const attractionLikeList = ref([]);
 		const attractionRank = ref([]);
 
 		const getAttractions = async () => {
@@ -56,13 +61,50 @@ export const useAttractionStore = defineStore(
 			);
 		};
 
+		const likeAttraction = async (param) => {
+			await like(
+				param,
+				(response) => {
+					if (response.status == httpStatusCode.CREATE) {
+						console.log("좋아요 성공");
+					} else {
+						console.log("좋아요 실패");
+					}
+				},
+				(error) => {
+					console.log(error);
+				}
+			);
+		};
+
+		const getLikeList = async (param) => {
+			await likeList(
+				param,
+				(response) => {
+					if (response.status == httpStatusCode.OK) {
+						attractionLikeList.value = response.data;
+						console.log(attractionLikeList.value);
+					} else {
+						console.log("좋아요 리스트 실패");
+					}
+				},
+				(error) => {
+					console.log(error);
+				}
+			);
+		};
+
 		return {
 			articles,
 			attraction,
+			attractionLike,
+			attractionLikeList,
 			getAttractions,
 			getAttractionDetail,
 			getAttractionRank,
 			attractionRank,
+			likeAttraction,
+			getLikeList,
 		};
 	},
 	{
