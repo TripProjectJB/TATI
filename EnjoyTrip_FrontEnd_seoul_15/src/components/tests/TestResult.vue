@@ -2,13 +2,14 @@
 import { ref, watch, onMounted } from "vue";
 import { useRoute } from 'vue-router';
 import { useTripTestStore } from '@/stores/tripTest';
-import { useMemberStore } from '@/stores/member'
+import { useMemberStore} from '@/stores/member'
 import { storeToRefs } from "pinia";
 const { VITE_VUE_API_URL } = import.meta.env;
 
 const route = useRoute();
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
+const {getUserInfo} = memberStore;
 const url = location.href;
 const state = ref(false);
 
@@ -32,13 +33,16 @@ const save = async () => {
         fetch(VITE_VUE_API_URL + "/user/modify", {
             method: "PUT",
             body: fom,
-              
         })
             .then((response) => {
                 let msg = "수정에 실패했습니다.";
                 console.log(response);
                 console.log(response.status);
-                if (response.status == 201) msg = "수정 되었습니다.";
+                if (response.status == 201) {
+                    msg = "수정 되었습니다.";
+                    let token = sessionStorage.getItem("accessToken");
+        getUserInfo(token);
+                }
                 alert(msg);
             })
             .catch((error) => console.log(error));
