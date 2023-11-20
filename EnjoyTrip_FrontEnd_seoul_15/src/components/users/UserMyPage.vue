@@ -170,7 +170,7 @@ const withdrawal = async () => {
                                 </tr>
                                 <tr>
                                     <td>이름</td>
-                                    <input type="text" name="userName" v-model="user.userName" />
+                                    <input type="text" name="userName" v-model="user.userName" style="width: 200px" />
                                     <!-- <td>{{ userInfo.userName }}</td> -->
                                 </tr>
                                 <tr>

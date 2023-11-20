@@ -1,5 +1,7 @@
 <script setup>
+import {ref} from "vue";
 import {useMemberStore} from "@/stores/member.js";
+import {useTripTestStore} from "@/stores/tripTest";
 import {storeToRefs} from "pinia";
 import {useRouter} from "vue-router";
 import {useAttractionStore} from "@/stores/attractions";
@@ -7,7 +9,7 @@ const {VITE_VUE_API_URL} = import.meta.env;
 
 const attstore = useAttractionStore();
 const {articles} = storeToRefs(attstore);
-
+const tripStore = useTripTestStore();
 const router = useRouter();
 const store = useMemberStore();
 const {userInfo} = storeToRefs(store);
@@ -23,6 +25,15 @@ const logout = async () => {
         router.push({name: "main"});
     }
 };
+
+const myTati = ref("");
+if (userInfo.value.tati != null) {
+    tripStore.resultSet.forEach((element) => {
+        if (element.no == userInfo.value.tati) {
+            myTati.value = element.type;
+        }
+    });
+}
 </script>
 
 <template>
@@ -72,33 +83,29 @@ const logout = async () => {
                         </ul>
                     </div>
                 </div>
+                <div>&nbsp;</div>
                 <ul class="contact" v-if="userInfo.userId">
                     <li></li>
-                    <li class="fa-home">{{ store.userInfo.userName }} ({{ store.userInfo.userId }})</li>
-                    <li class="row" style="padding-left: 0px">
-                        <div class="6u">
-                            <button
-                                @click="
-                                    $router.push({
-                                        name: 'follower',
-                                        params: {userid: store.userInfo.userId},
-                                    })
-                                ">
-                                Following
-                            </button>
-                        </div>
-                        <div class="6u$">
-                            <button
-                                @click="
-                                    $router.push({
-                                        name: 'following',
-                                        params: {userid: store.userInfo.userId},
-                                    })
-                                "
-                                class="special">
-                                Follower
-                            </button>
-                        </div>
+                    <li class="icon fa-hand-o-right">{{ store.userInfo.userName }} ({{ store.userInfo.userId }})</li>
+                    <li class="icon fa-heart">
+                        <router-link
+                            :to="{
+                                name: 'follower',
+                                params: {userid: store.userInfo.userId},
+                            }"
+                            >Following</router-link
+                        >&nbsp;&nbsp;
+                        <router-link
+                            :to="{
+                                name: 'following',
+                                params: {userid: store.userInfo.userId},
+                            }"
+                            >Follower</router-link
+                        >
+                    </li>
+                    <li class="fa-coffee">
+                        <div v-if="userInfo.tati">My TATI : {{ myTati }}</div>
+                        <div v-else>My TATI : <router-link :to="{name: 'test'}">검사하기!</router-link></div>
                     </li>
                 </ul>
             </section>
@@ -200,27 +207,19 @@ const logout = async () => {
             <!-- Section -->
             <section>
                 <header class="major">
-                    <h2>Get in touch</h2>
+                    <h2>제작자</h2>
                 </header>
-                <p>
-                    Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem
-                    ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus
-                    aliquam.
-                </p>
+                <ul class="alt">
+                    <li>이제헌 / 컴퓨터공학 / github.com/JEGHTNER</li>
+                    <li>김종범 / 물리학과 / github.com/jongbum97</li>
+                </ul>
                 <ul class="contact">
-                    <li class="fa-envelope-o">
-                        <a href="#">information@untitled.tld</a>
-                    </li>
-                    <li class="fa-phone">(000) 000-0000</li>
-                    <li class="fa-home">
-                        1234 Somewhere Road #8254<br />
-                        Nashville, TN 00000-0000
-                    </li>
+                    <li class="fa-home">카카오뱅크 / 3333093816830</li>
                 </ul>
             </section>
 
             <!-- Footer -->
-            <footer id="footer">
+            <footer id="footer" style="font-size: xx-small">
                 <p class="copyright">
                     &copy; Untitled. All rights reserved. Demo Images:
                     <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.
