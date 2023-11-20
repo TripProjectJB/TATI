@@ -22,7 +22,6 @@ onMounted(async () => {
                 <template v-if="index < 6">
                     <article>
                         <a
-                            href="#"
                             class="image"
                             @click="
                                 $router.push({
