@@ -12,12 +12,19 @@ const positions = ref([]);
 var showSize = 10; // 한 페이지에 보여줄 데이터 개수
 // index page 로딩 후 전국의 시도 설정.
 let areaUrl =
-	"https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=Xe8OkHEZbFnVPmfP8Y6d2ykDf%2F4GYH6beQQAQpJxujE%2BP7hY0fVZ5m62YQwfmUvdyEtajTOYZO3w1ckVe8Mruw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&areaCode=1&contentTypeId=39";
+	"https://apis.data.go.kr/B551011/KorService1/areaCode1?serviceKey=" +
+	serviceKey +
+	"&numOfRows=" +
+	showSize +
+	"&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json";
+
+// let areaUrl =
+// 	"https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=Xe8OkHEZbFnVPmfP8Y6d2ykDf%2F4GYH6beQQAQpJxujE%2BP7hY0fVZ5m62YQwfmUvdyEtajTOYZO3w1ckVe8Mruw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&areaCode=1&contentTypeId=39";
 
 // fetch(areaUrl, { method: "GET" }).then(function (response) { return response.json() }).then(function (data) { makeOption(data); });
 fetch(areaUrl, { method: "GET" })
 	.then((response) => response.json())
-	.then((data) => makeList(data));
+	.then((data) => makeOption(data));
 
 const makeOption = (data) => {
 	try {
@@ -92,12 +99,12 @@ const initMap = () => {
 	const container = document.getElementById("map");
 	const options = {
 		center: new kakao.maps.LatLng(33.450701, 126.570667),
-		level: 5,
+		level: 3,
 	};
 
 	map = new kakao.maps.Map(container, options);
 	infoWindow = new window.kakao.maps.InfoWindow({
-		content: "1111",
+		content: "",
 		removable: true,
 	});
 };
@@ -197,10 +204,24 @@ function moveCenter(lat, lng, index) {
                 </div>
             </div>`;
 	infoWindow.setContent(content);
-	infoWindow.open(map, markers.value[index]);
+	const marker = new window.kakao.maps.Marker({
+		map: map, // 마커를 표시할 지도
+		position: positions.value[index].latlng, // 마커를 표시할 위치
+		title: positions.value[index].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+		// image: markerImage, // 마커 이미지
+	});
+	infoWindow.open(map, marker);
+	marker.setMap(null);
+	window.scrollTo(0, 200);
 }
 
 onMounted(() => {
+	let areaUrl =
+		"https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=Xe8OkHEZbFnVPmfP8Y6d2ykDf%2F4GYH6beQQAQpJxujE%2BP7hY0fVZ5m62YQwfmUvdyEtajTOYZO3w1ckVe8Mruw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&areaCode=1&contentTypeId=39";
+	fetch(areaUrl, { method: "GET" })
+		.then((response) => response.json())
+		.then((data) => makeList(data));
+
 	if (window.kakao && window.kakao.maps) {
 		initMap();
 	} else {
