@@ -27,7 +27,7 @@ const getTati = async () => {
 	if (userInfo.value.tati == null) return;
 	console.log(tripStore.resultSet);
 	tripStore.resultSet.forEach((element) => {
-		if ((element.no = userInfo.value.tati)) {
+		if (element.no == userInfo.value.tati) {
 			myTati.value = element.type;
 		}
 	});
