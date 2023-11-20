@@ -14,4 +14,7 @@ async function getRank(success, fail) {
     await local.get(`/atrraction/rank`).then(success).catch(fail);
 }
 
-export {getAttraction, getDetail, getRank};
+async function getRandom(success, fail) {
+    await local.get(`/atrraction/random`).then(success).catch(fail);
+}
+export {getAttraction, getDetail, getRank, getRandom};

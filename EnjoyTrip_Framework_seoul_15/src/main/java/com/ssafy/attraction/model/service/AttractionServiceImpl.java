@@ -26,7 +26,7 @@ public class AttractionServiceImpl implements AttractionService {
 
 	@Override
 	public List<AttractionDto> getAttractions() throws Exception {
-		int k = (int) (Math.random()*30000);
+		int k = (int) (Math.random()*26000);
 		return attractionMapper.getAttractions(k);
 	}
 
@@ -42,6 +42,14 @@ public class AttractionServiceImpl implements AttractionService {
 	@Override
 	public List<AttractionDto> getRank() throws Exception {
 		return attractionMapper.getRank();
+	}
+
+
+
+	@Override
+	public AttractionDto getRandom() throws Exception {
+		int k = (int) (Math.random()*26000);
+		return attractionMapper.getRandom(k).get(0);
 	}
 
 }

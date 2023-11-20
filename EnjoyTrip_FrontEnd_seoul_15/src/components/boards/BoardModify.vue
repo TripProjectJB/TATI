@@ -71,7 +71,7 @@ const updateArticle = () => {
             </div>
 
             <!-- Break -->
-            <template v-for="(value, index) in ['자유게시판', '여행지 추천 게시판', 'TATI게시판', 'D']" :key="value">
+            <template v-for="(value, index) in ['자유게시판', '여행지 추천 게시판', 'TATI게시판']" :key="value">
                 <div class="3u 6u(small)">
                     <input type="radio" :id="value" name="demo-priority" :value="index + 1" v-model="article.type" />
                     <label :for="value">{{ value }}</label>

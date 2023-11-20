@@ -12,4 +12,5 @@ public interface AttractionMapper {
 	List<AttractionDto> getAttractions(int k) throws Exception;
 	AttractionDto getDetail(int id) throws Exception;
 	List<AttractionDto> getRank() throws Exception;
+	List<AttractionDto> getRandom(int k) throws Exception;
 }

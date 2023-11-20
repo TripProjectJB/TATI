@@ -169,7 +169,7 @@ watch(
                                     >TATI 게시판</RouterLink
                                 >
                             </li>
-                            <li>
+                            <!-- <li>
                                 <RouterLink
                                     :to="{name: 'list'}"
                                     @click.native="
@@ -179,11 +179,10 @@ watch(
                                     "
                                     >Type D</RouterLink
                                 >
-                            </li>
+                            </li> -->
                         </ul>
                     </li>
-
-                    <li><RouterLink :to="{name: 'elements'}">ELEMENTS</RouterLink></li>
+                    <li><RouterLink to="">추가기능</RouterLink></li>
                 </ul>
             </nav>
 

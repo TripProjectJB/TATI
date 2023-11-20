@@ -24,4 +24,11 @@
 		order by CAST(mlevel AS UNSIGNED) desc
 		limit 20;
 	</select>
+	
+	<select id="getRandom" parameterType="int" resultType="attractionDto">
+		select *
+		from attraction_info i, attraction_description d
+		where i.content_id = d.content_id and i.first_image != ''
+		limit #{k}, 10
+	</select>
 </mapper>

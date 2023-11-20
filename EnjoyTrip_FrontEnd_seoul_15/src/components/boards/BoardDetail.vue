@@ -15,7 +15,6 @@ onMounted(() => {
 });
 
 const getArticle = () => {
-    console.log(articleno + "번글 얻으러 가자!!!");
     detailArticle(
         articleno,
         ({data}) => {
@@ -28,7 +27,6 @@ const getArticle = () => {
 };
 
 function onDeleteArticle() {
-    console.log(articleno + "번글 삭제하러 가자!!!");
     if (window.confirm("정말 삭제 하시겠습니까?")) {
         deleteArticle(
             articleno,

@@ -97,7 +97,6 @@ export const useMemberStore = defineStore(
                             userInfo.value.userId,
                             (response) => {
                                 if (response.status === httpStatusCode.OK) {
-                                    console.log("리프레시 토큰 제거 성공");
                                 } else {
                                     console.log("리프레시 토큰 제거 실패");
                                 }

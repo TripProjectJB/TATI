@@ -71,5 +71,16 @@ public class AttractionController {
 		}
 	}
 	
+	@GetMapping("/random")
+	public ResponseEntity<?> getRandom() {
+		log.info("getRandom - 호출 ");
+		try {
+			AttractionDto attractionDto =  attractionService.getRandom();
+			return ResponseEntity.status(HttpStatus.OK).body(attractionDto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+		}
+	}
 	
 }
