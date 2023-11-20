@@ -45,7 +45,7 @@ watch(cnt, () => {
         <div class="features row">
             <div class="12u$">
                 <div class="box">
-                    <h2>{{ cnt }} / 9</h2>
+                    <h2><span class="icon fa-spinner"></span> &nbsp;{{ cnt }} / 9</h2>
                     <h2>
                         {{ data[0] }}
                     </h2>
@@ -55,10 +55,10 @@ watch(cnt, () => {
             <div class="12u$">
                 <ul class="actions">
                     <li>
-                        <button class="big" @click="next(0)">{{ data[1] }}</button>
+                        <button class="big icon fa-hand-o-right" @click="next(0)">{{ data[1] }}</button>
                     </li>
                     <li>
-                        <button class="big special" @click="next(1)">{{ data[2] }}</button>
+                        <button class="big special icon fa-hand-o-right" @click="next(1)">{{ data[2] }}</button>
                     </li>
                 </ul>
             </div>

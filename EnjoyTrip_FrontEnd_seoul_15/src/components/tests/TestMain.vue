@@ -11,7 +11,7 @@ const {resultSet} = store;
 
 <template>
     <section>
-        <h2>8가지의 TATI를 소개합니다~~</h2>
+        <h2 class="icon fa-hand-peace-o">&nbsp; 8가지의 TATI를 소개합니다~~</h2>
         <div class="features">
             <article v-for="result in resultSet" :key="result.no">
                 <span class="icon">

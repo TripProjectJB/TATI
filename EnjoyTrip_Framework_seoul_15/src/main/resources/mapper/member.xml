@@ -39,7 +39,7 @@
 	</select>
 	
 	<select id="userInfo" parameterType="string" resultMap="member">
-		select user_name, user_id, email_id, email_domain, join_date, file_idx, tati
+		select *
 		from members
 		where user_id = #{userId}
 	</select>

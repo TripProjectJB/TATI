@@ -56,33 +56,36 @@ console.log(route.params.type);
     <section id="banner">
             <div class="content">
                 <header>
-                    <h1>
-                        {{ data.type }}<br />
+                    <h1 class="icon fa-tag">
+                        &nbsp;{{ data.type }}<br />
                     </h1>
                     <h3>{{ data.tag }}</h3>
                 </header>
+                <hr>
                 <p>
                     {{ data.explain }}
                 </p>
-                <p class="row">
-                    <div class="6u">
+                <hr>
+                <p class="row" style="text-align: center;">
+                    <div class="6u icon fa-thumbs-up">
                         잘어울리는 음식 <br>
                             {{ data.good }}
                     </div>
-                    <div class="6u$">
+                    <div class="6u$ icon fa-thumbs-down">
                         안어울리는 음식 <br>
                             {{ data.bad }}
                     </div>
                 </p>
+                <hr>
                 <ul class="actions row">
                     <li class="12u$">&nbsp;</li>
                     <template v-if="userInfo.userId != ''">
-                        <li class="6u"><a class="button big special" @click="save">TATI 저장</a></li>
-                        <li class="6u$"><a class="button big">추천 여행지</a></li>
+                        <li class="6u"><a class="button special" @click="save">TATI 저장</a></li>
+                        <li class="6u$"><a class="button">추천 여행지</a></li>
                     </template>
                     <li class="12u$">&nbsp;</li>
-                    <li class="6u"><a class="button big" @click="()=>{state = !state}">공유하기</a></li>
-                    <li class="6u$"><a class="button big special" @click="$router.push({name:'test-main'})">다시 검사하기</a></li>
+                    <li class="6u"><a class="button" @click="()=>{state = !state}">공유하기</a></li>
+                    <li class="6u$"><a class="button special" @click="$router.push({name:'test-main'})">다시 검사하기</a></li>
                     <li class="12u$">&nbsp;</li>
                     <div class="12u$ box" v-if="state">{{ url }}</div>
                 </ul>

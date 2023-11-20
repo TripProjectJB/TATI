@@ -9,10 +9,10 @@ const {boardNo} = storeToRefs(store);
 <template>
     <section class="content">
         <header class="">
-            <h1 v-if="boardNo == 1">자유 게시판</h1>
-            <h1 v-if="boardNo == 2">여행지 추천 게시판</h1>
-            <h1 v-if="boardNo == 3">TATI 게시판</h1>
-            <h1 v-if="boardNo == 4">Type D Board</h1>
+            <h1 class="icon fa-paperclip" v-if="boardNo == 1">&nbsp;자유 게시판</h1>
+            <h1 class="icon fa-paperclip" v-if="boardNo == 2">&nbsp;여행지 추천 게시판</h1>
+            <h1 class="icon fa-paperclip" v-if="boardNo == 3">&nbsp;TATI 게시판</h1>
+            <h1 class="icon fa-paperclip" v-if="boardNo == 4">&nbsp;Type D Board</h1>
             <h3>List</h3>
             <div class="12u$">&nbsp;</div>
         </header>

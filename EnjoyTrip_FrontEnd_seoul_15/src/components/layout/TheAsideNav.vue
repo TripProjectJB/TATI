@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import {useMemberStore} from "@/stores/member.js";
 import {useTripTestStore} from "@/stores/tripTest";
 import {storeToRefs} from "pinia";
@@ -27,13 +27,20 @@ const logout = async () => {
 };
 
 const myTati = ref("");
-if (userInfo.value.tati != null) {
-    tripStore.resultSet.forEach((element) => {
-        if (element.no == userInfo.value.tati) {
-            myTati.value = element.type;
+
+watch(
+    userInfo,
+    () => {
+        if (userInfo.value.tati != null) {
+            tripStore.resultSet.forEach((element) => {
+                if (element.no == userInfo.value.tati) {
+                    myTati.value = element.type;
+                }
+            });
         }
-    });
-}
+    },
+    {immediate: true}
+);
 </script>
 
 <template>
@@ -52,7 +59,9 @@ if (userInfo.value.tati != null) {
                 </header>
                 <div class="row 50% uniform">
                     <div class="5u" v-if="userInfo.filePath">
-                        <span class="image fit"><img :src="VITE_VUE_API_URL + userInfo.filePath" /></span>
+                        <span class="image fit"
+                            ><img :src="VITE_VUE_API_URL + userInfo.filePath" style="border-radius: 50%"
+                        /></span>
                     </div>
                     <div class="5u" v-else>
                         <span class="image fit"><img src="@/assets/images/profile.png" /></span>
@@ -104,7 +113,11 @@ if (userInfo.value.tati != null) {
                         >
                     </li>
                     <li class="fa-coffee">
-                        <div v-if="userInfo.tati">My TATI : {{ myTati }}</div>
+                        <div v-if="userInfo.tati">
+                            My TATI :&nbsp;
+                            <span class="icon fa-tag"></span>
+                            {{ myTati }}
+                        </div>
                         <div v-else>My TATI : <router-link :to="{name: 'test'}">검사하기!</router-link></div>
                     </li>
                 </ul>
@@ -209,12 +222,10 @@ if (userInfo.value.tati != null) {
                 <header class="major">
                     <h2>제작자</h2>
                 </header>
-                <ul class="alt">
-                    <li>이제헌 / 컴퓨터공학 / github.com/JEGHTNER</li>
-                    <li>김종범 / 물리학과 / github.com/jongbum97</li>
-                </ul>
                 <ul class="contact">
-                    <li class="fa-home">카카오뱅크 / 3333093816830</li>
+                    <li class="icon fa-user">이제헌 / 컴퓨터공학 / github.com/JEGHTNER</li>
+                    <li class="fa-user">김종범 / 물리학과 / github.com/jongbum97</li>
+                    <li class="fa-credit-card-alt">카카오뱅크 / 3333093816830</li>
                 </ul>
             </section>
 

@@ -1,5 +1,5 @@
 <script setup>
-import {ref, onMounted} from "vue";
+import {ref, onMounted, watch} from "vue";
 import {useAttractionStore} from "@/stores/attractions";
 import {storeToRefs} from "pinia";
 import {useRoute} from "vue-router";
@@ -11,6 +11,13 @@ const {attraction} = storeToRefs(attStore);
 onMounted(async () => {
     await attStore.getAttractionDetail(route.params.id);
 });
+
+watch(
+    () => route.params.id,
+    () => {
+        attStore.getAttractionDetail(route.params.id);
+    }
+);
 </script>
 
 <template>

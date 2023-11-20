@@ -123,7 +123,7 @@ const withdrawal = async () => {
                             <span
                                 class="image fit"
                                 style="display: flex justify-content: center; align-self: center; margin: 0 auto; width: 200px;">
-                                <img :src="VITE_VUE_API_URL + userInfo.filePath" />
+                                <img :src="VITE_VUE_API_URL + userInfo.filePath" style="border-radius: 50%" />
                                 <div class="12u$">
                                     <input
                                         type="file"
@@ -170,21 +170,30 @@ const withdrawal = async () => {
                                 </tr>
                                 <tr>
                                     <td>이름</td>
-                                    <input type="text" name="userName" v-model="user.userName" style="width: 200px" />
+                                    <input type="text" name="userName" v-model="user.userName" style="width: 300px" />
                                     <!-- <td>{{ userInfo.userName }}</td> -->
                                 </tr>
                                 <tr>
                                     <td>비밀번호</td>
-                                    <input type="password" name="userPwd" v-model="user.userPwd" />
+                                    <input type="password" name="userPwd" v-model="user.userPwd" style="width: 300px" />
                                 </tr>
                                 <tr>
                                     <td>비밀번호 확인</td>
-                                    <input type="password" name="userPwdCheck" v-model="passwordCheck" />
+                                    <input
+                                        type="password"
+                                        name="userPwdCheck"
+                                        v-model="passwordCheck"
+                                        style="width: 300px" />
                                 </tr>
                                 <tr>
                                     <td>이메일</td>
                                     <div style="display: flex">
-                                        <input type="text" name="userEmail" v-model="user.emailId" />@
+                                        <input
+                                            type="text"
+                                            name="userEmail"
+                                            v-model="user.emailId"
+                                            style="width: 300px" />
+                                        <td>@</td>
                                         <select
                                             style="width: 200px !important; margin-left: 10px"
                                             name="demo-category"
@@ -205,7 +214,7 @@ const withdrawal = async () => {
                                 <tr>
                                     <td>tati</td>
                                     <div class="12u" v-if="userInfo.tati">
-                                        <td>{{ myTati }}</td>
+                                        <td class="icon fa-tag">&nbsp; {{ myTati }}</td>
                                     </div>
                                     <div class="12u" v-else>
                                         <td>
