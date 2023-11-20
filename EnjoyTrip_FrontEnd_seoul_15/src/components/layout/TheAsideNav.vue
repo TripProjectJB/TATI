@@ -37,7 +37,7 @@ const logout = async () => {
             <!-- userinfo -->
             <section>
                 <header class="major">
-                    <h2>My Information</h2>
+                    <h2>내정보</h2>
                 </header>
                 <div class="row 50% uniform">
                     <div class="5u" v-if="userInfo.filePath">
@@ -106,15 +106,15 @@ const logout = async () => {
             <!-- Menu -->
             <nav id="menu">
                 <header class="major">
-                    <h2>Menu</h2>
+                    <h2>메뉴</h2>
                 </header>
                 <ul>
-                    <li><RouterLink :to="{name: 'main'}">Homepage</RouterLink></li>
+                    <li><RouterLink :to="{name: 'main'}">홈</RouterLink></li>
                     <li>
-                        <RouterLink :to="{name: 'map'}">Tourist Attractions</RouterLink>
+                        <RouterLink :to="{name: 'map'}">관광지 검색</RouterLink>
                     </li>
                     <li>
-                        <span class="opener">Board</span>
+                        <span class="opener">게시판</span>
                         <ul>
                             <li>
                                 <RouterLink
@@ -163,17 +163,17 @@ const logout = async () => {
                         </ul>
                     </li>
                     <li>
-                        <RouterLink :to="{name: 'test'}">TATI Test</RouterLink>
+                        <RouterLink :to="{name: 'test'}">TATI 검사하기</RouterLink>
                     </li>
                     <li><RouterLink :to="{name: 'elements'}">ELEMENTS</RouterLink></li>
-                    <li><a href="#">Adipiscing</a></li>
+                    <li><a href="#">추가기능</a></li>
                 </ul>
             </nav>
 
             <!-- Section -->
             <section>
                 <header class="major">
-                    <h2>관광지 추천</h2>
+                    <h2>추천 관광지</h2>
                 </header>
                 <div class="mini-posts">
                     <template v-for="(article, index) in articles" :key="article.content_id">
@@ -230,4 +230,10 @@ const logout = async () => {
     </aside>
 </template>
 
-<style scoped></style>
+<style scoped>
+a,
+span {
+    font-family: "sideBar" !important;
+    font-size: small !important;
+}
+</style>
