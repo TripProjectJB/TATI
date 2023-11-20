@@ -87,7 +87,7 @@ const markerPositions2 = ref([
 const markers = ref([]);
 let map = null;
 let infowindow = null;
-
+let infoWindow = null;
 const initMap = () => {
 	const container = document.getElementById("map");
 	const options = {
@@ -96,6 +96,10 @@ const initMap = () => {
 	};
 
 	map = new kakao.maps.Map(container, options);
+	infoWindow = new window.kakao.maps.InfoWindow({
+		content: "1111",
+		removable: true,
+	});
 };
 
 const changeSize = (size) => {
@@ -121,8 +125,8 @@ function displayMarker() {
 		// 마커 이미지의 이미지 크기 입니다
 		var imageSize = new kakao.maps.Size(24, 35);
 		const iwContent = `
-            <div style="height:180px">
-             <div class="title">
+            <div style="width:330px; text-align: center">
+             <div class="title" style="font-size: x-large; font-weight: bold;">
                   ${positions.value[i].title}
               </div>
               <div>
@@ -131,7 +135,7 @@ function displayMarker() {
 									}" width="180" height="100" />
                   <div class="desc">
                       <div>${positions.value[i].addr1}</div>
-                      <div>클릭시 계획에 추가</div>
+
                   </div>
                 </div>
             </div>`;
@@ -174,8 +178,26 @@ function displayMarker() {
 	map.setBounds(bounds);
 }
 
-function moveCenter(lat, lng) {
+function moveCenter(lat, lng, index) {
+	// console.log(markers.value[index]);
 	map.setCenter(new kakao.maps.LatLng(lat, lng));
+
+	const content = `
+            <div style="width:330px; text-align: center">
+             <div class="title" style="font-size: x-large; font-weight: bold;">
+                  ${positions.value[index].title}
+              </div>
+              <div>
+                  <img src="${
+										positions.value[index].firstimage || altImage
+									}" width="180" height="100" />
+                  <div class="desc">
+                      <div>${positions.value[index].addr1}</div>
+                  </div>
+                </div>
+            </div>`;
+	infoWindow.setContent(content);
+	infoWindow.open(map, markers.value[index]);
 }
 
 onMounted(() => {
@@ -283,29 +305,32 @@ const btnSearch = () => {
 	<!-- kakao map start -->
 	<div id="map" class="mt-3" style="width: 100%; height: 500px"></div>
 	<!-- kakao map end -->
-
+	<div>&nbsp;</div>
+	<div>&nbsp;</div>
+	<div>&nbsp;</div>
 	<div class="row" style="overflow: scroll; width: auto; height: 1000px">
 		<table class="table table-striped mt-3">
-			<thead>
+			<thead style="font-size: large">
 				<tr style="text-align: center">
 					<th>대표이미지</th>
 					<th>관광지명</th>
 					<th>주소</th>
-					<th>위도</th>
-					<th>경도</th>
+					<th>좋아요</th>
+					<!-- <th>위도</th>
+					<th>경도</th> -->
 				</tr>
 			</thead>
 			<tbody>
 				<tr
-					v-for="area in trips"
-					:key="area.title"
+					v-for="(area, index) in trips"
+					:key="area.contentId"
 					class="trip-info"
-					@click="moveCenter(area.mapy, area.mapx)">
-					<td><img :src="area.firstimage" :width="100" /></td>
+					@click="moveCenter(area.mapy, area.mapx, index)">
+					<td><img :src="area.firstimage || altImage" :width="100" /></td>
 					<td>{{ area.title }}</td>
 					<td>{{ area.addr1 }} {{ area.addr2 }}</td>
-					<td name="distance" class="latitude">{{ area.mapy }}</td>
-					<td name="distance" class="longitude">{{ area.mapx }}</td>
+					<!-- <td name="distance" class="latitude">{{ area.mapy }}</td>
+					<td name="distance" class="longitude">{{ area.mapx }}</td> -->
 					<td><input type="checkbox" name="xxx" value="yyy" /></td>
 				</tr>
 			</tbody>
