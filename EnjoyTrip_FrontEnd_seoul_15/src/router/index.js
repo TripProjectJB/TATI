@@ -2,6 +2,14 @@ import {createRouter, createWebHistory} from "vue-router";
 import MainView from "../views/MainView.vue";
 import MapView from "../views/MapView.vue";
 
+// const routerGuard = new VueRouter({});
+// routerGuard.beforeEach((to, from, next) => {
+//     console.log("to: ", to);
+//     console.log("from: ", from);
+//     console.log("next: ", next);
+//     next();
+// });
+
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [

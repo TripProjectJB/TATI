@@ -1,4 +1,5 @@
 <script setup>
+import {VueRouter} from "vue";
 import {RouterView} from "vue-router";
 import TheAsideNav from "./components/layout/TheAsideNav.vue";
 import TheHeading from "./components/layout/TheHeading.vue";
