@@ -27,12 +27,10 @@ onMounted(() => {
 });
 
 watch(boardNo, () => {
-    console.log("boardNo 변경 감지");
     getArticleList();
 });
 
 const getArticleList = () => {
-    console.log("서버에서 글목록 얻어오자!!!", param.value);
     listArticle(
         param.value,
         ({data}) => {
