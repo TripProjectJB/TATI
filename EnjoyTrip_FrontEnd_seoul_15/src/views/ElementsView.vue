@@ -16,47 +16,47 @@ import ElementPreformatted from "../components/elements/ElementPreformatted.vue"
 </script>
 
 <template>
-  <section>
-    <header class="main">
-      <h1>Elements</h1>
-    </header>
+    <section>
+        <header class="main">
+            <h1>Elements</h1>
+        </header>
 
-    <!-- Content -->
-    <ElementContent />
+        <!-- Content -->
+        <ElementContent />
 
-    <hr class="major" />
+        <hr class="major" />
 
-    <!-- Elements -->
-    <h2 id="elements">Elements</h2>
-    <div class="row 200%">
-      <div class="6u 12u$(medium)">
-        <!-- Text stuff -->
-        <ElementText />
-        <!-- Lists -->
-        <ElementList />
-        <ElementDefinition />
-        <ElementAction />
-        <ElementPagination />
-        <!-- Blockquote -->
-        <ElementBlockQuote />
-        <!-- Table -->
-        <ElementTable />
-        <ElementTableAlter />
-      </div>
-      <div class="6u$ 12u$(medium)">
-        <!-- Buttons -->
-        <ElementButton />
-        <!-- Form -->
-        <ElementForm />
-        <!-- Image -->
-        <ElementImage />
-        <!-- Box -->
-        <ElementBox />
-        <!-- Preformatted Code -->
-        <ElementPreformatted />
-      </div>
-    </div>
-  </section>
+        <!-- Elements -->
+        <h2 id="elements">Elements</h2>
+        <div class="row 200%">
+            <div class="6u 12u$(medium)">
+                <!-- Text stuff -->
+                <ElementText />
+                <!-- Lists -->
+                <ElementList />
+                <ElementDefinition />
+                <ElementAction />
+                <ElementPagination />
+                <!-- Blockquote -->
+                <ElementBlockQuote />
+                <!-- Table -->
+                <ElementTable />
+                <ElementTableAlter />
+            </div>
+            <div class="6u$ 12u$(medium)">
+                <!-- Buttons -->
+                <ElementButton />
+                <!-- Form -->
+                <ElementForm />
+                <!-- Image -->
+                <ElementImage />
+                <!-- Box -->
+                <ElementBox />
+                <!-- Preformatted Code -->
+                <ElementPreformatted />
+            </div>
+        </div>
+    </section>
 </template>
 
 <style scoped></style>
