@@ -37,4 +37,11 @@ public class AttractionServiceImpl implements AttractionService {
 		return attractionMapper.getDetail(id);
 	}
 
+
+
+	@Override
+	public List<AttractionDto> getRank() throws Exception {
+		return attractionMapper.getRank();
+	}
+
 }

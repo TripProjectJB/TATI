@@ -16,4 +16,12 @@
 		from attraction_info i, attraction_description d
 		where i.content_id = d.content_id and i.content_id = #{id}
 	</select>
+	
+	<select id="getRank" resultType="attractionDto">
+		select *
+		from attraction_info i, attraction_description d
+		where i.content_id = d.content_id and i.first_image != ''
+		order by CAST(mlevel AS UNSIGNED) desc
+		limit 20;
+	</select>
 </mapper>

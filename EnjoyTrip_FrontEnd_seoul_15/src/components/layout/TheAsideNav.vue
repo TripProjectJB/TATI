@@ -130,9 +130,9 @@ watch(
                 </header>
                 <ul>
                     <li><RouterLink :to="{name: 'main'}">홈</RouterLink></li>
-                    <li>
-                        <RouterLink :to="{name: 'map'}">관광지 검색</RouterLink>
-                    </li>
+                    <li><RouterLink :to="{name: 'test'}">TATI 검사하기</RouterLink></li>
+                    <li><RouterLink :to="{name: 'map'}">관광지 검색</RouterLink></li>
+                    <li><RouterLink :to="{name: 'map-rank'}">관광지 순위</RouterLink></li>
                     <li>
                         <span class="opener">게시판</span>
                         <ul>
@@ -182,11 +182,8 @@ watch(
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <RouterLink :to="{name: 'test'}">TATI 검사하기</RouterLink>
-                    </li>
+
                     <li><RouterLink :to="{name: 'elements'}">ELEMENTS</RouterLink></li>
-                    <li><a href="#">추가기능</a></li>
                 </ul>
             </nav>
 

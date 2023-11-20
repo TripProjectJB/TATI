@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import com.ssafy.attraction.model.AttractionDto;
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.member.model.ProfileInfoDto;
 
@@ -21,6 +22,7 @@ public interface MemberService {
 	void updateProfile(ProfileInfoDto profileInfoDto) throws Exception;
 	String getProfileIdx(String userId) throws Exception;
 	void deleteProfile(String userId) throws Exception;
+	
 
 
 	
