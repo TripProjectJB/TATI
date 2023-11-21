@@ -116,6 +116,21 @@ public class AttractionController {
 		}
 	}
 	
+
+	
+	@GetMapping("/rank")
+	public ResponseEntity<?> getRank() {
+		log.info("getRank - 호출 ");
+		try {
+			List<AttractionDto> attractionDtos = attractionService.getRank();
+			return ResponseEntity.status(HttpStatus.OK).body(attractionDtos);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+		}
+	}
+
+	
 	@ApiOperation(value = "좋아요 개수 더하기", notes = "좋아요 개수 더하기", response = String.class)
 	@PutMapping("like/updatelike/{contentId}")
 	public ResponseEntity<String> updateAttractionLike(@PathVariable String contentId) throws Exception {
