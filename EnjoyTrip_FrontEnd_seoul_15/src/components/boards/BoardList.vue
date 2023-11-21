@@ -38,9 +38,7 @@ const getArticleList = () => {
             currentPage.value = data.currentPage;
             totalPage.value = data.totalPageCount;
         },
-        (error) => {
-            console.log(error);
-        }
+        (error) => {}
     );
 };
 

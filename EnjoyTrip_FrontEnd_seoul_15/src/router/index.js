@@ -12,6 +12,11 @@ const router = createRouter({
             meta: {withoutLogin: true},
         },
         {
+            path: "/chat",
+            name: "chat",
+            component: () => import("@/views/ChatView.vue"),
+        },
+        {
             path: "/map",
             name: "map",
             component: MapView,
@@ -144,8 +149,10 @@ const router = createRouter({
 router.beforeEach(async (to, from) => {
     if (!to.meta.withoutLogin) {
         let store = sessionStorage.getItem("memberStore");
-        if (!store || !JSON.parse(store).isLogin) alert("로그인 후 이용해 주세요");
-        return {name: "login"};
+        if (!store || !JSON.parse(store).isLogin) {
+            alert("로그인 후 이용해 주세요");
+            return {name: "login"};
+        }
     }
 });
 

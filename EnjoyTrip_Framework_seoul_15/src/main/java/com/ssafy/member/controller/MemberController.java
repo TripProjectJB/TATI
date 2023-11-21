@@ -53,7 +53,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 //@Controller
 @RequestMapping("/user")
-@CrossOrigin("*")
 @Api(tags = { "MemberController" })
 @Slf4j
 public class MemberController {

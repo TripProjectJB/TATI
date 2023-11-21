@@ -132,9 +132,7 @@ export const useMemberStore = defineStore(
                         console.error("유저 정보 없음!!!!");
                     }
                 },
-                (error) => {
-                    console.log(error);
-                }
+                (error) => {}
             );
         };
 
@@ -149,9 +147,7 @@ export const useMemberStore = defineStore(
                         alert("회원가입에 실패했습니다.");
                     }
                 },
-                async (error) => {
-                    console.log(error);
-                }
+                async (error) => {}
             );
         };
 
@@ -165,9 +161,7 @@ export const useMemberStore = defineStore(
                         console.log("파일인덱스찾기 실패", response.status);
                     }
                 },
-                async (error) => {
-                    console.log(error);
-                }
+                async (error) => {}
             );
         };
 
@@ -186,7 +180,7 @@ export const useMemberStore = defineStore(
         //       }
         //     },
         //     async (error) => {
-        //       console.log(error);
+        //
         //     }
         //   );
         // };
@@ -210,9 +204,7 @@ export const useMemberStore = defineStore(
                         alert("회원탈퇴에 실패했습니다.");
                     }
                 },
-                async (error) => {
-                    console.log(error);
-                }
+                async (error) => {}
             );
         };
 
