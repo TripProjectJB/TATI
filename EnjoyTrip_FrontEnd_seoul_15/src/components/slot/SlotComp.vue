@@ -1,10 +1,61 @@
+<script setup>
+import { ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useMemberStore } from "@/stores/member";
+import SlotComp from "../slot/SlotComp.vue";
+
+import axios from "axios";
+const store = useMemberStore();
+const route = useRoute();
+const router = useRouter();
+const userId = route.params.userid;
+const searched = ref([]);
+const searchCount = ref(0);
+const following = ref([]);
+const flag = ref(false);
+const url = import.meta.env.VITE_VUE_API_URL;
+const props = defineProps({
+	id: String,
+});
+
+// watch(
+// 	following,
+// 	() => {
+// 		axios.get(url + "/user/followinglist/" + store.userInfo.userId).then((res) => {
+// 			following.value = res.data;
+// 			checkFollowing(props.id);
+// 		});
+// 	},
+// 	{ immediate: true }
+// );
+// watch(flag, () => {
+// 	console.log("flag changed");
+// 	checkFollowing(props.id);
+// 	console.log("flagcheck=", flag.value);
+// });
+
+// const follow = async (id) => {
+// 	const follow = {
+// 		follower_id: store.userInfo.userId,
+// 		following_id: id,
+// 	};
+// 	await axios.put(url + "/user/addfollow", follow);
+
+// 	flag.value = true;
+// };
+
+// const followCancel = async (id) => {
+// 	await axios.delete(url + "/user/deletefollow/" + store.userInfo.userId + "/" + id);
+
+// 	flag.value = false;
+// };
+</script>
+
 <template>
 	<div>
-		<slot></slot>
+		<slot> </slot>
 	</div>
 </template>
-
-<script></script>
 
 <style scoped>
 div {

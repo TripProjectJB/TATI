@@ -39,7 +39,9 @@ public interface MemberService {
 	List<String> getFollower(String userId) throws Exception;
 	List<String> getFollowing(String userId) throws Exception;
 	void addFollow(Map<String, String> map) throws Exception;
-	void deleteFollow(Map<String, String> map) throws Exception;
+	void deleteFollow(String followerId, String followingId) throws Exception;
+	public String checkFollowing(Map<String, String> map) throws Exception;
+
 	
 	
 }

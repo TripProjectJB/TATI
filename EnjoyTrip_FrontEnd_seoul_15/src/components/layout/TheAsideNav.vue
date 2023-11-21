@@ -12,7 +12,7 @@ const { articles } = storeToRefs(attstore);
 const tripStore = useTripTestStore();
 const router = useRouter();
 const store = useMemberStore();
-const { userInfo } = storeToRefs(store);
+const { userInfo, followings } = storeToRefs(store);
 const { userLogout } = store;
 console.log("store.userInfo : ", store.userInfo);
 

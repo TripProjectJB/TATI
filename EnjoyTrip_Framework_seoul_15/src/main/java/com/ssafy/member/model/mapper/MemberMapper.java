@@ -41,6 +41,8 @@ public interface MemberMapper {
 	List<String> getFollower(String userId) throws SQLException;
 	List<String> getFollowing(String userId) throws SQLException;
 	void addFollow(Map<String, String> map) throws SQLException;
-	void deleteFollow(Map<String, String> map) throws SQLException;
+	void deleteFollow(String followerId, String followingId) throws SQLException;
+	public String checkFollowing(Map<String, String> map) throws SQLException;
+
 	
 }

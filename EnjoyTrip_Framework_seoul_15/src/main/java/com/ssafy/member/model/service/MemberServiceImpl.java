@@ -142,17 +142,24 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void addFollow(Map<String, String> map) throws Exception{
+		log.debug("{}",map);
 		memberMapper.addFollow(map);
 	}
 
 	@Override
-	public void deleteFollow(Map<String, String> map) throws Exception{
-		memberMapper.deleteFollow(map);
+	public void deleteFollow(String followerId, String followingId) throws Exception{
+		memberMapper.deleteFollow(followerId, followingId);
 	}
 
 	@Override
 	public List<String> searchFriend(String keyword) throws Exception{
 		return memberMapper.searchFriend(keyword);
+		
+	}
+	
+	@Override
+	public String checkFollowing(Map<String, String> map) throws Exception{
+		return memberMapper.checkFollowing(map);
 		
 	}
 

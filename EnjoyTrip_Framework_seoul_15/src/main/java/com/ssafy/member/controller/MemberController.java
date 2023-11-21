@@ -332,6 +332,19 @@ public class MemberController {
 		}
 	}
 	
+	@ApiOperation(value = "팔로워확인", notes = "팔로우 중인지 확인")
+	@PostMapping("/checkfollowing")
+	public ResponseEntity<?> checkFollowing(@RequestBody Map<String, String> map) throws Exception {
+		log.debug("follow확인 {}", map);
+		String find = memberService.checkFollowing(map);
+		log.debug("check{}",find);
+		if(find != null) {
+			return new ResponseEntity<String>(find, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}
+	}
+	
 	@ApiOperation(value = "팔로잉목록", notes = "회원의 <big>팔로잉 목록</big>을 반환해 줍니다.")
 	@GetMapping("/followinglist/{userid}")
 	public ResponseEntity<?> followinglist(@PathVariable("userid") String userId) throws Exception {
@@ -347,16 +360,16 @@ public class MemberController {
 	@ApiOperation(value = "팔로우 추가", notes = "회원의 <big>팔로워, 팔로잉 추가</big>해 줍니다.")
 	@PutMapping("/addfollow")
 	public ResponseEntity<?> follow(@RequestBody Map<String, String> map) throws Exception {
-		log.debug("follow추가");
+		log.debug("follow추가 {}", map);
 		memberService.addFollow(map);
 		return ResponseEntity.ok().build();
 	}
 
 	@ApiOperation(value = "팔로우 삭제", notes = "회원의 <big>팔로워, 팔로잉 삭제</big>해 줍니다.")
-	@DeleteMapping("/deletefollow")
-	public ResponseEntity<?> articleD(@RequestBody Map<String, String> map) throws Exception {
+	@DeleteMapping("/deletefollow/{followerId}/{followingId}")
+	public ResponseEntity<?> articleD(@PathVariable String followerId, @PathVariable String followingId ) throws Exception {
 		log.debug("follow삭제");
-		memberService.deleteFollow(map);
+		memberService.deleteFollow(followerId, followingId);
 		return ResponseEntity.ok().build();
 	}
 	private ResponseEntity<String> exceptionHandling(Exception e) {
