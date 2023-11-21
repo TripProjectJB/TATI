@@ -3,6 +3,7 @@ package com.ssafy.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -33,8 +34,9 @@ public class JWTInterceptor implements HandlerInterceptor {
 			log.info("토큰 사용 가능 : {}", token);
 			return true;
 		} else {
-			log.info("토큰 사용 불가능 : {}", token);
-			throw new UnAuthorizedException();
+			log.info("토큰 사용 불가능 401에러 반환 : {}", token);
+			response.setStatus(401);
+			return false;
 		}
 
 	}

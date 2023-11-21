@@ -115,4 +115,17 @@ public class AttractionController {
 		}
 	}
 	
+	@GetMapping("/rank")
+	public ResponseEntity<?> getRank() {
+		log.info("getRank - 호출 ");
+		try {
+			List<AttractionDto> attractionDtos = attractionService.getRank();
+			return ResponseEntity.status(HttpStatus.OK).body(attractionDtos);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+		}
+	}
+	
+	
 }
