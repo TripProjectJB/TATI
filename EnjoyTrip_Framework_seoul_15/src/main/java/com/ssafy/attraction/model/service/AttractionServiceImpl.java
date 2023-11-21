@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.attraction.model.AttractionDto;
+import com.ssafy.attraction.model.AttractionLikeDto;
 import com.ssafy.attraction.model.mapper.AttractionMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +51,22 @@ public class AttractionServiceImpl implements AttractionService {
 	public AttractionDto getRandom() throws Exception {
 		int k = (int) (Math.random()*26000);
 		return attractionMapper.getRandom(k).get(0);
+	}
+	public void likeAttraction(AttractionLikeDto attractionLikeDto) throws Exception {
+		attractionMapper.likeAttraction(attractionLikeDto);
+		
+	}
+	@Override
+	public void likeCancelAttraction(String userId, String contentId) throws Exception {
+		attractionMapper.likeCancelAttraction(userId, contentId);
+		
+	}
+
+
+
+	@Override
+	public List<String> getLikeList(String userId) throws Exception {
+		return attractionMapper.getLikeList(userId);
 	}
 
 }
