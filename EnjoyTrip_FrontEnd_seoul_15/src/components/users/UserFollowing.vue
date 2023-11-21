@@ -28,9 +28,8 @@ onMounted(() => {
 		<slot-comp v-for="id in followings">
 			<img v-bind:src="id" />
 			<h3 @click="$router.push({ name: 'userinfo', params: { userid: id } })">{{ id }}</h3>
+			<button style="font-size: small" @click="followCancel(id)">팔로우 취소</button>
 		</slot-comp>
-		<button v-if="f" style="font-size: medium" @click="followCancel(id)">팔로우 취소</button>
-		<button v-if="!f" style="font-size: medium" @click="follow(id)">팔로우</button>
 	</div>
 </template>
 
