@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -115,4 +116,27 @@ public class AttractionController {
 		}
 	}
 	
+	@ApiOperation(value = "좋아요 개수 더하기", notes = "좋아요 개수 더하기", response = String.class)
+	@PutMapping("like/updatelike/{contentId}")
+	public ResponseEntity<String> updateAttractionLike(@PathVariable String contentId) throws Exception {
+		try {
+			attractionService.updateAttractionLike(contentId);
+			return ResponseEntity.status(HttpStatus.OK).build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+		}
+	}
+	
+	@ApiOperation(value = "좋아요 개수 빼기", notes = "좋아요 개수 빼기", response = String.class)
+	@PutMapping("like/updatelikecancel/{contentId}")
+	public ResponseEntity<String> updateAttractionLikeCancel(@PathVariable String contentId) throws Exception {
+		try {
+			attractionService.updateAttractionLikeCancel(contentId);
+			return ResponseEntity.status(HttpStatus.OK).build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+		}
+	}
 }

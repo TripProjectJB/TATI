@@ -69,4 +69,16 @@ public class AttractionServiceImpl implements AttractionService {
 		return attractionMapper.getLikeList(userId);
 	}
 
+
+
+	@Override
+	public void updateAttractionLike(String contentId) throws Exception {
+		attractionMapper.updateAttractionLike(contentId);
+	}
+	
+	@Override
+	public void updateAttractionLikeCancel(String contentId) throws Exception {
+		attractionMapper.updateAttractionLikeCancel(contentId);
+	}
+
 }

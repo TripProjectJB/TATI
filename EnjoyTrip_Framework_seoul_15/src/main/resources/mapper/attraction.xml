@@ -48,4 +48,17 @@
 		where i.content_id = d.content_id and i.first_image != ''
 		limit #{k}, 10
 	</select>
+	
+	<update id="updateAttractionLike" parameterType="string">
+		update attraction_info
+		set mlevel = mlevel + 1
+		where content_id = #{contentId}
+	</update>
+	
+	<update id="updateAttractionLikeCancel" parameterType="string">
+		update attraction_info
+		set mlevel = mlevel - 1
+		where content_id = #{contentId}
+	</update>
+	
 </mapper>
