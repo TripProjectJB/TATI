@@ -14,6 +14,7 @@ import {
   withdrawal,
   follower,
   following,
+  findOtherUserById,
 } from "@/api/user";
 import { httpStatusCode } from "@/util/http-status";
 
@@ -82,6 +83,23 @@ export const useMemberStore = defineStore(
           isValidToken.value = false;
 
           await tokenRegenerate();
+        }
+      );
+    };
+
+    const getOtherUserInfo = (userId, thisUserInfo) => {
+      findOtherUserById(
+        userId,
+        (response) => {
+          if (response.status === httpStatusCode.OK) {
+            thisUserInfo.value = response.data.userInfo;
+            // console.log("thisUserInfo : ", thisUserInfo.value);
+          } else {
+            console.log("유저 정보 없음!!!!");
+          }
+        },
+        async (error) => {
+          console.error("getOtherUserInfo error::: ", error.response.status);
         }
       );
     };
@@ -275,6 +293,7 @@ export const useMemberStore = defineStore(
       followings,
       followerCount,
       followingCount,
+      getOtherUserInfo,
     };
   },
   {

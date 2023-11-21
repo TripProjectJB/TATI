@@ -44,6 +44,12 @@
 		where user_id = #{userId}
 	</select>
 	
+	<select id="otherUserInfo" parameterType="string" resultMap="member">
+		select user_id, user_name,email_id, email_domain, join_date, file_idx
+		from members
+		where user_id = #{userId}
+	</select>
+	
 	<select id="getFilePath" parameterType="string" resultMap="file">
 		select save_folder, original_file
 		from file_info

@@ -48,6 +48,16 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return memberDto;
 	}
+	
+	@Override
+	public MemberDto otherUserInfo(String userId) throws Exception {
+		MemberDto memberDto = memberMapper.otherUserInfo(userId);
+		if(memberDto.getFileIdx()!=null) {
+			ProfileInfoDto file = memberMapper.getProfileFilePath(memberDto.getFileIdx());
+			memberDto.setFilePath("/file/"+file.getSaveFolder()+"/"+file.getOriginalFile());
+		}
+		return memberDto;
+	}
 
 	@Override
 	public void saveRefreshToken(String userId, String refreshToken) throws Exception {

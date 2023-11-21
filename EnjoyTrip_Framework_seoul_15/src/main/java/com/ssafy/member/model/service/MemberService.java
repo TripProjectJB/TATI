@@ -13,6 +13,7 @@ public interface MemberService {
 	int idCheck(String userId) throws Exception;
 	MemberDto login(MemberDto memberDto) throws Exception;
 	MemberDto userInfo(String userId) throws Exception;
+	MemberDto otherUserInfo(String userId) throws Exception;
 	void joinMember(MemberDto memberDto) throws Exception;
 	void modifyMember(MemberDto memberDto) throws Exception;
 	void saveRefreshToken(String userId, String refreshToken) throws Exception;
