@@ -32,11 +32,14 @@ public interface MemberService {
 	void updateMember(MemberDto memberDto) throws Exception;
 	void deleteMember(String userid) throws Exception;
 	
+	/* Friend Search*/
+	List<String> searchFriend(String keyword) throws Exception;
+	
 	/* Follower Following*/
-	List<String> getFollower(String userId);
-	List<String> getFollowing(String userId);
-	void addFollow(Map<String, String> map);
-	void deleteFollow(Map<String, String> map);
+	List<String> getFollower(String userId) throws Exception;
+	List<String> getFollowing(String userId) throws Exception;
+	void addFollow(Map<String, String> map) throws Exception;
+	void deleteFollow(Map<String, String> map) throws Exception;
 	
 	
 }

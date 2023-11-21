@@ -18,7 +18,8 @@ watch(
 	() => route.params.id,
 	() => {
 		attStore.getAttractionDetail(route.params.id);
-	}
+	},
+	{ immediate: true }
 );
 
 const random = async () => {

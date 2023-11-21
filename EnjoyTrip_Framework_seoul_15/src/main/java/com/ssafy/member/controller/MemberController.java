@@ -307,6 +307,19 @@ public class MemberController {
 //		}
 //	}
 	
+	@ApiOperation(value = "친구찾기", notes = "친구 검색 결과를 반환해줍니다.")
+	@GetMapping("/searchfriend/{keyword}")
+	public ResponseEntity<?> searchFriend(@PathVariable("keyword") String keyword) throws Exception {
+		log.debug("searchfriend call");
+		List<String> list = memberService.searchFriend(keyword);
+		log.debug("{}",list);
+		if(list != null && !list.isEmpty()) {
+			return new ResponseEntity<List<String>>(list, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}
+	}
+	
 	@ApiOperation(value = "팔로워목록", notes = "회원의 <big>팔로워 목록</big>을 반환해 줍니다.")
 	@GetMapping("/followerlist/{userid}")
 	public ResponseEntity<?> followerlist(@PathVariable("userid") String userId) throws Exception {

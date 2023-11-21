@@ -34,10 +34,13 @@ public interface MemberMapper {
 	void updateMember(MemberDto memberDto) throws SQLException;
 	void deleteMember(String userId) throws SQLException;
 	
+	/* Friend Search*/
+	List<String> searchFriend(String keyword) throws SQLException;
+	
 	/* Follower Following*/
-	List<String> getFollower(String userId);
-	List<String> getFollowing(String userId);
-	void addFollow(Map<String, String> map);
-	void deleteFollow(Map<String, String> map);
+	List<String> getFollower(String userId) throws SQLException;
+	List<String> getFollowing(String userId) throws SQLException;
+	void addFollow(Map<String, String> map) throws SQLException;
+	void deleteFollow(Map<String, String> map) throws SQLException;
 	
 }
