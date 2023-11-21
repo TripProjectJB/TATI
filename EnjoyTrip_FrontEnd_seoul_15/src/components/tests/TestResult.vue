@@ -81,7 +81,7 @@ console.log(route.params.type);
                     <li class="12u$">&nbsp;</li>
                     <template v-if="userInfo.userId != ''">
                         <li class="6u"><a class="button special" @click="save">TATI 저장</a></li>
-                        <li class="6u$"><a class="button">추천 여행지</a></li>
+                        <li class="6u$"><a class="button" @click="$router.push({name:'map-detail',params:{id:2384136}})">추천 여행지</a></li>
                     </template>
                     <li class="12u$">&nbsp;</li>
                     <li class="6u"><a class="button" @click="()=>{state = !state}">공유하기</a></li>

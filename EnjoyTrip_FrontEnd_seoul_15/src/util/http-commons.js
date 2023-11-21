@@ -4,6 +4,7 @@ const {VITE_VUE_API_URL, VITE_ELECTRIC_CHARGING_STATION_URL} = import.meta.env;
 
 // local vue api axios instance
 function localAxios() {
+    // accessToken을 자동으로 넣어준다.
     const instance = axios.create({
         baseURL: VITE_VUE_API_URL,
         headers: {
@@ -12,10 +13,12 @@ function localAxios() {
     });
 
     // instance를 사용하는 request 직전에 실행되는 inteceptors.
+    // 토큰이 있다면 헤더에 넣어준다. 본요청 전에 확인용으로 전송되는 options method에는
+    // header에 토큰이 없으므로, 백엔드 서버 인터셉터에서 따로 처리를 해줘야 한다.
     instance.interceptors.request.use(
         (request) => {
             let token = sessionStorage.getItem("accessToken");
-            if (token) instance.defaults.headers["Authorization"] = token;
+            if (token) request.headers.Authorization = token;
             return request;
         },
         (error) => {
@@ -31,8 +34,8 @@ function localAxios() {
             return response;
         },
         (error) => {
-            if (error.response.status == 401) {
-                console.log(error.response);
+            if (error.response && error.response.status == 401) {
+                console.log(error);
                 alert("접근 권한이 없습니다.");
             }
             return Promise.reject(error);
