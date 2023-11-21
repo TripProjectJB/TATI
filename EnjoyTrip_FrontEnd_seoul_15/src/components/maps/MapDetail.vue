@@ -74,6 +74,8 @@ const like = async () => {
 	await attStore.likeAttraction(attractionLike.value);
 	await attStore.getLikeList(store.userInfo.userId);
 	console.log("like after:", attractionLikeList.value);
+	await attStore.updateAttractionLike(route.params.id);
+	await attStore.getAttractionDetail(route.params.id);
 	await checkList();
 };
 const likeCancel = async () => {
@@ -81,6 +83,8 @@ const likeCancel = async () => {
 	console.log(attractionLike.value);
 	await attStore.likeCancelAttraction(store.userInfo.userId, route.params.id);
 	await attStore.getLikeList(store.userInfo.userId);
+	await attStore.updateAttractionLikeCancel(route.params.id);
+	await attStore.getAttractionDetail(route.params.id);
 	await checkList();
 };
 </script>
@@ -103,7 +107,10 @@ const likeCancel = async () => {
 				</h1>
 				<p>{{ attraction.addr1 }} {{ attraction.addr2 }}</p>
 				<ul class="contact">
-					<li class="icon fa-heart">
+					<li v-if="flag" class="icon fa-heart" style="font-size: x-large" @click="likeCancel">
+						<h3>{{ attraction.mlevel }}</h3>
+					</li>
+					<li v-if="!flag" class="icon fa-heart-o" style="font-size: x-large" @click="like">
 						<h3>{{ attraction.mlevel }}</h3>
 					</li>
 				</ul>
@@ -111,19 +118,6 @@ const likeCancel = async () => {
 			<p>
 				{{ attraction.overview }}
 			</p>
-			<ul class="actions">
-				<!-- <li v-for="contentId in attractionLikeList" :key="contentId">
-          {{ route.params.id }}, {{ contentId }}
-        </li> -->
-				<div v-if="flag">
-					<li>
-						<button class="button big" @click="likeCancel">좋아요 취소</button>
-					</li>
-				</div>
-				<div v-if="!flag">
-					<li><button class="button big" @click="like">좋아요</button></li>
-				</div>
-			</ul>
 		</div>
 		<span class="image object">
 			<img :src="attraction.first_image || altImage" alt="" />

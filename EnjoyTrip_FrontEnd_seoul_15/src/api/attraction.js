@@ -17,16 +17,34 @@ async function getRank(success, fail) {
 async function getRandom(success, fail) {
 	await local.get(`/atrraction/random`).then(success).catch(fail);
 }
-async function like(param, success, fail) {
-	await local.post(`/atrraction/like`, JSON.stringify(param)).then(success).catch(fail);
+async function like(attractionLikeDto, success, fail) {
+	await local.post(`/atrraction/like`, JSON.stringify(attractionLikeDto)).then(success).catch(fail);
 }
 
 async function likeCancel(userId, contentId, success, fail) {
 	await local.delete(`/atrraction/likeCancel/${userId}/${contentId}`).then(success).catch(fail);
 }
 
-async function likeList(param, success, fail) {
-	await local.get(`/atrraction/like/${param}`).then(success).catch(fail);
+async function likeList(userId, success, fail) {
+	await local.get(`/atrraction/like/${userId}`).then(success).catch(fail);
 }
 
-export { getAttraction, getDetail, getRank, like, likeList, likeCancel, getRandom };
+async function updateLike(contentId, success, fail) {
+	await local.put(`/atrraction/like/updatelike/${contentId}`).then(success).catch(fail);
+}
+
+async function updateLikeCancel(contentId, success, fail) {
+	await local.put(`/atrraction/like/updatelikecancel/${contentId}`).then(success).catch(fail);
+}
+
+export {
+	getAttraction,
+	getDetail,
+	getRank,
+	like,
+	likeList,
+	likeCancel,
+	getRandom,
+	updateLike,
+	updateLikeCancel,
+};
