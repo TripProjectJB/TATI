@@ -1,6 +1,6 @@
 <script setup>
-import {ref, onMounted, computed} from "vue";
-import {useRouter} from "vue-router";
+import {ref, onMounted, computed, watch} from "vue";
+import {useRouter, useRoute} from "vue-router";
 import VPageNavigation from "@/components/common/VPageNavigation.vue";
 import altImage from "@/assets/images/TATI_logo.jpg";
 // const serviceKey =
@@ -9,6 +9,7 @@ const serviceKey = import.meta.env.VITE_OPEN_API_SERVICE_KEY;
 
 const kakaoKey = import.meta.env.VITE_KAKAO_MAP_SERVICE_KEY;
 const router = useRouter();
+const route = useRoute();
 const positions = ref([]);
 var showSize = 10; // 한 페이지에 보여줄 데이터 개수
 // index page 로딩 후 전국의 시도 설정.
@@ -235,12 +236,6 @@ function navigateMarkerToDetailPage(contentId) {
 }
 
 onMounted(() => {
-    let areaUrl =
-        "https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=Xe8OkHEZbFnVPmfP8Y6d2ykDf%2F4GYH6beQQAQpJxujE%2BP7hY0fVZ5m62YQwfmUvdyEtajTOYZO3w1ckVe8Mruw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&areaCode=1&contentTypeId=39";
-    fetch(areaUrl, {method: "GET"})
-        .then((response) => response.json())
-        .then((data) => makeList(data));
-
     if (window.kakao && window.kakao.maps) {
         initMap();
     } else {
@@ -291,6 +286,32 @@ const btnSearch = () => {
     currentPage.value = 1;
     fetchArea(pageNo.value);
 };
+
+watch(
+    () => route.params.no,
+    async () => {
+        console.log(route.params.no);
+        let areaUrl = `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=Xe8OkHEZbFnVPmfP8Y6d2ykDf%2F4GYH6beQQAQpJxujE%2BP7hY0fVZ5m62YQwfmUvdyEtajTOYZO3w1ckVe8Mruw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&keyword=${route.params.no}`;
+        await fetch(areaUrl, {method: "GET"})
+            .then((response) => {
+                console.log("성공", response);
+                return response.json();
+            })
+            .then((data) => {
+                console.log("data", data);
+                makeList(data);
+            });
+        // if (window.kakao && window.kakao.maps) {
+        //     initMap();
+        // } else {
+        //     const script = document.createElement("script");
+        //     script.onload = () => kakao.maps.load(initMap);
+        //     script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=68f54b81c99e7e8244e65c8fab7aa688";
+        //     document.head.appendChild(script);
+        // }
+    },
+    {immediate: true}
+);
 </script>
 
 <template>
