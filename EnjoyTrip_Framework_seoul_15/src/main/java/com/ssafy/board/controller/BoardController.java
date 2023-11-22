@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.board.model.BoardDto;
 import com.ssafy.board.model.BoardListDto;
+import com.ssafy.board.model.CommentDto;
 import com.ssafy.board.model.FileInfoDto;
 import com.ssafy.board.model.service.BoardService;
 
@@ -146,6 +147,28 @@ public class BoardController {
 		boardService.deleteArticle(articleno, uploadPath);
 		return ResponseEntity.ok().build();
 
+	}
+	
+	@PostMapping("/comment")
+	public ResponseEntity<?> registComment(@RequestBody CommentDto commentDto){
+		try {
+			boardService.registComment(commentDto);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
+	}
+	
+	@DeleteMapping("/comment/{no}")
+	public ResponseEntity<?> deleteComment(@PathVariable String no){
+		try {
+			boardService.deleteComment(Integer.parseInt(no));
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
 	}
 	
 

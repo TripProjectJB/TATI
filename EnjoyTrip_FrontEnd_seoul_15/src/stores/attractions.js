@@ -110,7 +110,6 @@ export const useAttractionStore = defineStore(
                 (response) => {
                     if (response.status == httpStatusCode.OK) {
                         attractionLikeList.value = response.data;
-                        console.log("like list store: ", attractionLikeList.value, response.data);
                     } else {
                         console.log("좋아요 리스트 실패");
                     }

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.board.model.BoardDto;
 import com.ssafy.board.model.BoardListDto;
+import com.ssafy.board.model.CommentDto;
 import com.ssafy.board.model.FileInfoDto;
 import com.ssafy.board.model.mapper.BoardMapper;
 
@@ -125,6 +126,16 @@ public class BoardServiceImpl implements BoardService {
 			File file = new File(path + File.separator + fileInfoDto.getSaveFolder() + File.separator + fileInfoDto.getSaveFile());
 			file.delete();
 		}
+	}
+
+	@Override
+	public void registComment(CommentDto commentDto) throws Exception {
+		boardMapper.registComment(commentDto);
+	}
+
+	@Override
+	public void deleteComment(int no) throws Exception {
+		boardMapper.deleteComment(no);
 	}
 
 }

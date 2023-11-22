@@ -99,7 +99,7 @@ const likeCancel = async () => {
             </p>
         </div>
     </div>
-    <section id="banner">
+    <section id="banner" v-if="attraction">
         <div class="content">
             <header>
                 <h1>
@@ -120,8 +120,22 @@ const likeCancel = async () => {
             </p>
             <button class="big" @click="random">추천 여행지</button>
         </div>
+        <div></div>
         <span class="image object">
             <img :src="attraction.first_image || altImage" alt="" />
+        </span>
+    </section>
+    <section id="banner" v-if="!attraction">
+        <div class="content">
+            <header>
+                <h1>죄송합니다</h1>
+                <p>상세정보가 존재하지 않는 여행지 입니다.</p>
+            </header>
+            <button class="big" @click="random">추천 여행지</button>
+        </div>
+        <div></div>
+        <span class="image object">
+            <img :src="altImage" alt="" />
         </span>
     </section>
 </template>

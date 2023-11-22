@@ -30,4 +30,21 @@ function deleteArticle(articleno, success, fail) {
     local.delete(`/board/${articleno}`).then(success).catch(fail);
 }
 
-export {listArticle, detailArticle, registArticle, getModifyArticle, modifyArticle, deleteArticle};
+function registComment(param, success, fail) {
+    local.post(`/board/comment`, param).then(success).catch(fail);
+}
+
+function deleteComment(param, success, fail) {
+    local.delete(`/board/comment/${param}`).then(success).catch(fail);
+}
+
+export {
+    listArticle,
+    detailArticle,
+    registArticle,
+    getModifyArticle,
+    modifyArticle,
+    deleteArticle,
+    registComment,
+    deleteComment,
+};

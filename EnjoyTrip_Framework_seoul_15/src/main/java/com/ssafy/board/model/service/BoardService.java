@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.ssafy.board.model.BoardDto;
 import com.ssafy.board.model.BoardListDto;
+import com.ssafy.board.model.CommentDto;
 
 public interface BoardService {
 
@@ -17,5 +18,8 @@ public interface BoardService {
 //	
 	void deleteArticle(int articleNo, String path) throws Exception;
 	
+//	댓글기능
+	void registComment(CommentDto commentDto) throws Exception;
+	void deleteComment(int no) throws Exception;
 	
 }
