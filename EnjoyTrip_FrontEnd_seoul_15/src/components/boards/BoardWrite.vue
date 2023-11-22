@@ -41,6 +41,7 @@ function writeArticle() {
 
     fetch(VITE_VUE_API_URL + "/board", {
         method: "POST",
+        headers: {Authorization: sessionStorage.getItem("accessToken")},
         body: data,
     })
         .then((response) => {

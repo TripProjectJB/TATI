@@ -45,7 +45,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/atrraction", "/file/**", "/user/**"); // 해당 경로는 인터셉터가 가로채지 않는다.
+                .excludePathPatterns("/atrraction", "/file/**", "/user/**", "/chat/**"); // 해당 경로는 인터셉터가 가로채지 않는다.
     }
 
 //	Swagger UI 실행시 404처리
