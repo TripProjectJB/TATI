@@ -11,6 +11,7 @@ import {
 	regist,
 	//   modify,
 	profileIdx,
+	profileFilePath,
 	withdrawal,
 	follower,
 	following,
@@ -224,14 +225,27 @@ export const useMemberStore = defineStore(
 			);
 		};
 
-		const getOtherUserProfileIdx = async (userId, profileFilePath) => {
+		const getOtherUserProfile = async (userId, fileIdx, filePath) => {
 			await profileIdx(
 				userId,
 				(response) => {
 					if (response.status === httpStatusCode.OK) {
-						profileFilePath.value.fileIdx = response.data;
+						fileIdx.value = response.data;
+						console.log("fileIdx : ", fileIdx.value, " ", response.data);
 					} else {
 						console.log("파일인덱스찾기 실패", response.status);
+					}
+				},
+				async (error) => {}
+			);
+			await profileFilePath(
+				fileIdx.value,
+				(response) => {
+					if (response.status === httpStatusCode.OK) {
+						filePath.value = response.data;
+						console.log("filePath : ", filePath.value, " ", response.data);
+					} else {
+						console.log("파일경로찾기 실패", response.status);
 					}
 				},
 				async (error) => {}
@@ -338,7 +352,7 @@ export const useMemberStore = defineStore(
 			followerCount,
 			followingCount,
 			getOtherUserInfo,
-			getOtherUserProfileIdx,
+			getOtherUserProfile,
 		};
 	},
 	{

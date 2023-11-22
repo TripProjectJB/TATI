@@ -228,6 +228,15 @@ public class MemberController {
 		
 	}
 	
+	@ApiOperation(value = "프로필파일경로 조회", notes = "프로필파일경로 조회.")
+	@GetMapping("/profilefilepath/{fileIdx}")
+	public String getProfileFilePath(@PathVariable String fileIdx) throws Exception {
+		log.debug("profilefileIdx : {}", fileIdx);
+		log.debug("*************************{}" ,memberService.getProfileFilePath(fileIdx));
+		return memberService.getProfileFilePath(fileIdx);
+		
+	}
+	
 	
 	@ApiOperation(value = "회원정보수정", notes = "회원의 정보를 수정.")
 	@PutMapping("/modify")

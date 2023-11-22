@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ssafy.attraction.model.AttractionDto;
+import com.ssafy.board.model.FileInfoDto;
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.member.model.ProfileInfoDto;
 
@@ -22,6 +23,7 @@ public interface MemberService {
 	void registProfile(MemberDto memberDto) throws Exception;
 	void updateProfile(ProfileInfoDto profileInfoDto) throws Exception;
 	String getProfileIdx(String userId) throws Exception;
+	String getProfileFilePath(String profileIdx) throws Exception;
 	void deleteProfile(String userId) throws Exception;
 	
 

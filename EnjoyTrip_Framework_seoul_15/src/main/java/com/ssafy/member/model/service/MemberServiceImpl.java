@@ -58,6 +58,9 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return memberDto;
 	}
+	
+	
+	
 
 	@Override
 	public void saveRefreshToken(String userId, String refreshToken) throws Exception {
@@ -90,6 +93,15 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public String getProfileIdx(String userId) throws Exception{
 		return memberMapper.getProfileIdx(userId);
+	}
+	
+	@Override
+	public String getProfileFilePath(String profileIdx) throws Exception {
+		if (profileIdx != null) {
+			ProfileInfoDto file = memberMapper.getProfileFilePath(profileIdx);
+			return ("/file/"+file.getSaveFolder()+"/"+file.getOriginalFile());
+		}
+		return "";
 	}
 
 	@Override
@@ -172,6 +184,8 @@ public class MemberServiceImpl implements MemberService {
 		return memberMapper.checkFollowing(map);
 		
 	}
+
+
 
 	
 
