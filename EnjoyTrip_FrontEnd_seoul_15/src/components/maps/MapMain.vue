@@ -32,22 +32,8 @@ const initPage = async () => {
             // Handle any errors
             console.error("Error fetching data:", error);
         });
-
-    let areaUrlInit =
-        "https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=Xe8OkHEZbFnVPmfP8Y6d2ykDf%2F4GYH6beQQAQpJxujE%2BP7hY0fVZ5m62YQwfmUvdyEtajTOYZO3w1ckVe8Mruw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&areaCode=1&contentTypeId=39";
-
-    await axios
-        .get(areaUrlInit)
-        .then((response) => {
-            // Handle the response data
-            makeList(response.data);
-        })
-        .catch((error) => {
-            // Handle any errors
-            console.error("Error fetching data:", error);
-        });
 };
-
+initPage();
 const makeOption = (data) => {
     try {
         const areas = data.response.body.items.item;
@@ -263,7 +249,6 @@ function navigateMarkerToDetailPage(contentId) {
         },
     });
 }
-
 onMounted(() => {
     if (window.kakao && window.kakao.maps) {
         initMap();
