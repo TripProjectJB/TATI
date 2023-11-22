@@ -10,7 +10,7 @@ const route = useRoute();
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
 const {getUserInfo} = memberStore;
-const url = location.href;
+let url = location.href;
 const state = ref(false);
 
 const store = useTripTestStore();
@@ -47,6 +47,11 @@ const save = async () => {
             })
             .catch((error) => console.log(error));
     }
+}
+
+const copy = () => {
+    window.navigator.clipboard.writeText(url);
+    alert('복사되었습니다');
 }
 
 console.log(route.params.type);
@@ -87,9 +92,8 @@ console.log(route.params.type);
                     <li class="6u"><a class="button" @click="()=>{state = !state}">공유하기</a></li>
                     <li class="6u$"><a class="button special" @click="$router.push({name:'test-main'})">다시 검사하기</a></li>
                     <li class="12u$">&nbsp;</li>
-                    <div class="12u$ box" v-if="state">{{ url }}</div>
+                    <div class="12u$ box" v-if="state">{{ url }} &nbsp;&nbsp;&nbsp;<span id="coco" class="icon fa-clone" @click="copy">&nbsp;</span></div>
                 </ul>
-
             </div>
             <span class="image object">
                 <img src="../../assets/images/111.png" alt="" v-if="data.no =='111'">
@@ -105,5 +109,8 @@ console.log(route.params.type);
 </template>
 
 <style scoped>
-
+#coco:hover{
+    color: red;
+    cursor: pointer;
+}
 </style>

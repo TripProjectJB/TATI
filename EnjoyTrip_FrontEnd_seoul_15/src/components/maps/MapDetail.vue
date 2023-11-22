@@ -126,6 +126,10 @@ const likeCancel = async () => {
                 {{ attraction.overview }}
             </p>
             <button class="big" @click="random">추천 여행지</button>
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <button class="big special" @click="$router.push({name: 'map-main', params: {no: attraction.title}})">
+                위치 보기
+            </button>
         </div>
         <div></div>
         <span class="image object">
