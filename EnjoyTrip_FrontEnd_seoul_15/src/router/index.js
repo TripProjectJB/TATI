@@ -23,7 +23,7 @@ const router = createRouter({
             redirect: {name: "map-main"},
             children: [
                 {
-                    path: "main",
+                    path: "main/:no",
                     name: "map-main",
                     component: () => import("@/components/maps/MapMain.vue"),
                 },
