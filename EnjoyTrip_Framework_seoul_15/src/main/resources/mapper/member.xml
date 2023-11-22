@@ -45,7 +45,7 @@
 	</select>
 	
 	<select id="otherUserInfo" parameterType="string" resultMap="member">
-		select user_id, user_name,email_id, email_domain, join_date, file_idx
+		select user_id, user_name,email_id, email_domain, join_date, file_idx, tati
 		from members
 		where user_id = #{userId}
 	</select>
