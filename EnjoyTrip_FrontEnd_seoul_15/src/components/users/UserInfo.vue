@@ -41,6 +41,10 @@ const getTati = async () => {
 
 const userId = route.params.userid;
 
+const attractionLikeList = () => {
+	router.push({ name: "attractionlikelist", params: { userid: userInfo.value.userId } });
+};
+
 onMounted(async () => {
 	await getOtherUserInfo(userId, thisUserInfo, thisUserFollowerCount, thisUserFollowingCount);
 	await getTati();
@@ -136,6 +140,17 @@ onMounted(async () => {
 									$router.push({ name: 'following', params: { userid: thisUserInfo.userId } })
 								">
 								Following : {{ thisUserFollowingCount }}
+							</button>
+						</div>
+						<div class="6u">
+							<button
+								@click="
+									$router.push({
+										name: 'attractionlikelist',
+										params: { userid: thisUserInfo.userId },
+									})
+								">
+								좋아요한 여행지
 							</button>
 						</div>
 					</div>
