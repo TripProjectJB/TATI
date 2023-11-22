@@ -101,4 +101,9 @@ getThisUsersAttractionLikeList(route.params.userid);
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.view:hover {
+  background-color: rgb(221, 217, 231);
+  cursor: pointer;
+}
+</style>

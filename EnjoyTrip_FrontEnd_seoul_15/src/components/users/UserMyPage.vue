@@ -259,7 +259,7 @@ const attractionLikeList = () => {
           </div>
           <div
             class="row justify-content-center"
-            style="display: flex; justify-content: center; margin: 30px 0"
+            style="display: flex; justify-content: center"
           >
             <div class="col col-lg-3 text-center">
               <div class="6u">
@@ -271,7 +271,7 @@ const attractionLikeList = () => {
                 <button @click="withdrawal">회원탈퇴</button>
               </div>
             </div>
-            <div class="6u">
+            <div class="col col-lg-3 text-center">
               <button @click="attractionLikeList">좋아요한 여행지</button>
             </div>
           </div>
