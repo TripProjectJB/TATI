@@ -38,7 +38,7 @@ async function modify(param, success, fail) {
 	await local.put(`/user/modify`, param).then(success).catch(fail);
 }
 
-async function withdrawal(param, success, fail) {
+async function withdrawal(userId, success, fail) {
 	// local.defaults.headers["Authorization"] =
 	// sessionStorage.getItem("accessToken");
 	await local.delete(`/user/delete/${param}`).then(success).catch(fail);

@@ -150,6 +150,17 @@ public class MemberServiceImpl implements MemberService {
 	public void deleteMember(String userId) throws Exception {
 		memberMapper.deleteMember(userId);
 		memberMapper.deleteProfile(userId);
+		List<String> followings = memberMapper.getFollowing(userId);
+		List<String> followers = memberMapper.getFollowerWithdraw(userId);
+		log.debug("deleteMember followings{}",followings);
+		for(String followingId : followings) {
+			memberMapper.deleteFollow(userId, followingId);	
+		}
+		log.debug("deleteMember followings{}",followings);
+		for(String followerId : followers) {
+			memberMapper.deleteFollow(followerId, userId);	
+		}
+		
 	}
 
 	@Override

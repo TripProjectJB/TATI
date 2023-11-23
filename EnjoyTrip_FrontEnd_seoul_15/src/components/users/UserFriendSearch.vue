@@ -32,7 +32,7 @@ const getUserList = async () => {
 				const fileIdx = ref(0);
 				getOtherUserProfile(searchRef.userId, fileIdx, filePath);
 				if (followings.value.length != 0)
-					isFollowing = followings.value.some((following) => following == searchRef);
+					isFollowing = followings.value.some((following) => following == searchRef.userId);
 				return {
 					userId: searchRef.userId,
 					isFollowing,
@@ -158,7 +158,7 @@ onMounted(() => {
 					@click="deleteMember(id.userId)">
 					회원 삭제
 				</button>
-				<div v-else>
+				<div v-if="store.userInfo.userId != 'admin'">
 					<button v-if="id.isFollowing" style="font-size: medium" @click="followCancel(id.userId)">
 						팔로우 취소
 					</button>
