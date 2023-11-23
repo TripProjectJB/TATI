@@ -223,7 +223,6 @@ public class MemberController {
 	@GetMapping("/profile/{userId}")
 	public String getProfileIdx(@PathVariable String userId) throws Exception {
 		log.debug("profile idx : {}", userId);
-		log.debug("*************************{}" ,memberService.getProfileIdx(userId));
 		return memberService.getProfileIdx(userId);
 		
 	}
@@ -232,7 +231,6 @@ public class MemberController {
 	@GetMapping("/profilefilepath/{fileIdx}")
 	public String getProfileFilePath(@PathVariable String fileIdx) throws Exception {
 		log.debug("profilefileIdx : {}", fileIdx);
-		log.debug("*************************{}" ,memberService.getProfileFilePath(fileIdx));
 		return memberService.getProfileFilePath(fileIdx);
 		
 	}
