@@ -87,7 +87,9 @@ const writeC = async () => {
         <div class="">
             <h1 class="">{{ article.articleNo }}. {{ article.subject }}</h1>
             <div style="margin-left: 70%; width: 30%">
-                <div>작성자 : {{ article.userName }}</div>
+                <div class="view" @click="$router.push({name: 'attractionlikelist', params: {userid: article.userId}})">
+                    작성자 : {{ article.userName }}
+                </div>
                 <div>작성 시간 : {{ article.registerTime }}</div>
                 <div>조회수 : {{ article.hit }}</div>
                 <div>댓글 : {{ article.comments.length }}</div>
