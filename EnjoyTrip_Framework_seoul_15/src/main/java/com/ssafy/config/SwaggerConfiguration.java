@@ -26,7 +26,7 @@ public class SwaggerConfiguration {
 //	http://localhost:8080/{your-app-root}/swagger-ui/index.html
 
 	private String version = "V1";
-	private String title = "SSAFY Board API " + version;
+	private String title = "TATI API " + version;
 	
 	@Bean
 	public Docket api() {
@@ -53,7 +53,7 @@ public class SwaggerConfiguration {
 
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder().title(title)
-				.description("<h3>SSAFY API Reference for Developers</h3>Swagger를 이용한 Board API<br><img src=\"/assets/img/ssafy_logo.png\" width=\"150\">") 
+				.description("<h3>SSAFY API Reference for Developers</h3>Swagger를 이용한 TATI API<br><img src=\"/img/TATI_logo.jpg\" width=\"150\">") 
 				.contact(new Contact("SSAFY", "https://edu.ssafy.com", "ssafy@ssafy.com"))
 				.license("SSAFY License")
 				.licenseUrl("https://www.ssafy.com/ksp/jsp/swp/etc/swpPrivacy.jsp")

@@ -45,7 +45,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/atrraction", "/file/**", "/user/**", "/chat/**"); // 해당 경로는 인터셉터가 가로채지 않는다.
+                .excludePathPatterns("/atrraction", "/file/**", "/user/**", "/chat/**", "/swagger-ui/**", "/swagger-resources/**", "/v2/api-docs"); // 해당 경로는 인터셉터가 가로채지 않는다.
     }
 
 //	Swagger UI 실행시 404처리
@@ -56,5 +56,15 @@ public class WebConfiguration implements WebMvcConfigurer {
 //        registry.addResourceHandler("/swagger-ui.html**").addResourceLocations("classpath:/META-INF/resources/swagger-ui.html");
 //        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
 //    }
+	
+    @Override public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/"); 
+        registry.addResourceHandler("/static/**")
+        .addResourceLocations("classpath:/META-INF/resources/static/"); 
+    }
+
 
 }
