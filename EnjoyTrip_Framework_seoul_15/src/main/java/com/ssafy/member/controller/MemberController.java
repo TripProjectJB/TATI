@@ -322,17 +322,17 @@ public class MemberController {
 //		return ResponseEntity.ok("Logout successful");
 //	}
 //
-//	@ApiOperation(value = "회원목록", notes = "회원의 <big>전체 목록</big>을 반환해 줍니다.")
-//	@GetMapping("/list")
-//	public ResponseEntity<?> list() throws Exception {
-//		log.debug("userlist call");
-//		List<MemberDto> list = memberService.listMember(null);
-//		if(list != null && !list.isEmpty()) {
-//			return new ResponseEntity<List<MemberDto>>(list, HttpStatus.OK);
-//		} else {
-//			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-//		}
-//	}
+	@ApiOperation(value = "회원목록", notes = "회원의 <big>전체 목록</big>을 반환해 줍니다.")
+	@GetMapping("/list")
+	public ResponseEntity<?> list() throws Exception {
+		log.debug("userlist call");
+		List<MemberDto> list = memberService.listMember(null);
+		if(list != null && !list.isEmpty()) {
+			return new ResponseEntity<List<MemberDto>>(list, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+	}
 	
 	@ApiOperation(value = "친구찾기", notes = "친구 검색 결과를 반환해줍니다.")
 	@GetMapping("/searchfriend/{keyword}")

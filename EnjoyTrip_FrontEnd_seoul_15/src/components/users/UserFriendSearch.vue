@@ -13,7 +13,7 @@ const { followings } = storeToRefs(store);
 const { getOtherUserProfile } = store;
 const route = useRoute();
 const router = useRouter();
-const userId = route.params.userid;
+
 const searched = ref([
 	{
 		userId: "",
@@ -21,15 +21,33 @@ const searched = ref([
 		filepath: "",
 	},
 ]);
-const searchCount = ref(0);
-const url = import.meta.env.VITE_VUE_API_URL;
-const searchedInit = async () => {
-	await axios.get(url + "/user/searchfriend/" + route.params.keyword).then((res) => {
+
+const getUserList = async () => {
+	await axios.get(url + "/user/list").then((res) => {
 		searched.value = res.data;
-		searchCount.value = res.data.length;
+		if (searched.value.length != 0) {
+			searched.value = searched.value.map((searchRef) => {
+				var isFollowing = false;
+				const filePath = ref("");
+				const fileIdx = ref(0);
+				getOtherUserProfile(searchRef.userId, fileIdx, filePath);
+				if (followings.value.length != 0)
+					isFollowing = followings.value.some((following) => following == searchRef);
+				return {
+					userId: searchRef.userId,
+					isFollowing,
+					filepath: filePath,
+				};
+			});
+		}
+	});
+};
+
+const getSearchedList = async (keyword) => {
+	await axios.get(url + "/user/searchfriend/" + keyword).then((res) => {
+		searched.value = res.data;
 		if (searched.value.length != 0) {
 			searched.value = searched.value.map((searchId) => {
-				if (searchId.userId == store.userInfo.userId) return;
 				var isFollowing = false;
 				const filePath = ref("");
 				const fileIdx = ref(0);
@@ -45,17 +63,42 @@ const searchedInit = async () => {
 		}
 	});
 };
+
+const searchCount = ref(0);
+const url = import.meta.env.VITE_VUE_API_URL;
+const searchedInit = async () => {
+	if (!route.params.keyword) {
+		await getUserList();
+		return;
+	}
+	await getSearchedList(route.params.keyword);
+};
+
 watch(
 	() => route.params.keyword,
-	() => {
-		searchedInit();
+	async () => {
+		await searchedInit();
 	},
 	{ immediate: true }
 );
-watch(searched, () => {}, {
-	immediate: true,
-	deep: true,
-});
+watch(
+	searched,
+	() => {
+		// searchedInit();
+	},
+	{
+		immediate: true,
+		deep: true,
+	}
+);
+
+const deleteMember = async (id) => {
+	//확인창
+	if (window.confirm("정말로 삭제하시겠습니까?")) {
+		await axios.delete(url + "/user/delete/" + id);
+		searchedInit();
+	}
+};
 
 const follow = async (id) => {
 	const follow = {
@@ -109,12 +152,20 @@ onMounted(() => {
 				{{ id.userId }}
 			</h2>
 			<div v-if="id.userId != store.userInfo.userId">
-				<button v-if="id.isFollowing" style="font-size: medium" @click="followCancel(id.userId)">
-					팔로우 취소
+				<button
+					v-if="store.userInfo.userId == 'admin'"
+					style="font-size: medium"
+					@click="deleteMember(id.userId)">
+					회원 삭제
 				</button>
-				<button v-if="!id.isFollowing" style="font-size: medium" @click="follow(id.userId)">
-					팔로우
-				</button>
+				<div v-else>
+					<button v-if="id.isFollowing" style="font-size: medium" @click="followCancel(id.userId)">
+						팔로우 취소
+					</button>
+					<button v-if="!id.isFollowing" style="font-size: medium" @click="follow(id.userId)">
+						팔로우
+					</button>
+				</div>
 			</div>
 		</slot-comp>
 	</div>
