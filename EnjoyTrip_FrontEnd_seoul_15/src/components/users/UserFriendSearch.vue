@@ -81,10 +81,24 @@ watch(
 	},
 	{ immediate: true }
 );
-watch(searched, () => {}, {
-	immediate: true,
-	deep: true,
-});
+watch(
+	searched,
+	() => {
+		// searchedInit();
+	},
+	{
+		immediate: true,
+		deep: true,
+	}
+);
+
+const deleteMember = async (id) => {
+	//확인창
+	if (window.confirm("정말로 삭제하시겠습니까?")) {
+		await axios.delete(url + "/user/delete/" + id);
+		searchedInit();
+	}
+};
 
 const follow = async (id) => {
 	const follow = {
@@ -138,12 +152,20 @@ onMounted(() => {
 				{{ id.userId }}
 			</h2>
 			<div v-if="id.userId != store.userInfo.userId">
-				<button v-if="id.isFollowing" style="font-size: medium" @click="followCancel(id.userId)">
-					팔로우 취소
+				<button
+					v-if="store.userInfo.userId == 'admin'"
+					style="font-size: medium"
+					@click="deleteMember(id.userId)">
+					회원 삭제
 				</button>
-				<button v-if="!id.isFollowing" style="font-size: medium" @click="follow(id.userId)">
-					팔로우
-				</button>
+				<div v-else>
+					<button v-if="id.isFollowing" style="font-size: medium" @click="followCancel(id.userId)">
+						팔로우 취소
+					</button>
+					<button v-if="!id.isFollowing" style="font-size: medium" @click="follow(id.userId)">
+						팔로우
+					</button>
+				</div>
 			</div>
 		</slot-comp>
 	</div>
