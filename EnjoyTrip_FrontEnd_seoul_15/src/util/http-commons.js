@@ -36,7 +36,7 @@ function localAxios() {
         (error) => {
             if (error.response && error.response.status == 401) {
                 console.log(error);
-                alert("접근 권한이 없습니다.");
+                alert("허용되지 않은 접근 입니다.");
             }
             return Promise.reject(error);
         }

@@ -20,6 +20,10 @@ const article = ref({
 });
 
 function writeArticle() {
+    if (!article.value.subject || !article.value.content) {
+        alert("빈칸없이 입력 해주세요");
+        return;
+    }
     var inp = document.getElementById("upfile");
     if (inp.files.length > 4) {
         alert("4장 이하만 첨부 가능합니다");
