@@ -18,14 +18,14 @@ const send = async () => {
     contents.value.content = "";
 };
 
+const down = () => {
+    document.getElementById("scrollBox").scrollTo(0, 999999);
+};
+
 onMounted(() => {
-    const get = async () => {
-        await store.getChats();
-        try {
-            document.getElementById("scrollBox").scrollTo(0, 999999);
-        } catch (error) {}
-    };
-    setInterval(get, 2000);
+    setInterval(async () => {
+        await store.getChats(down);
+    }, 1500);
 });
 </script>
 

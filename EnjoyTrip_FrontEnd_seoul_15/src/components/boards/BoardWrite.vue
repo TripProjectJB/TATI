@@ -104,6 +104,10 @@ const upload = (event) => {
                     <label :for="value">{{ value }}</label>
                 </div>
             </template>
+            <div class="3u 6u(small)" v-if="userInfo.userId == 'admin'">
+                <input type="radio" id="공지사항" name="demo-priority" value="4" v-model="article.type" />
+                <label for="공지사항">공지사항</label>
+            </div>
 
             <!-- Break -->
             <div class="12u$">

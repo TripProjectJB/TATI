@@ -8,7 +8,7 @@ import {watch} from "@vue/runtime-core";
 import {storeToRefs} from "pinia";
 
 const store = useMemberStore();
-const {boardNo} = storeToRefs(store);
+const {boardNo, userInfo} = storeToRefs(store);
 
 const articles = ref([]);
 const currentPage = ref(1);
@@ -47,13 +47,22 @@ const onPageChange = (val) => {
     param.value.pgno = val;
     getArticleList();
 };
+
+const alertt = () => {
+    window.alert("관리자 권한이 없습니다");
+};
 </script>
 
 <template>
     <div>
         <div class="row">
             <div class="6u">
-                <router-link :to="{name: 'write'}" class="button">write</router-link>
+                <router-link :to="{name: 'write'}" class="button" v-if="boardNo != 4 || userInfo.userId == 'admin'"
+                    >write</router-link
+                >
+                <router-link to="" @click="alertt" class="button" v-if="boardNo == 4 && userInfo.userId != 'admin'"
+                    >write</router-link
+                >
             </div>
             <form class="6u" @submit.prevent>
                 <ul class="actions row">
