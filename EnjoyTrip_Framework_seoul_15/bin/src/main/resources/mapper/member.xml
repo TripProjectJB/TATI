@@ -39,7 +39,13 @@
 	</select>
 	
 	<select id="userInfo" parameterType="string" resultMap="member">
-		select user_name, user_id, email_id, email_domain, join_date, file_idx, tati
+		select *
+		from members
+		where user_id = #{userId}
+	</select>
+	
+	<select id="otherUserInfo" parameterType="string" resultMap="member">
+		select user_id, user_name,email_id, email_domain, join_date, file_idx, tati
 		from members
 		where user_id = #{userId}
 	</select>
@@ -79,6 +85,12 @@
 		values (#{userName}, #{userId}, #{userPwd}, #{emailId}, #{emailDomain}, now())
 		
 	</insert>
+	
+	<select id="getPassword" parameterType = "memberDto" resultType="String">
+	select user_password
+	from members
+	where user_id=#{userId} and user_name=#{userName} and email_id=#{emailId} and email_domain=#{emailDomain}
+	</select>
 	
 	<insert id="registProfile" parameterType="memberDto">
 		insert into profile_info (user_id)
@@ -144,6 +156,13 @@
 		where user_id = #{userId}
 	</delete>
 	
+	<!-- Friend Search -->
+	<select id="searchFriend" parameterType="string" resultType='string'>
+	SELECT user_id
+	FROM members
+	WHERE user_id like '%${keyword}%'
+	</select>
+	
 	<!-- follower, following -->
 	<select id="getFollower" parameterType="string" resultType='string'>
 	SELECT follower_id
@@ -157,15 +176,28 @@
 	WHERE follower_id = #{follower_id}
 	</select>
 	
+	<select id="getFollowerWithdraw" parameterType="string" resultType='string'>
+	SELECT follower_id
+	FROM follow
+	WHERE following_id = #{follower_id}
+	</select>
+	
 	<insert id="addFollow" parameterType="map">
-	insert into follow values(#{follower_id}, #{following_id})
+	insert into follow(follower_id, following_id) values(#{follower_id}, #{following_id})
 	</insert>
 	
 	
-	<delete id="deleteFollow" parameterType="map">
+	<delete id="deleteFollow" parameterType="String">
 	delete from follow
-	where follower_id=#{follower_id} and following_id= #{following_id}
+	where follower_id=#{followerId} and following_id= #{followingId}
 	</delete>
+	
+	
+	<select id="checkFollowing" parameterType="string" resultType='string'>
+	SELECT follower_id, following_id
+	FROM follow
+	WHERE follower_id = #{follower_id} and following_id = #{following_id}
+	</select>
 	
 	
 </mapper>

@@ -17,6 +17,7 @@
 	
 	<resultMap type="boardDto" id="viewArticle" extends="article">
 		<collection property="fileInfos" column="article_no" javaType="list" ofType="fileInfoDto" select="fileInfoList"/>
+		<collection property="comments" column="article_no" javaType="list" ofType="commentDto" select="commentList"/>
 	</resultMap>
 	
 	<resultMap type="fileInfoDto" id="file">
@@ -84,6 +85,12 @@
 		where article_no = #{articleNo}
 	</select>
 	
+	<select id="commentList" resultType="commentDto">
+		select *
+		from comment
+		where article_no = #{articleNo}
+	</select>
+	
 	<update id="updateHit" parameterType="int">
 		update board
 		set hit = hit + 1
@@ -104,6 +111,16 @@
 	<delete id="deleteArticle" parameterType="int">
 		delete from board
 		where article_no = #{articleNo}
+	</delete>
+	
+	<insert id="registComment" parameterType="commentDto">
+		insert into comment (article_no, user_id, user_name, comment)
+		value (#{article_no}, #{user_id}, #{user_name}, #{comment})
+	</insert>
+	
+	<delete id="deleteComment" parameterType="int">
+		delete from comment
+		where idx = #{idx}
 	</delete>
 
 </mapper>
