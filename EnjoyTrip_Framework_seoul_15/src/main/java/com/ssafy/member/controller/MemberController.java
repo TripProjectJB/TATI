@@ -219,6 +219,22 @@ public class MemberController {
 		}
 	}
 	
+	@ApiOperation(value = "비밀번호조회", notes = "회원의 정보를 받아 비밀번호조회.")
+	@PostMapping("/findpassword")
+	public ResponseEntity<?> findPassword(@RequestBody MemberDto memberDto) {
+		log.debug("memberDto : {}", memberDto);
+		try {
+			String find = memberService.getPassword(memberDto);
+			log.debug("find {}",find);
+			if (find!=null)
+				return new ResponseEntity<String>(find, HttpStatus.OK);
+			return new ResponseEntity<String>(find, HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+		}
+	}
+	
 	@ApiOperation(value = "프로필인덱스 조회", notes = "프로필인덱스 조회.")
 	@GetMapping("/profile/{userId}")
 	public String getProfileIdx(@PathVariable String userId) throws Exception {

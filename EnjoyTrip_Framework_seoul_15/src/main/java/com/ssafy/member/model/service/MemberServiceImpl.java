@@ -196,6 +196,11 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
+	@Override
+	public String getPassword(MemberDto memberDto) throws Exception {
+		return memberMapper.getPassword(memberDto);
+	}
+
 
 
 	

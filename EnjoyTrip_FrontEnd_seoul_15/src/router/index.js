@@ -114,6 +114,12 @@ const router = createRouter({
 					component: () => import("@/components/users/UserRegist.vue"),
 				},
 				{
+					path: "findpassword",
+					name: "findpassword",
+					meta: { withoutLogin: true },
+					component: () => import("@/components/users/UserPasswordFind.vue"),
+				},
+				{
 					path: "mypage",
 					name: "mypage",
 					component: () => import("@/components/users/UserMypage.vue"),

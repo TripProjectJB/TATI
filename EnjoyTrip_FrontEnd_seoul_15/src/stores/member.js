@@ -16,6 +16,7 @@ import {
 	follower,
 	following,
 	findOtherUserById,
+	passwordFind,
 } from "@/api/user";
 import { httpStatusCode } from "@/util/http-status";
 
@@ -209,6 +210,23 @@ export const useMemberStore = defineStore(
 			);
 		};
 
+		const userPasswordFind = async (userDto) => {
+			await passwordFind(
+				JSON.stringify(userDto),
+				(response) => {
+					console.log(response);
+					if (response.status === httpStatusCode.OK) {
+						alert(`비밀번호 조회에 성공했습니다: ${response.data}`);
+					} else {
+						alert("비밀번호 조회에 실패했습니다.");
+					}
+				},
+				async (error) => {
+					alert("비밀번호 조회에 실패했습니다.");
+				}
+			);
+		};
+
 		const getProfileIdx = async (userId) => {
 			await profileIdx(
 				userId,
@@ -335,6 +353,7 @@ export const useMemberStore = defineStore(
 			tokenRegenerate,
 			userLogout,
 			userRegist,
+			userPasswordFind,
 			//   userModify,
 			getProfileIdx,
 			userWithdrawal,

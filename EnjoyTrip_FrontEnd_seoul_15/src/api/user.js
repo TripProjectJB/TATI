@@ -32,6 +32,12 @@ async function regist(param, success, fail) {
 	await local.post(`/user/regist`, param).then(success).catch(fail);
 }
 
+async function passwordFind(userDto, success, fail) {
+	// local.defaults.headers["Authorization"] =
+	// sessionStorage.getItem("accessToken");
+	await local.post(`/user/findpassword`, userDto).then(success).catch(fail);
+}
+
 async function modify(param, success, fail) {
 	// local.defaults.headers["Authorization"] =
 	// sessionStorage.getItem("accessToken");
@@ -77,4 +83,5 @@ export {
 	following,
 	findOtherUserById,
 	profileFilePath,
+	passwordFind,
 };

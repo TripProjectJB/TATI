@@ -72,6 +72,11 @@ const login = async () => {
 								Regist
 							</button>
 						</li>
+						<li>
+							<button type="button" class="special" @click="$router.push({ name: 'findpassword' })">
+								비밀번호 찾기
+							</button>
+						</li>
 					</ul>
 				</div>
 			</div>
