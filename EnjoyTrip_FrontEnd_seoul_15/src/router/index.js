@@ -134,7 +134,7 @@ const router = createRouter({
 					component: () => import("@/components/users/UserInfo.vue"),
 				},
 				{
-					path: "friends/:keyword",
+					path: "friends/:keyword?",
 					name: "friend-search",
 					component: () => import("@/components/users/UserFriendSearch.vue"),
 				},

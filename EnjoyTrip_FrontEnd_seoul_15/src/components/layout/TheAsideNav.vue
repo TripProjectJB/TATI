@@ -34,7 +34,8 @@ const git = (no) => {
 
 const searchKey = ref("");
 const friendSearch = () => {
-	router.push({ name: "friend-search", params: { keyword: searchKey.value } });
+	const keyword = searchKey.value || ""; // searchKey.value가 없을 때는 공백으로 설정
+	router.push({ name: "friend-search", params: { keyword } });
 };
 
 const myTati = ref("");
