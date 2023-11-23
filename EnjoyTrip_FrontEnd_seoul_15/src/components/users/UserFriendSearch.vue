@@ -93,13 +93,16 @@ onMounted(() => {
 		<slot-comp v-for="id in searched" :key="id" :id="id">
 			<div
 				class="row 50% uniform"
-				style="align-content: center"
 				@click="$router.push({ name: 'userinfo', params: { userid: id.userId } })">
 				<div v-if="id.filepath">
-					<img :src="VITE_VUE_API_URL + id.filepath" style="border-radius: 50%" width="200" />
+					<img
+						:src="VITE_VUE_API_URL + id.filepath"
+						style="border-radius: 50%"
+						width="200"
+						height="200" />
 				</div>
 				<div v-else>
-					<img src="@/assets/images/profile.png" width="200" />
+					<img src="@/assets/images/profile.png" width="200" height="200" />
 				</div>
 			</div>
 			<h2>
