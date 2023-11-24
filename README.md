@@ -1,6 +1,6 @@
 # 📖 EnjoyTrip_Final_Seoul_15 TATI
 
-![readme_mockup2](https://user-images.githubusercontent.com/112460466/210706312-6a44b60d-a42e-4210-b334-9e5983f70fb3.png)
+![TATI메인페이지](https://github.com/JEGHTNER/JAVA/assets/107304293/fdfbf18b-ccc8-438a-8128-ef274c0ed276)
 
 <br>
 
