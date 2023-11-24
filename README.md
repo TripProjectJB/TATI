@@ -1,6 +1,6 @@
 # 📖 EnjoyTrip_Final_Seoul_15 TATI
 
-![TATI메인페이지](https://github.com/JEGHTNER/JAVA/assets/107304293/fdfbf18b-ccc8-438a-8128-ef274c0ed276)
+![TATI메인페이지](https://lab.ssafy.com/kbumk1234/enjoytrip_framework/-/raw/master/EnjoyTrip_FrontEnd_seoul_15/src/assets/images/TATI_logo.jpg?ref_type=heads)
 
 <br>
 
@@ -259,7 +259,6 @@ EnjoyTrip_FrontEnd_seoul_15
 ### [회원관리]
 
 [Members](https://github.com/JEGHTNER/JAVA/assets/107304293/745a47a8-0f0f-4fe0-bbba-5f8580159bf7)
-
 
 
 ### [메인페이지]
