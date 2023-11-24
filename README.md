@@ -258,40 +258,40 @@ EnjoyTrip_FrontEnd_seoul_15
 
 ### [회원관리]
 
-[Members](https://github.com/JEGHTNER/JAVA/assets/107304293/745a47a8-0f0f-4fe0-bbba-5f8580159bf7)
+[Members](https://github.com/TripProjectJB/mov/assets/107304293/7d1f39b1-0d75-4f67-942c-520e1a376d17)
 
 
 ### [메인페이지]
 
-[Main](https://github.com/JEGHTNER/JAVA/assets/107304293/1ed39c82-12b3-4e65-9d8b-ad2356ec9772)
+[Main](https://github.com/TripProjectJB/mov/assets/107304293/dea12dfb-b36a-4509-88c0-7e1278d277cc)
 
 
 ### [소셜기능]
 
-[Social](https://github.com/JEGHTNER/JAVA/assets/107304293/ed57fa57-cb36-434b-8bfe-f1fe339bf371)
+[Social](https://github.com/TripProjectJB/mov/assets/107304293/a213b1d0-6b5f-4aee-bd8c-12b40a9a88a3)
 
 
 ### [TATI]
 
-[TATI](https://github.com/JEGHTNER/JAVA/assets/107304293/c8b98af0-28f5-4823-a549-19a4c966b56b)
+[TATI](https://github.com/TripProjectJB/mov/assets/107304293/02f92882-0707-416e-83d9-843bf3f6bc89)
 
 
 ### [지도]
 
-[Maps](https://github.com/JEGHTNER/JAVA/assets/107304293/f30c4bb9-da4f-4075-85d2-703a0964210c)
+[Maps](https://github.com/TripProjectJB/mov/assets/107304293/77fdc3b2-ef57-4bb5-9e8f-74026b11039a)
 
 ### [게시판]
 
-[Boards](https://github.com/JEGHTNER/JAVA/assets/107304293/24f43efc-2e13-4aad-8f10-58026ed87464)
+[Boards](https://github.com/TripProjectJB/mov/assets/107304293/e34bed1d-0b47-44f9-aaff-f906273f7737)
 
 
 ### [실시간 채팅]
 
-[Chat](https://github.com/JEGHTNER/JAVA/assets/107304293/48452c00-1355-4d87-b146-7d777882e0ea)
+[Chat](https://github.com/TripProjectJB/mov/assets/107304293/91d98a76-da8c-4ff5-b36d-95ecaf20ccdf)
 
 ### [관리자]
 
-[Admin](https://github.com/JEGHTNER/JAVA/assets/107304293/3133440c-7fa3-4a03-9ded-14d9af0c097a)
+[Admin](https://github.com/TripProjectJB/mov/assets/107304293/2d9c73f3-db4c-48f2-a94d-96a7b7d0e04a)
 
 
 ## 7. 프로젝트 후기
