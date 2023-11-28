@@ -161,7 +161,7 @@
 ## 7. 프로젝트 구조
 
 ```
-EnjoyTrip_FrontEnd_seoul_15
+TATI_FrontEnd
 ├─ .env
 ├─ .eslintrc.cjs
 ├─ .gitignore
