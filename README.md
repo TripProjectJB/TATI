@@ -1,15 +1,16 @@
 # 📖 EnjoyTrip_Final_Seoul_15 TATI
 
-![TATI메인페이지](https://lab.ssafy.com/kbumk1234/enjoytrip_framework/-/raw/master/EnjoyTrip_FrontEnd_seoul_15/src/assets/images/TATI_logo.jpg?ref_type=heads)
+![TATI_logo](https://github.com/TripProjectJB/TATI/assets/107304293/6e7c5380-0b51-4484-be90-fff6a6b215c7)
 
 <br>
 
 ## 프로젝트 소개
 
 - TATI(Tourist Attraction Type Indicator)는 여행을 좋아하는 사람들이 자신의 관광지 취향을 공유하고, 관광지 정보를 확인 할 수 있는 프로젝트입니다.
-- 개인의 프로필 페이지에 좋아하는 구절 등 책에 대한 정보를 작성하고 판매하고 싶은 책을 등록할 수 있습니다.
-- 검색을 통해 책 취향이 비슷한 다른 유저들의 피드를 구경할 수 있습니다.
-- 다양한 유저들을 팔로우하며 마음에 드는 게시글에 좋아요를 누르거나 댓글을 작성할 수 있습니다.
+- 검색을 통해 다른 유저들을 검색할 수 있습니다.
+- 다양한 유저들을 팔로우할 수 있습니다.
+- 카카오맵API와 공공데이터포털 API를 활용하여 관광지 정보를 검색/확인 할 수 있습니다.
+- 게시판을 통해 글작성과 댓글달기를 할 수 있습니다.
 
 <br>
 
