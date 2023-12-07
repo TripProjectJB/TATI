@@ -1,5 +1,5 @@
 # 📖 EnjoyTrip_Final_Seoul_15 TATI
-# [TATI 사이트 바로가기](http://ec2-3-106-188-122.ap-southeast-2.compute.amazonaws.com/)
+# [TATI 사이트 바로가기](http://13.210.121.143/)
 
 ![TATI_logo](https://github.com/TripProjectJB/TATI/assets/107304293/6e7c5380-0b51-4484-be90-fff6a6b215c7)
 
